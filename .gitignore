@@ -1,0 +1,11 @@
+#ignore build files
+*.o
+objs/*.o
+libft/*.a
+libft/*.o
+minishell
+
+#ignore editor files
+.vscode
+.idea
+*.swp
