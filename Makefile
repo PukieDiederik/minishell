@@ -1,6 +1,6 @@
 ## File stuff
 
-FNAMES 		=	minishell.c
+FNAMES 		=	minishell.c parsing/parsing.c
 
 HNAMES		=	minishell.h
 
