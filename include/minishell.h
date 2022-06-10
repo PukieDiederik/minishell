@@ -1,7 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
+/*   Updated: 2022/06/10 14:35:52 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef  MINISHELL_H
 # define MINISHELL_H
 
-void parse_input(char *str);
+// Definitions
+
+// Functions
+// Parsing
+char ***parse_input(char *str);
+int count_commands(const char *str);
 
 #endif

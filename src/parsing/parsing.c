@@ -6,12 +6,13 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/09 15:06:09 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/10 15:05:33 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "libft.h"
+#include "minishell.h"
 
 //assumes the first character is either a double or single qoute
 char	*get_qouted_str(char *str)
@@ -31,21 +32,21 @@ char	*get_qouted_str(char *str)
 }
 
 //should process the string and free `str`
-static int process_qouted_double(char *str)
+int	process_qouted_double(char *str)
 {
 	printf("Double qouted: \"%s\"\n", str);
 	return (0);
 }
 
 //should process the string
-static int process_qouted_single(char *str)
+int	process_qouted_single(char *str)
 {
 	printf("Single qouted: \"%s\"\n", str);
 	return (0);
 }
 
 //will get the argv for a single command
-static int get_argv(char *str)
+int	get_argv(char *str)
 {
 	unsigned int i = 0;
 	char *str_tmp;
@@ -80,15 +81,19 @@ static int get_argv(char *str)
 	return (i);
 }
 
-void parse_input(char *str)
+//returns an array of argv pointers
+char ***parse_input(char *str)
 {
-//	int	count;
-
-
+	char	***argvv;
+	int		cmd_count;
 
 	if (!str)
-		return ;
-	get_argv(str);
-//	count = 0;
-//	printf("count: %d\n", count);
+		return (0);
+	printf("===\n'%s'\n", str);
+	argvv = malloc(sizeof(char ***) * 256);
+	if (!argvv)
+		return (0);
+	cmd_count = count_commands(str);
+	printf("CMD_COUNT: %d\n", cmd_count);
+	return (argvv);
 }
