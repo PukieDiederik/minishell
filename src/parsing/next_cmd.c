@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 14:17:26 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/11 14:26:27 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:37:39 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	skip_qouted(const char **str)
 	(*str)++;
 	while (**str && **str != c)
 		(*str)++;
-	if (!**str)
+	if (**str)
 		(*str)++;
 }
 
@@ -43,7 +43,5 @@ char *get_next_cmd(const char *str)
 		else if (skip_regular(&str))
 			return ((char *)str);
 	}
-	if (!*str)
-		return (0);
 	return ((char *)str);
 }

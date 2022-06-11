@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/11 14:15:43 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:39:26 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ char ***parse_input(char *str)
 {
 	char	***argvv;
 	int		cmd_count;
-//	int 	i;
-//
-//	i = -1;
+	int 	i;
+
+	i = -1;
 	if (!str)
 		return (0);
 	printf("===\n'%s'\n", str);
@@ -97,5 +97,11 @@ char ***parse_input(char *str)
 		return (0);
 	cmd_count = count_commands(str);
 	printf("CMD_COUNT: %d\n", cmd_count);
+	while (++i < cmd_count)
+	{
+		printf("ARGV[%d]: %d\n", i, count_argv(str));
+		str = get_next_cmd(str);
+		str++;
+	}
 	return (argvv);
 }
