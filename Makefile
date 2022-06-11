@@ -1,6 +1,10 @@
 ## File stuff
 
-FNAMES 		=	minishell.c parsing/parsing.c parsing/cmd_count.c
+FNAMES 		=	minishell.c \
+				\
+				parsing/parsing.c \
+				parsing/cmd_count.c \
+				parsing/argv_count.c
 
 HNAMES		=	minishell.h
 

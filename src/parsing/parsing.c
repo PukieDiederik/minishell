@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/10 15:05:33 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:15:43 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ char ***parse_input(char *str)
 {
 	char	***argvv;
 	int		cmd_count;
-
+//	int 	i;
+//
+//	i = -1;
 	if (!str)
 		return (0);
 	printf("===\n'%s'\n", str);
