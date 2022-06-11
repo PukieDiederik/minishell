@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 14:17:26 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/11 14:37:39 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:37:43 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	skip_regular(const char **str)
 	return (0);
 }
 
-char *get_next_cmd(const char *str)
+char	*get_next_cmd(const char *str)
 {
 	while (*str)
 	{

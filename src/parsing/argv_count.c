@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 14:10:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/11 14:12:38 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:41:46 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static int	skip_regular(const char *str, int *i, int *c)
 }
 
 // If you want the 2nd commands argument give the pointer to the start of it
-// Assumes that count_commands has been run before it so this does not error check
-int count_argv(const char *str)
+int	count_argv(const char *str)
 {
 	int	i;
 	int	c;
@@ -56,7 +55,7 @@ int count_argv(const char *str)
 			c++;
 		}
 		else if (skip_regular(str, &i, &c))
-			break;
+			break ;
 	}
 	return (c);
 }
