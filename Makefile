@@ -4,7 +4,8 @@ FNAMES 		=	minishell.c \
 				\
 				parsing/parsing.c \
 				parsing/cmd_count.c \
-				parsing/argv_count.c
+				parsing/argv_count.c \
+				parsing/next_cmd.c
 
 HNAMES		=	minishell.h
 
