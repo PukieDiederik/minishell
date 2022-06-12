@@ -7,15 +7,12 @@ FNAMES 		=	minishell.c \
 				parsing/argv_count.c \
 				parsing/next_cmd.c \
 				\
-				parsing/print_argvv.c
-
-HNAMES		=	minishell.h
+				parsing/print_argvv.c \
+				parsing/destroy_argvv.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))
-
-HEADERS		=	$(addprefix $(INCLUDE_DIR)/,$(HNAMES))
 
 INCLUDE_DIR	= include
 SRCS_DIR	= src
@@ -57,11 +54,11 @@ RESET			= \033[0m
 ## Targets
 all: $(NAME)
 
-$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c $(HEADERS)
+$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
 	@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
 
-$(OBJS_DIR)/%.o : $(SRCS_DIR)/*/%.c $(HEADERS)
+$(OBJS_DIR)/%.o : $(SRCS_DIR)/*/%.c
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
 	@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
 
@@ -95,6 +92,5 @@ vars:
 	@echo "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
 	@echo "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
 	@echo "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
-	@echo "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
 
 .PHONY: all clean fclean re

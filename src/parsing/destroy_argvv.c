@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   destroy_argvv.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/12 15:06:00 by drobert-         ###   ########.fr       */
+/*   Created: 2022/06/12 15:00:41 by drobert-          #+#    #+#             */
+/*   Updated: 2022/06/12 15:04:57 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  MINISHELL_H
-# define MINISHELL_H
+#include <stdlib.h>
 
-// Definitions
+// Destroys an argv array
+void	destroy_argv(char **argv)
+{
+	int	i;
 
-// Functions
-// Parsing
-char	***parse_input(char *str);
-int		count_commands(const char *str);
-int		count_argv(const char *str);
-char	*get_next_cmd(const char *str);
+	i = 0;
+	if (!argv)
+		return ;
+	while (argv[i])
+		free(argv[i++]);
+}
 
-// Utils
-void	print_argvv(char ***argvv);
-void	destroy_argv(char **argv);
-void	destroy_argvv(char ***argvv);
+// Destroys an argvv array
+void destroy_argvv(char ***argvv)
+{
+	int i;
 
-#endif
+	i = 0;
+	if (!argvv)
+		return ;
+	while (argvv[i])
+		destroy_argv(argvv[i++]);
+	free(argvv);
+}

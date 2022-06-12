@@ -10,6 +10,10 @@ int main(int argc, char **argv)
 		printf("argv [%d]: %s\n", i, argv[i]);
 
 	// Parsing tests
+	char ***argvv;
+
+	argvv = parse_input("abc \"123\" abc");
+	free(argvv);
 	free(parse_input("abc \"123\" abc"));
 	free(parse_input("\"123\""));
 	free(parse_input(""));
