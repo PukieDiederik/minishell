@@ -22,6 +22,7 @@ void	destroy_argv(char **argv)
 		return ;
 	while (argv[i])
 		free(argv[i++]);
+	free(argv);
 }
 
 // Destroys an argvv array

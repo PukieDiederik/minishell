@@ -21,16 +21,16 @@ void	print_argvv(char ***argvv)
 	i = -1;
 	if (!argvv)
 	{
-		printf("[print_argvv] argvv is null");
+		printf("[print_argvv] argvv is null\n");
 		return ;
 	}
 	while (argvv[++i])
 	{
-		printf("argvv [%d]:", i);
+		printf("argvv [%d]:\n", i);
 		j = -1;
 		while(argvv[i][++j])
 		{
-			printf(" - argv [%d]: %s", j, argvv[i][j]);
+			printf(" - argv [%d]: %s\n", j, argvv[i][j]);
 		}
 	}
 }

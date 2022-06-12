@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/11 14:39:26 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/12 15:41:11 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,28 @@ char	*get_qouted_str(char *str)
 	return (sub_str);
 }
 
-//should process the string and free `str`
-int	process_qouted_double(char *str)
+//should process the string
+char	*process_qouted_double(char *str)
 {
-	printf("Double qouted: \"%s\"\n", str);
-	return (0);
+	return (ft_strdup(str));
 }
 
 //should process the string
-int	process_qouted_single(char *str)
+char	*process_qouted_single(char *str)
 {
-	printf("Single qouted: \"%s\"\n", str);
-	return (0);
+	return (ft_strdup(str));
 }
 
 //will get the argv for a single command
-int	get_argv(char *str)
+int	get_argv(char *str, char **argv)
 {
-	unsigned int i = 0;
-	char *str_tmp;
+	unsigned int	i = 0;
+	int				j;
+	int 			l;
+	char			*str_tmp;
 
-	//Keep looping until it finishes the string or
-	printf("=== === ===\n");
+	//Keep looping until it finishes the string or finds |
+	j = 0;
 	while (str[i] && str[i] != '|')
 	{
 		while (str[i] == ' ')
@@ -60,22 +60,33 @@ int	get_argv(char *str)
 		if (str[i] == '"')
 		{
 			str_tmp = get_qouted_str(str + i);
-			process_qouted_double(str_tmp);
+			argv[j] = process_qouted_double(str_tmp);
 			i += ft_strlen(str_tmp) + 2;
 			free(str_tmp);
+			j++;
 		}
 		else if (str[i] == '\'')
 		{
 			str_tmp = get_qouted_str(str + i);
-			process_qouted_single(str_tmp);
+			argv[j] = process_qouted_single(str_tmp);
 			i += ft_strlen(str_tmp) + 2;
 			free(str_tmp);
+			j++;
 		}
 		else
 		{
+			l = 0;
 			// NOT IMPLEMENTED
-			while (str[i] && str[i] != ' ')
-				i++;
+			while (str[i + l] && str[i + l] != ' ' && str[i + l] != '|')
+				l++;
+			if (str[i + l] == '|')
+				return (1);
+			argv[j] = ft_calloc(l + 1, sizeof(char));
+			if (!argv[j])
+				return (0);
+			ft_strlcpy(argv[j], str + i, l + 1);
+			i += l;
+			j++;
 		}
 	}
 	return (i);
@@ -86,20 +97,27 @@ char ***parse_input(char *str)
 {
 	char	***argvv;
 	int		cmd_count;
+	int 	argv_count;
 	int 	i;
 
 	i = -1;
 	if (!str)
 		return (0);
-	printf("===\n'%s'\n", str);
-	argvv = malloc(sizeof(char ***) * 256);
+	cmd_count = count_commands(str);
+	if (cmd_count < 0)
+		return (0);
+	argvv = ft_calloc(cmd_count + 1, sizeof(char **));
 	if (!argvv)
 		return (0);
-	cmd_count = count_commands(str);
-	printf("CMD_COUNT: %d\n", cmd_count);
 	while (++i < cmd_count)
 	{
-		printf("ARGV[%d]: %d\n", i, count_argv(str));
+		argv_count = count_argv(str);
+		argvv[i] = ft_calloc(argv_count + 1, sizeof(char *));
+		if (!argvv[i] || !get_argv(str, argvv[i]))
+		{
+			destroy_argvv(argvv);
+			return (0);
+		}
 		str = get_next_cmd(str);
 		str++;
 	}

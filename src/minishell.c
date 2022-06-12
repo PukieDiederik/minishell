@@ -12,14 +12,43 @@ int main(int argc, char **argv)
 	// Parsing tests
 	char ***argvv;
 
+	printf("CMD: abc \"123\" abc\n");
 	argvv = parse_input("abc \"123\" abc");
-	free(argvv);
-	free(parse_input("abc \"123\" abc"));
-	free(parse_input("\"123\""));
-	free(parse_input(""));
-	free(parse_input(0));
-	free(parse_input("    "));
-	free(parse_input("hello '123' | abc 123"));
-	free(parse_input("hello '123' |    "));
-	free(parse_input("\"hello\" '123' | abc 123 | | "));
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: \"123\"\n");
+	argvv = parse_input("\"123\"");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: \n");
+	argvv = parse_input("");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: NULL\n");
+	argvv = parse_input(0);
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD:     \n");
+	argvv = parse_input("    ");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: hello '123' | abc 123\n");
+	argvv = parse_input("hello '123' | abc 123");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: hello '123' |    \n");
+	argvv = parse_input("hello '123' |    ");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: \"hello\" '123' | abc 123 | | \n");
+	argvv = parse_input("\"hello\" '123' | abc 123 | | ");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
 }
