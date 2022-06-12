@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 15:00:41 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/12 15:04:57 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/12 15:49:31 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	destroy_argv(char **argv)
 }
 
 // Destroys an argvv array
-void destroy_argvv(char ***argvv)
+void	destroy_argvv(char ***argvv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!argvv)

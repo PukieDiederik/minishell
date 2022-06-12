@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 14:53:09 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/12 14:57:43 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/12 15:37:59 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_argvv(char ***argvv)
 	{
 		printf("argvv [%d]:\n", i);
 		j = -1;
-		while(argvv[i][++j])
+		while (argvv[i][++j])
 		{
 			printf(" - argv [%d]: %s\n", j, argvv[i][j]);
 		}
