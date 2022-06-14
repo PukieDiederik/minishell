@@ -6,13 +6,14 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/12 15:41:11 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:38:15 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "libft.h"
 #include "minishell.h"
+#include <stdlib.h>
 
 //assumes the first character is either a double or single qoute
 char	*get_qouted_str(char *str)
@@ -31,6 +32,21 @@ char	*get_qouted_str(char *str)
 	return (sub_str);
 }
 
+char	*get_regular_str(char *str)
+{
+	int		l;
+	char	*sub_str;
+
+	l = 0;
+	while (str[l] && str[l] != ' ' && str[l] != '|' && str[l] != '\'' && str[l] != '"')
+		l++;
+	sub_str = ft_calloc(l + 1, sizeof(char));
+	if (!sub_str)
+		return (0);
+	ft_memcpy(sub_str, str, l);
+	return (sub_str);
+}
+
 //should process the string
 char	*process_qouted_double(char *str)
 {
@@ -43,12 +59,27 @@ char	*process_qouted_single(char *str)
 	return (ft_strdup(str));
 }
 
+//char	*process_regular(char *str)
+//{
+//	int	i;
+//	char *str_temp;
+//
+//	i = 0;
+//	while (str[i] && str[i] != ' ' && str[i] != '|')
+//		i++;
+//	if (str[i] == '|')
+//		return (0);
+//	str_temp = ft_calloc(i + 1, sizeof(char));
+//	if (!str_temp)
+//		return (0);
+//	ft_strlcpy(str_temp, str, i + 1);
+//}
+
 //will get the argv for a single command
 int	get_argv(char *str, char **argv)
 {
 	unsigned int	i = 0;
 	int				j;
-	int 			l;
 	char			*str_tmp;
 
 	//Keep looping until it finishes the string or finds |
@@ -75,17 +106,11 @@ int	get_argv(char *str, char **argv)
 		}
 		else
 		{
-			l = 0;
-			// NOT IMPLEMENTED
-			while (str[i + l] && str[i + l] != ' ' && str[i + l] != '|')
-				l++;
-			if (str[i + l] == '|')
-				return (1);
-			argv[j] = ft_calloc(l + 1, sizeof(char));
-			if (!argv[j])
-				return (0);
-			ft_strlcpy(argv[j], str + i, l + 1);
-			i += l;
+			if (str[i] == '|')
+				break;
+			str_tmp = get_regular_str(str + i);
+			argv[j] = str_tmp;
+			i += ft_strlen(str_tmp);
 			j++;
 		}
 	}
