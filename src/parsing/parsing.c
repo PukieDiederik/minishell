@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/14 13:38:15 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/14 14:06:02 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,10 @@ char	*process_qouted_single(char *str)
 	return (ft_strdup(str));
 }
 
-//char	*process_regular(char *str)
-//{
-//	int	i;
-//	char *str_temp;
-//
-//	i = 0;
-//	while (str[i] && str[i] != ' ' && str[i] != '|')
-//		i++;
-//	if (str[i] == '|')
-//		return (0);
-//	str_temp = ft_calloc(i + 1, sizeof(char));
-//	if (!str_temp)
-//		return (0);
-//	ft_strlcpy(str_temp, str, i + 1);
-//}
+char	*process_regular(char *str)
+{
+	return (ft_strdup(str));
+}
 
 //will get the argv for a single command
 int	get_argv(char *str, char **argv)
@@ -109,8 +98,9 @@ int	get_argv(char *str, char **argv)
 			if (str[i] == '|')
 				break;
 			str_tmp = get_regular_str(str + i);
-			argv[j] = str_tmp;
+			argv[j] = process_regular(str_tmp);
 			i += ft_strlen(str_tmp);
+			free(str_tmp);
 			j++;
 		}
 	}
