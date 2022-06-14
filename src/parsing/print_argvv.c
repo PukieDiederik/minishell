@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 14:53:09 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/12 15:37:59 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:43:02 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	print_argvv(char ***argvv)
 		printf("[print_argvv] argvv is null\n");
 		return ;
 	}
+	if (argvv[0] == 0)
+		printf("[print_argvv] argvv is empty\n");
 	while (argvv[++i])
 	{
 		printf("argvv [%d]:\n", i);
