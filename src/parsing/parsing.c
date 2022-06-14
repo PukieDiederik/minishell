@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/14 14:06:02 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/14 14:21:15 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,27 @@ char	*process_qouted_single(char *str)
 
 char	*process_regular(char *str)
 {
+	int		i;
+	char	*str_tmp;
+	char	*env;
+
+	i = -1;
+	while(str[++i])
+	{
+		if (str[i] == '$' && str[i + 1] != '\0')
+		{
+			env = getenv(str + i + 1);
+			if (env)
+			{
+				str_tmp = calloc(i + ft_strlen(env) + 1, sizeof(char));
+				if (!str_tmp)
+					return (0);
+				ft_memcpy(str_tmp, str, i);
+				ft_memcpy(str_tmp + i, env, ft_strlen(env));
+				return (str_tmp);
+			}
+		}
+	}
 	return (ft_strdup(str));
 }
 
