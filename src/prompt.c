@@ -24,7 +24,7 @@ char	*prompt_user(void)
 	while (is_empty(str))
 	{
 		free(str);
-		str = readline(C_GREEN"$"C_CYAN">"C_RESET);
+		str = readline(C_GREEN"$"C_CYAN"> "C_RESET);
 	}
 	str_trim = ft_strtrim(str, " \t\n");
 	free(str);
