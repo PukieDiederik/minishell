@@ -18,6 +18,7 @@ static int	is_empty(char *str)
 char	*prompt_user(void)
 {
 	char	*str;
+	char 	*str_trim;
 
 	str = 0;
 	while (is_empty(str))
@@ -25,6 +26,10 @@ char	*prompt_user(void)
 		free(str);
 		str = readline(C_GREEN"$"C_CYAN">"C_RESET);
 	}
-	add_history(str);
-	return (str);
+	str_trim = ft_strtrim(str, " \t\n");
+	free(str);
+	if (!str_trim)
+		return (0);
+	add_history(str_trim);
+	return (str_trim);
 }
