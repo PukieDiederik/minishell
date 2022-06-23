@@ -1,6 +1,7 @@
 ## File stuff
 
-FNAMES 		=	minishell.c
+FNAMES 		=	minishell.c \
+				prompt.c
 
 HNAMES		=	minishell.h
 
@@ -20,7 +21,7 @@ LIBFT		= libft/libft.a
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
 INCLUDES	= -I $(INCLUDE_DIR) -I libft
-LIBS		= -L libft -lft
+LIBS		= -L libft -lft -lreadline
 ## Other
 
 NAME		= minishell
