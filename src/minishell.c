@@ -62,4 +62,24 @@ int main(int argc, char **argv)
 	argvv = parse_input("cat $");
 	print_argvv(argvv);
 	destroy_argvv(argvv);
+
+	printf("CMD: cat $ \n");
+	argvv = parse_input("cat $ ");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: cat $PATH$SHELL\n");
+	argvv = parse_input("cat $PATH$SHELL");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: cat \"$PATH$SHELL\"\n");
+	argvv = parse_input("cat \"$PATH$SHELL\"");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
+
+	printf("CMD: cat \"Hi$SHELL $PATH\"\n");
+	argvv = parse_input("cat \"Hi$SHELL $PATH\"");
+	print_argvv(argvv);
+	destroy_argvv(argvv);
 }

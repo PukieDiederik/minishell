@@ -24,7 +24,7 @@ void	print_argvv(char ***argvv)
 		printf("[print_argvv] argvv is null\n");
 		return ;
 	}
-	if (argvv[0] == 0)
+	if (!argvv[0])
 		printf("[print_argvv] argvv is empty\n");
 	while (argvv[++i])
 	{
