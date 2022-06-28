@@ -21,6 +21,7 @@ char	***parse_input(char *str);
 int		count_commands(const char *str);
 int		count_argv(const char *str);
 char	*get_next_cmd(const char *str);
+char	*insert_env(char *str, int i);
 
 // Utils
 void	print_argvv(char ***argvv);
