@@ -3,6 +3,7 @@
 FNAMES 		=	minishell.c \
 				\
 				parsing/parsing.c \
+				parsing/get_argv.c \
 				parsing/cmd_count.c \
 				parsing/argv_count.c \
 				parsing/next_cmd.c \
