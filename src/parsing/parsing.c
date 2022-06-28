@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/28 13:47:18 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/28 13:55:51 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*get_regular_str(char *str)
 	char	*sub_str;
 
 	l = 0;
-	while (str[l] && str[l] != ' ' && str[l] != '|' && str[l] != '\'' && str[l] != '"')
+	while (str[l] && str[l] != ' ' && str[l] != '|'
+		&& str[l] != '\'' && str[l] != '"')
 		l++;
 	sub_str = ft_calloc(l + 1, sizeof(char));
 	if (!sub_str)
@@ -49,8 +50,8 @@ char	*get_regular_str(char *str)
 
 char	*get_env_str(char *str)
 {
-	int i;
-	char *str_tmp;
+	int		i;
+	char	*str_tmp;
 
 	i = 1;
 	while (ft_isalnum(str[i]))
@@ -62,7 +63,7 @@ char	*get_env_str(char *str)
 	return (str_tmp);
 }
 
-char *insert_env(char *str, int i)
+char	*insert_env(char *str, int i)
 {
 	char	*str_tmp;
 	char	*env_str;
@@ -82,8 +83,8 @@ char *insert_env(char *str, int i)
 	ft_memcpy(str_tmp, str, i);
 	ft_memcpy(str_tmp + i, env, ft_strlen(env));
 	ft_memcpy(str_tmp + i + ft_strlen(env),
-			  str + i + (ft_strlen(env_str) + 1),
-			ft_strlen(str + i + (ft_strlen(env_str) + 1)));
+		str + i + (ft_strlen(env_str) + 1),
+		ft_strlen(str + i + (ft_strlen(env_str) + 1)));
 	free(env_str);
 	return (str_tmp);
 }
@@ -97,7 +98,7 @@ char	*process_qouted_double(char *str)
 
 	i = 0;
 	str_tmp2 = ft_strdup(str);
-	while(str_tmp2[i])
+	while (str_tmp2[i])
 	{
 		while (str_tmp2[i] && str_tmp2[i] != '$')
 			i++;
@@ -127,7 +128,7 @@ char	*process_regular(char *str)
 
 	i = 0;
 	str_tmp2 = ft_strdup(str);
-	while(str_tmp2[i])
+	while (str_tmp2[i])
 	{
 		while (str_tmp2[i] && str_tmp2[i] != '$')
 			i++;
@@ -146,18 +147,18 @@ char	*process_regular(char *str)
 //will get the argv for a single command
 int	get_argv(char *str, char **argv)
 {
-	unsigned int	i = 0;
+	unsigned int	i;
 	int				j;
 	char			*str_tmp;
 
-	//Keep looping until it finishes the string or finds |
+	i = 0;
 	j = 0;
 	while (str[i] && str[i] != '|')
 	{
 		while (str[i] == ' ')
 			i++;
 		if (!str[i])
-			break;
+			break ;
 		if (str[i] == '"')
 		{
 			str_tmp = get_qouted_str(str + i);
@@ -177,7 +178,7 @@ int	get_argv(char *str, char **argv)
 		else
 		{
 			if (str[i] == '|')
-				break;
+				break ;
 			str_tmp = get_regular_str(str + i);
 			argv[j] = process_regular(str_tmp);
 			i += ft_strlen(str_tmp);
@@ -189,12 +190,12 @@ int	get_argv(char *str, char **argv)
 }
 
 //returns an array of argv pointers
-char ***parse_input(char *str)
+char	***parse_input(char *str)
 {
 	char	***argvv;
 	int		cmd_count;
-	int 	argv_count;
-	int 	i;
+	int		argv_count;
+	int		i;
 
 	i = -1;
 	if (!str)
