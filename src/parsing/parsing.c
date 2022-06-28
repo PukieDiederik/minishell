@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/27 11:11:47 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/06/28 13:47:18 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_env_str(char *str)
 	char *str_tmp;
 
 	i = 1;
-	while (str[i] && str[i] != ' ' && str[i] != '$')
+	while (ft_isalnum(str[i]))
 		i++;
 	str_tmp = ft_calloc(i, sizeof(char));
 	if (!str_tmp)
