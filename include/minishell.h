@@ -1,4 +1,5 @@
 char	*prompt_user(void);
+char *here_doc(char *stop_str);
 
 #define C_BLACK "\033[0;30m"
 #define C_RED	 "\033[0;31m"

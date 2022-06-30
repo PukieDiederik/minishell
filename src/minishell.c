@@ -12,6 +12,9 @@ int main(int argc, char **argv)
 	while (++i < argc)
 		printf("argv [%d]: %s\n", i, argv[i]);
 
+	//Testing heredoc
+	free(here_doc("long_test"));
+
 	while(1) {
 		free(str);
 		str = prompt_user();

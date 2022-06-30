@@ -1,7 +1,8 @@
 ## File stuff
 
 FNAMES 		=	minishell.c \
-				prompt.c
+				prompt.c \
+				here_doc.c
 
 HNAMES		=	minishell.h
 
