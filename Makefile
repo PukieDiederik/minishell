@@ -62,7 +62,7 @@ $(OBJS_DIR):
 	@test -d $(OBJS_DIR) || (mkdir $(OBJS_DIR) && $(ECHO) "$(BLUE)Directory '$(CYAN)$(OBJS_DIR)/$(BLUE)' doesn't exist. Creating '$(CYAN)$(OBJS_DIR)/$(BLUE)'$(RESET)")
 
 $(LIBFT):
-	@$(MAKE) -C libft bonus
+	@$(MAKE) -C libft
 
 # regular targets
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
