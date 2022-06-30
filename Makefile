@@ -21,7 +21,7 @@ LIBFT		= libft/libft.a
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-INCLUDES	= -I $(INCLUDE_DIR) -I libft
+INCLUDES	= -I $(INCLUDE_DIR) -I libft/include
 LIBS		= -L libft -lft -lreadline
 ## Other
 
