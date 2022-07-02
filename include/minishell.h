@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/02 14:37:40 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/02 15:02:02 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
  */
 typedef enum e_io_type
 {
-	none,
-	pipe,
-	file,
-	file_append
+	io_none,
+	io_pipe,
+	io_file,
+	io_file_append
 }	t_iotype;
 
 // Structures
