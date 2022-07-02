@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/28 14:26:02 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/02 14:37:40 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,37 @@
 # define MINISHELL_H
 
 // Definitions
+/* e_io_type - What kind of io a command uses
+ *
+ * none			- Uses regular io file descriptors
+ * pipe			- Remaps regular io file descriptors to a pipe
+ * file			- Opens a file and remaps io file descriptors to file descriptor
+ * file_append	- Same as file but opens it in append mode
+ */
+typedef enum e_io_type
+{
+	none,
+	pipe,
+	file,
+	file_append
+}	t_iotype;
+
+// Structures
+
+/* s_cmd - structure which holds information for each command
+ *
+ * argv			- Holds the argument vector for a command
+ * in/out_type	- Hold the type of input/output
+ * in/out_file	- Holds a path to the input/output file if in/out_type is file
+ */
+typedef struct s_cmd
+{
+	char		**argv;
+	t_iotype	in_type;
+	t_iotype	out_type;
+	char		*in_file;
+	char		*out_file;
+}	t_cmd;
 
 // Functions
 // Parsing
