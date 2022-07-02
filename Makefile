@@ -25,7 +25,7 @@ LIBFT		= libft/libft.a
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-INCLUDES	= -I $(INCLUDE_DIR) -I libft
+INCLUDES	= -I $(INCLUDE_DIR) -I libft/include
 LIBS		= -L libft -lft
 ## Other
 
@@ -68,7 +68,7 @@ $(OBJS_DIR):
 	@test -d $(OBJS_DIR) || (mkdir $(OBJS_DIR) && $(ECHO) "$(BLUE)Directory '$(CYAN)$(OBJS_DIR)/$(BLUE)' doesn't exist. Creating '$(CYAN)$(OBJS_DIR)/$(BLUE)'$(RESET)")
 
 $(LIBFT):
-	@$(MAKE) -C libft bonus
+	@$(MAKE) -C libft
 
 # regular targets
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
@@ -89,10 +89,11 @@ fclean: clean
 re: fclean all
 
 vars:
-	@echo "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
-	@echo "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
-	@echo "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
-	@echo "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
-	@echo "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
+	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
+	@$(ECHO) "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
+	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
+	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
+	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
+	@$(ECHO) "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
 
 .PHONY: all clean fclean re
