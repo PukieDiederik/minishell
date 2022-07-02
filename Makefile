@@ -83,11 +83,11 @@ fclean: clean
 re: fclean all
 
 vars:
-	@echo "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
-	@echo "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
-	@echo "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
-	@echo "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
-	@echo "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
-	@echo "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
+	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
+	@$(ECHO) "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
+	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
+	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
+	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
+	@$(ECHO) "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
 
 .PHONY: all clean fclean re
