@@ -10,76 +10,76 @@ int main(int argc, char **argv)
 		printf("argv [%d]: %s\n", i, argv[i]);
 
 	// Parsing tests
-	char ***argvv;
+	t_cmd	*cmdv;
 
 	printf("CMD: abc \"123\" abc\n");
-	argvv = parse_input("abc \"123\" abc");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("abc \"123\" abc");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: \"123\"\n");
-	argvv = parse_input("\"123\"");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("\"123\"");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: \n");
-	argvv = parse_input("");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: NULL\n");
-	argvv = parse_input(0);
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input(0);
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD:     \n");
-	argvv = parse_input("    ");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("    ");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: hello '123' | abc 123\n");
-	argvv = parse_input("hello '123' | abc 123");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("hello '123' | abc 123");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: hello '123' |    \n");
-	argvv = parse_input("hello '123' |    ");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("hello '123' |    ");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: \"hello\" '123' | abc 123 | | \n");
-	argvv = parse_input("\"hello\" '123' | abc 123 | | ");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("\"hello\" '123' | abc 123 | | ");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	//Testing of ENV variables
 	printf("CMD: cat $PATH\n");
-	argvv = parse_input("cat $PATH");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("cat $PATH");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: cat $\n");
-	argvv = parse_input("cat $");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("cat $");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: cat $ \n");
-	argvv = parse_input("cat $ ");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("cat $ ");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: cat $PATH$SHELL\n");
-	argvv = parse_input("cat $PATH$SHELL");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("cat $PATH$SHELL");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: cat \"$PATH$SHELL\"\n");
-	argvv = parse_input("cat \"$PATH$SHELL\"");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("cat \"$PATH$SHELL\"");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 
 	printf("CMD: cat \"Hi$SHELL $PATH\"\n");
-	argvv = parse_input("cat \"Hi$SHELL $PATH\"");
-	print_argvv(argvv);
-	destroy_argvv(argvv);
+	cmdv = parse_input("cat \"Hi$SHELL $PATH\"");
+	print_cmdv(cmdv);
+	destroy_cmdv(cmdv);
 }

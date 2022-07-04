@@ -6,33 +6,34 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 14:53:09 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/14 13:43:02 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/04 13:50:09 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "minishell.h"
 
 // This is a util/debug function to print argvv
-void	print_argvv(char ***argvv)
+void	print_cmdv(t_cmd *cmdv)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	if (!argvv)
+	if (!cmdv)
 	{
-		printf("[print_argvv] argvv is null\n");
+		printf("[print_cmdv] cmdv is null\n");
 		return ;
 	}
-	if (!argvv[0])
-		printf("[print_argvv] argvv is empty\n");
-	while (argvv[++i])
+	if (!cmdv[0].argv)
+		printf("[print_cmdv] cmdv is empty\n");
+	while (cmdv[++i].argv)
 	{
-		printf("argvv [%d]:\n", i);
+		printf("command [%d]:\n", i);
 		j = -1;
-		while (argvv[i][++j])
+		while (cmdv[i].argv[++j])
 		{
-			printf(" - argv [%d]: %s\n", j, argvv[i][j]);
+			printf(" - argv [%d]: %s\n", j, cmdv[i].argv[j]);
 		}
 	}
 }

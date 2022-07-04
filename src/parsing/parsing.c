@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/28 14:05:16 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/04 13:51:54 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,57 +103,21 @@ char	*process_regular(char *str)
 	return (str_tmp2);
 }
 
-//will get the argv for a single command
-//int	get_argv(char *str, char **argv)
-//{
-//	unsigned int	i;
-//	int				j;
-//	char			*str_tmp;
-//
-//	i = 0;
-//	j = 0;
-//	while (str[i] && str[i] != '|')
-//	{
-//		while (str[i] == ' ')
-//			i++;
-//		if (!str[i])
-//			break ;
-//		if (str[i] == '"')
-//		{
-//			str_tmp = get_qouted_str(str + i);
-//			argv[j] = process_qouted_double(str_tmp);
-//			i += ft_strlen(str_tmp) + 2;
-//			free(str_tmp);
-//			j++;
-//		}
-//		else if (str[i] == '\'')
-//		{
-//			str_tmp = get_qouted_str(str + i);
-//			argv[j] = process_qouted_single(str_tmp);
-//			i += ft_strlen(str_tmp) + 2;
-//			free(str_tmp);
-//			j++;
-//		}
-//		else
-//		{
-//			if (str[i] == '|')
-//				break ;
-//			str_tmp = get_regular_str(str + i);
-//			argv[j] = process_regular(str_tmp);
-//			i += ft_strlen(str_tmp);
-//			free(str_tmp);
-//			j++;
-//		}
-//	}
-//	return (i);
-//}
+t_cmd *get_cmd(char *str, t_cmd *cmd_p)
+{
+	cmd_p->argv = get_argv(str);
+	if (!cmd_p->argv)
+		return (0);
+	cmd_p->in_type = io_none;
+	cmd_p->out_type = io_none;
+	return (cmd_p);
+}
 
 //returns an array of argv pointers
-char	***parse_input(char *str)
+t_cmd 	*parse_input(char *str)
 {
-	char	***argvv;
+	t_cmd	*cmdv;
 	int		cmd_count;
-	int		argv_count;
 	int		i;
 
 	i = -1;
@@ -162,20 +126,15 @@ char	***parse_input(char *str)
 	cmd_count = count_commands(str);
 	if (cmd_count < 0)
 		return (0);
-	argvv = ft_calloc(cmd_count + 1, sizeof(char **));
-	if (!argvv)
+	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
+	if (!cmdv)
 		return (0);
 	while (++i < cmd_count)
 	{
-		argv_count = count_argv(str);
-		argvv[i] = ft_calloc(argv_count + 1, sizeof(char *));
-		if (!argvv[i] || !get_argv(str, argvv[i]))
-		{
-			destroy_argvv(argvv);
+		if (!get_cmd(str, cmdv + i))
 			return (0);
-		}
 		str = get_next_cmd(str);
 		str++;
 	}
-	return (argvv);
+	return (cmdv);
 }

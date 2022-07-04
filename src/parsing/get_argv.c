@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:07:07 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/28 14:25:20 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/04 13:52:32 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,19 @@ static int	check_regular(char *str, char **argv, unsigned int *i)
 	return (0);
 }
 
-unsigned int	get_argv(char *str, char **argv)
+char	**get_argv(char *str)
 {
+	int				argv_count;
+	char			**argv;
 	unsigned int	i;
 	int				j;
 
 	i = 0;
 	j = 0;
+	argv_count = count_argv(str);
+	argv = ft_calloc(argv_count + 1, sizeof(char *));
+	if (!argv)
+		return (0);
 	while (str[i] && str[i] != '|')
 	{
 		while (str[i] == ' ')
@@ -75,5 +81,5 @@ unsigned int	get_argv(char *str, char **argv)
 			j++;
 		}
 	}
-	return (i);
+	return (argv);
 }

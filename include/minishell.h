@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/02 15:02:02 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/04 13:47:11 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ typedef struct s_cmd
 
 // Functions
 // Parsing
-char			***parse_input(char *str);
+t_cmd			*parse_input(char *str);
 int				count_commands(const char *str);
 int				count_argv(const char *str);
 char			*get_next_cmd(const char *str);
 char			*insert_env(char *str, int i);
-unsigned int	get_argv(char *str, char **argv);
+char			**get_argv(char *str);
 
 // Utils
-void			print_argvv(char ***argvv);
 void			destroy_argv(char **argv);
-void			destroy_argvv(char ***argvv);
+void			destroy_cmdv(t_cmd *cmd);
+void			print_cmdv(t_cmd *cmdv);
 
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
