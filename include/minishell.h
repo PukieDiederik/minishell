@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 08:10:25 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 08:48:32 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 // Definitions
 // Colors
-
 # define C_BLACK "\033[0;30m"
 # define C_RED "\033[0;31m"
 # define C_GREEN "\033[0;32m"
@@ -27,6 +26,7 @@
 # define C_WHITE "\033[0;38m"
 # define C_RESET "\033[0m"
 
+// Structures
 /* e_io_type - What kind of io a command uses
  *
  * none			- Uses regular io file descriptors
@@ -41,8 +41,6 @@ typedef enum e_io_type
 	io_file,
 	io_file_append
 }	t_iotype;
-
-// Structures
 
 /* s_cmd - structure which holds information for each command
  *
