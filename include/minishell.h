@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 08:48:32 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 08:48:49 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void			print_cmdv(t_cmd *cmdv);
 char			*prompt_user(void);
 char			*here_doc(char *stop_str);
 
-
+unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
 char			*process_regular(char *str);

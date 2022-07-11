@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:07:07 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 10:21:36 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 12:42:43 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_single(char *str, char **argv, unsigned int *i)
 unsigned int is_special_char(char c)
 {
 	return (c == ' ' || c == '<' || c == '>' || c == '"' || c == '\''
-			|| c == '|');
+			|| c == '|' || c == '\0');
 }
 
 unsigned int skip_io_redirect(char *str, unsigned int i)
@@ -62,7 +62,7 @@ unsigned int skip_io_redirect(char *str, unsigned int i)
 
 static int	check_regular(char *str, char **argv, unsigned int *i)
 {
-	char	*str_tmp;
+//	char	*str_tmp;
 
 	if (str[*i] == '|')
 		return (1);
@@ -71,10 +71,8 @@ static int	check_regular(char *str, char **argv, unsigned int *i)
 		*i += skip_io_redirect(str, *i);
 		return (0);
 	}
-	str_tmp = get_regular_str(str + *i);
-	*argv = process_regular(str_tmp);
-	*i += ft_strlen(str_tmp);
-	free(str_tmp);
+	*argv = get_regular_str(str + *i);
+	*i += ft_strlen(*argv);
 	return (0);
 }
 

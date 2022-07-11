@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/04 13:51:54 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 12:37:20 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	*get_regular_str(char *str)
 	char	*sub_str;
 
 	l = 0;
-	while (str[l] && str[l] != ' ' && str[l] != '|'
-		&& str[l] != '\'' && str[l] != '"')
+	while (!is_special_char(*(str + l)))
 		l++;
 	sub_str = ft_calloc(l + 1, sizeof(char));
 	if (!sub_str)
@@ -113,6 +112,32 @@ t_cmd *get_cmd(char *str, t_cmd *cmd_p)
 	return (cmd_p);
 }
 
+char *insert_envs(char *str)
+{
+	int		i;
+	int		is_sqoute;
+	char	*str_tmp;
+
+	i = 0;
+	str_tmp = ft_strdup(str);
+	if (!str_tmp)
+		return (0);
+	is_sqoute = 0;
+	while (str_tmp[i])
+	{
+		if (str_tmp[i] == '\'')
+			is_sqoute = !is_sqoute;
+		if (str_tmp[i] == '$' && !is_sqoute)
+		{
+			str = insert_env(str_tmp, i);
+			free(str_tmp);
+			str_tmp = str;
+		}
+		i++;
+	}
+	return (str_tmp);
+}
+
 //returns an array of argv pointers
 t_cmd 	*parse_input(char *str)
 {
@@ -124,6 +149,7 @@ t_cmd 	*parse_input(char *str)
 	if (!str)
 		return (0);
 	cmd_count = count_commands(str);
+	str = insert_envs(str);
 	if (cmd_count < 0)
 		return (0);
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
