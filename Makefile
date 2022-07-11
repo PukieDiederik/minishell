@@ -10,7 +10,10 @@ FNAMES 		=	minishell.c \
 				parsing/insert_env.c \
 				\
 				parsing/print_argvv.c \
-				parsing/destroy_argvv.c
+				parsing/destroy_argvv.c \
+				\
+				prompt.c \
+				here_doc.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
@@ -26,7 +29,7 @@ LIBFT		= libft/libft.a
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include
-LIBS		= -L libft -lft
+LIBS		= -L libft -lft -lreadline
 ## Other
 
 NAME		= minishell

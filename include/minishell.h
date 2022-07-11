@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/04 13:47:11 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 08:10:25 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 # define MINISHELL_H
 
 // Definitions
+// Colors
+
+# define C_BLACK "\033[0;30m"
+# define C_RED "\033[0;31m"
+# define C_GREEN "\033[0;32m"
+# define C_ORANGE "\033[0;33m"
+# define C_BLUE	 "\033[0;34m"
+# define C_PURPLE "\033[0;35m"
+# define C_CYAN "\033[0;36m"
+# define C_GRAY "\033[0;37m"
+# define C_WHITE "\033[0;38m"
+# define C_RESET "\033[0m"
+
 /* e_io_type - What kind of io a command uses
  *
  * none			- Uses regular io file descriptors
@@ -59,6 +72,11 @@ char			**get_argv(char *str);
 void			destroy_argv(char **argv);
 void			destroy_cmdv(t_cmd *cmd);
 void			print_cmdv(t_cmd *cmdv);
+
+// Prompt
+char			*prompt_user(void);
+char			*here_doc(char *stop_str);
+
 
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
