@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 12:52:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/30 14:01:08 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:54:13 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include <fcntl.h>
 #include "libft.h"
+#include <unistd.h>
 
 static int	max(int a, int b)
 {
@@ -23,22 +24,43 @@ static int	max(int a, int b)
 	return (b);
 }
 
-// /.hd_
-static char	*get_path(char *stop_str)
+
+// /tmp/msh_hd_[num]
+static char	*get_path(unsigned int i)
 {
 	char	*str;
-	char	*str_home;
+	char	*str_num;
 
-	str_home = getenv("HOME");
-	if (!str_home)
+	str_num = ft_itoa(i);
+	str = ft_calloc(ft_strlen(str_num) + 13, sizeof(char));
+	if (!str || !str_num) {
+		free(str_num);
+		free(str);
 		return (0);
-	str = ft_calloc(ft_strlen(str_home) + 11, sizeof(char));
-	if (!str)
-		return (0);
-	ft_memcpy(str, str_home, ft_strlen(str_home));
-	ft_memcpy(str + ft_strlen(str_home), "/.hd_", 5);
-	ft_strlcpy(str + ft_strlen(str_home) + 5, stop_str, 6);
+	}
+	ft_memcpy(str, "/tmp/msh_hd_", 12);
+	ft_memcpy(str + 12, str_num, ft_strlen(str_num));
+	free(str_num);
 	return (str);
+}
+
+static char *get_unique_path()
+{
+	char				*path;
+	unsigned int		i;
+
+	i = 0;
+	path = get_path(i);
+	if (!path)
+		return (0);
+	while (!access(path, F_OK))
+	{
+		free(path);
+		path = get_path(++i);
+		if (!path)
+			return (0);
+	}
+	return (path);
 }
 
 // Reads heredoc from input, puts it in a file and returns the path to the file
@@ -49,12 +71,15 @@ char	*here_doc(char *stop_str)
 	char	*str;
 	char	*path;
 
-	path = get_path(stop_str);
+	path = get_unique_path();
 	if (!path)
 		return (0);
 	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd < 0)
+	{
+		free(path);
 		return (0);
+	}
 	str = readline("here_doc>");
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
