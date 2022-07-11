@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:07:07 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 12:42:43 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 12:44:08 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	**get_argv(char *str)
 	i = 0;
 	j = 0;
 	argv_count = count_argv(str);
+	if (argv_count < 0)
+		return (0);
 	argv = ft_calloc(argv_count + 1, sizeof(char *));
 	if (!argv)
 		return (0);
