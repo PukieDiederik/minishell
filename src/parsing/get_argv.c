@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:07:07 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 10:15:23 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 10:21:36 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ static int	check_regular(char *str, char **argv, unsigned int *i)
 		return (1);
 	else if (str[*i] == '>' || str[(*i) + 1] == '<')
 	{
-		int s = skip_io_redirect(str, *i);
-		*i += s;
+		*i += skip_io_redirect(str, *i);
 		return (0);
 	}
 	str_tmp = get_regular_str(str + *i);
