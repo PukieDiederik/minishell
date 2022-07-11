@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:07:07 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 08:54:46 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 10:15:23 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,36 @@ static int	check_single(char *str, char **argv, unsigned int *i)
 	return (1);
 }
 
+unsigned int is_special_char(char c)
+{
+	return (c == ' ' || c == '<' || c == '>' || c == '"' || c == '\''
+			|| c == '|');
+}
+
+unsigned int skip_io_redirect(char *str, unsigned int i)
+{
+	unsigned int	j;
+
+	j = 1;
+	if (str[i + 1] == '<' || str[i + 1] == '>')
+		j++;
+	while (str[i + j] == ' ')
+		j++;
+	while (str[i + j] && !is_special_char(str[i + j]))
+		j++;
+	return (j);
+}
+
 static int	check_regular(char *str, char **argv, unsigned int *i)
 {
 	char	*str_tmp;
 
 	if (str[*i] == '|')
 		return (1);
-	else if (str[*i] == '>' && str[(*i) + 1] == '>')
+	else if (str[*i] == '>' || str[(*i) + 1] == '<')
 	{
-		printf("REDIRECT OUT APPEND\n");
-		*i += 2;
-		return (0);
-	}
-	else if (str[*i] == '>' && str[(*i) + 1] != '>')
-	{
-		printf("REDIRECT OUT\n");
-		*i += 1;
-		return (0);
-	}
-	else if (str[*i] == '<' && str[(*i) + 1] == '<')
-	{
-		printf("REDIRECT IN APPEND\n");
-		*i += 2;
-		return (0);
-	}
-	else if (str[*i] == '<' && str[(*i) + 1] != '<')
-	{
-		printf("HERE_DOC\n");
-		*i += 1;
+		int s = skip_io_redirect(str, *i);
+		*i += s;
 		return (0);
 	}
 	str_tmp = get_regular_str(str + *i);
