@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 12:37:20 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/11 14:45:12 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ char *insert_envs(char *str)
 
 	i = 0;
 	str_tmp = ft_strdup(str);
-	if (!str_tmp)
-		return (0);
 	is_sqoute = 0;
 	while (str_tmp[i])
 	{
@@ -144,12 +142,14 @@ t_cmd 	*parse_input(char *str)
 	t_cmd	*cmdv;
 	int		cmd_count;
 	int		i;
+	char	*org_str;
 
 	i = -1;
 	if (!str)
 		return (0);
 	cmd_count = count_commands(str);
 	str = insert_envs(str);
+	org_str = str;
 	if (cmd_count < 0)
 		return (0);
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
@@ -162,5 +162,6 @@ t_cmd 	*parse_input(char *str)
 		str = get_next_cmd(str);
 		str++;
 	}
+	free(org_str);
 	return (cmdv);
 }
