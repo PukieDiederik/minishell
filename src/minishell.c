@@ -7,6 +7,7 @@ int main(int argc, char **argv)
 {
 	int i = -1;
 	char *str = 0;
+	t_cmd *cmdv = 0;
 
 	printf("argc    : %d\n", argc);
 	while (++i < argc)
@@ -15,11 +16,12 @@ int main(int argc, char **argv)
 	while(1) {
 		free(str);
 		str = prompt_user();
-		printf("%s\n", str);
-		if (!ft_strncmp(str, "exit", 4))
-		{
+		if (!ft_strncmp(str, "exit", 4)) {
 			free(str);
 			return 0;
 		}
+		cmdv = parse_input(str);
+		print_cmdv(cmdv);
+		destroy_cmdv(cmdv);
 	}
 }
