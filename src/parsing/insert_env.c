@@ -6,12 +6,13 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 13:58:21 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 14:35:24 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:10:51 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
+#include "minishell.h"
 
 static char	*get_env_str(char *str)
 {
@@ -19,7 +20,7 @@ static char	*get_env_str(char *str)
 	char	*str_tmp;
 
 	i = 1;
-	while (ft_isalnum(str[i]))
+	while (!is_special_char(str[i]))
 		i++;
 	str_tmp = ft_calloc(i, sizeof(char));
 	if (!str_tmp)

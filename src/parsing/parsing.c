@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 14:45:12 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:23:01 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,15 @@ char *insert_envs(char *str)
 	{
 		if (str_tmp[i] == '\'')
 			is_sqoute = !is_sqoute;
+		printf("%c %d\n", str_tmp[i], is_sqoute);
 		if (str_tmp[i] == '$' && !is_sqoute)
 		{
 			str = insert_env(str_tmp, i);
 			free(str_tmp);
 			str_tmp = str;
+			if(str[i] != '$')
+				i--;
+			printf("%s\n", str_tmp);
 		}
 		i++;
 	}
