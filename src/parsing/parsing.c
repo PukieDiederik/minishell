@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/13 13:23:01 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:32:45 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ t_cmd *get_cmd(char *str, t_cmd *cmd_p)
 	cmd_p->argv = get_argv(str);
 	if (!cmd_p->argv)
 		return (0);
-	cmd_p->in_type = io_none;
-	cmd_p->out_type = io_none;
 	return (cmd_p);
 }
 
@@ -138,6 +136,100 @@ char *insert_envs(char *str)
 	return (str_tmp);
 }
 
+static int	skip_regular(const char *str, int *i, int *c)
+{
+	while (str[*i] && !is_special_char(str[*i]))
+		(*i)++;
+	if (str[*i] == '|')
+	{
+		(*c)++;
+		(*i)++;
+	}
+	if (str[*i] == '<' || str[*i] == '>')
+	{
+		(*i)++;
+		if (str[*i] == '<' || str[*i] == '>')
+			(*i)++;
+	}
+	return (0);
+}
+
+static int	skip_qouted(const char *str, int *i)
+{
+	char	c;
+
+	c = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != c)
+		(*i)++;
+	if (!str[*i])
+		return (1);
+	(*i)++;
+	return (0);
+}
+
+int skip_redirect(char *str, int *i)
+{
+	int	dummy;
+
+	dummy = 0;
+	while (str[*i] == '<' || str[*i] == '>' || str[*i] == ' ')
+		(*i)++;
+	if (str[*i] == '\'' || str[*i] == '"')
+		skip_qouted(str, i);
+	else
+		skip_regular(str, i, &dummy);
+	return (0);
+}
+
+int configure_io(char *str, t_cmd *cmdv)
+{
+	int	j;
+	int	i;
+	char	*tmp_str;
+
+	j = 0;
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] == ' ')
+			i++;
+		if (str[i] == '<')
+		{
+			cmdv[j].in_type = io_file;
+			i++;
+			if (str[i] == '<')
+			{
+				i++;
+				while (str[i] == ' ')
+					i++;
+				if (str[i] == '\'' || str[i] == '"')
+					tmp_str	= get_qouted_str(str + i);
+				else
+					tmp_str = get_regular_str(str + i);
+				if (!tmp_str)
+					return (0);
+				cmdv[j].in_file = here_doc(tmp_str);
+				free(tmp_str);
+			}
+			else
+			{
+				while (str[i] == ' ')
+					i++;
+				if (str[i] == '\'' || str[i] == '"')
+					cmdv[j].in_file = get_qouted_str(str + i);
+				else
+					cmdv[j].in_file = get_regular_str(str + i);
+			}
+		}
+		if (str[i] == '\'' || str[i] == '"')
+			skip_qouted(str, &i);
+		else
+			skip_regular(str, &i, &j);
+	}
+	return (1);
+}
+
 //returns an array of argv pointers
 t_cmd 	*parse_input(char *str)
 {
@@ -157,6 +249,7 @@ t_cmd 	*parse_input(char *str)
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
 	if (!cmdv)
 		return (0);
+	configure_io(str, cmdv);
 	while (++i < cmd_count)
 	{
 		if (!get_cmd(str, cmdv + i))

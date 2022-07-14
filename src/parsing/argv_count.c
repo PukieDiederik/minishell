@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 14:10:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 14:09:24 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:34:38 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ int	count_argv(const char *str)
 	c = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ')
-			while (str[i] == ' ')
-				i++;
+		while (str[i] == ' ')
+			i++;
+		if (str[i] == '<' || str[i] == '>')
+			skip_redirect((char *)str, &i);
 		else if (str[i] == '"' || str[i] == '\'')
 		{
 			if (skip_qouted(str, &i))

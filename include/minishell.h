@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/11 08:48:49 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:14:02 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
 char			*process_regular(char *str);
+int				skip_redirect(char *str, int *i);
 char			*process_qouted_single(char *str);
 char			*process_qouted_double(char *str);
 

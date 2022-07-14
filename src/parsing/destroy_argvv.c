@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 15:00:41 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/04 13:54:22 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:43:43 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	destroy_argv(char **argv)
 }
 
 // Destroys an t_cmd array
+void	destroy_cmd(t_cmd *cmdv)
+{
+	if (!cmdv)
+		return ;
+	destroy_argv(cmdv->argv);
+	free(cmdv->in_file);
+	free(cmdv->out_file);
+}
+
+// Destroys an t_cmd array
 void	destroy_cmdv(t_cmd *cmdv)
 {
 	int	i;
@@ -35,6 +45,6 @@ void	destroy_cmdv(t_cmd *cmdv)
 		return ;
 	i = 0;
 	while (cmdv[i].argv)
-		destroy_argv(cmdv[i++].argv);
+		destroy_cmd(cmdv + i++);
 	free(cmdv);
 }

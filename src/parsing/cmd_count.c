@@ -6,9 +6,11 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:30:58 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/10 15:04:41 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/14 12:12:17 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 static int	skip_qouted(const char *str, int *i)
 {
@@ -37,7 +39,7 @@ static int	skip_regular(const char *str, int *i, int *has_args, int *c)
 {
 	if (str[*i] != '|')
 		*has_args = 1;
-	while (str[*i] && str[*i] != '|' && str[*i] != ' ')
+	while (str[*i] && !is_special_char(str[*i]))
 		(*i)++;
 	if (str[*i] == '|')
 	{
@@ -46,6 +48,12 @@ static int	skip_regular(const char *str, int *i, int *has_args, int *c)
 		(*c)++;
 		(*i)++;
 		*has_args = 0;
+	}
+	if (str[*i] == '<' || str[*i] == '>')
+	{
+		(*i)++;
+		if (str[*i] == '<' || str[*i] == '>')
+			(*i)++;
 	}
 	return (0);
 }
