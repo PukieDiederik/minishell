@@ -125,7 +125,6 @@ char *insert_envs(char *str)
 	{
 		if (str_tmp[i] == '\'')
 			is_sqoute = !is_sqoute;
-		printf("%c %d\n", str_tmp[i], is_sqoute);
 		if (str_tmp[i] == '$' && !is_sqoute)
 		{
 			str = insert_env(str_tmp, i);
@@ -133,7 +132,6 @@ char *insert_envs(char *str)
 			str_tmp = str;
 			if(str[i] != '$')
 				i--;
-			printf("%s\n", str_tmp);
 		}
 		i++;
 	}
