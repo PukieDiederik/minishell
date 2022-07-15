@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 12:52:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/06/30 14:01:08 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/15 17:41:22 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include <fcntl.h>
 #include "libft.h"
+#include <minishell.h>
 
 static int	max(int a, int b)
 {
@@ -55,14 +56,14 @@ char	*here_doc(char *stop_str)
 	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd < 0)
 		return (0);
-	str = readline("here_doc>");
+	str = readline(C_GREEN"hd"C_CYAN">");
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
 	{
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
-		str = readline("here_doc>");
+		str = readline(C_GREEN"hd"C_CYAN">");
 	}
 	close(fd);
 	free(str);
