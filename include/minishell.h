@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/14 14:14:02 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/15 16:18:26 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ int				count_argv(const char *str);
 char			*get_next_cmd(const char *str);
 char			*insert_env(char *str, int i);
 char			**get_argv(char *str);
+
+// Executing
+int				exec(t_cmd *cmdv, char **envp);
 
 // Utils
 void			destroy_argv(char **argv);

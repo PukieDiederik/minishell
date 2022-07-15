@@ -3,7 +3,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	int i = -1;
 	char *str = 0;
@@ -21,7 +21,8 @@ int main(int argc, char **argv)
 			return 0;
 		}
 		cmdv = parse_input(str);
-		print_cmdv(cmdv);
+		exec(cmdv, envp);
+//		print_cmdv(cmdv);
 		destroy_cmdv(cmdv);
 	}
 }

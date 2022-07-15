@@ -13,7 +13,9 @@ FNAMES 		=	minishell.c \
 				parsing/destroy_argvv.c \
 				\
 				prompt.c \
-				here_doc.c
+				here_doc.c \
+				\
+				execute.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 

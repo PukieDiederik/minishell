@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/14 14:32:45 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/15 17:29:16 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,15 @@ int configure_io(char *str, t_cmd *cmdv)
 
 	j = 0;
 	i = 0;
+
+	//set default io for cmdv
+	while (cmdv[j].argv)
+	{
+		cmdv[j].in_type = io_none;
+		cmdv[j++].out_type = io_none;
+	}
+
+	j = 0;
 	while (str[i])
 	{
 		while (str[i] == ' ')
