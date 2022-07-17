@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 14:10:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/14 14:34:38 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/17 11:21:58 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	skip_qouted(const char *str, int *i)
 	(*i)++;
 	while (str[*i] && str[*i] != c)
 		(*i)++;
-	if (str[*i] != c)
+	if (!str[*i])
 		return (1);
 	(*i)++;
 	return (0);
