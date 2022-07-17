@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:24:54 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/17 11:49:48 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:33:45 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,7 @@ char	*get_regular_str(char *str)
 //should process the string
 char	*process_qouted_double(char *str)
 {
-	int		i;
-	char	*str_tmp;
-	char	*str_tmp2;
-
-	i = 0;
-	str_tmp2 = ft_strdup(str);
-	while (str_tmp2[i])
-	{
-		while (str_tmp2[i] && str_tmp2[i] != '$')
-			i++;
-		if (!str_tmp2[i])
-			break ;
-		str_tmp = insert_env(str_tmp2, i);
-		free(str_tmp2);
-		if (!str_tmp)
-			return (0);
-		str_tmp2 = str_tmp;
-		i++;
-	}
-	return (str_tmp2);
+	return (ft_strdup(str));
 }
 
 //should process the string
@@ -80,26 +61,7 @@ char	*process_qouted_single(char *str)
 
 char	*process_regular(char *str)
 {
-	int		i;
-	char	*str_tmp;
-	char	*str_tmp2;
-
-	i = 0;
-	str_tmp2 = ft_strdup(str);
-	while (str_tmp2[i])
-	{
-		while (str_tmp2[i] && str_tmp2[i] != '$')
-			i++;
-		if (!str_tmp2[i])
-			break ;
-		str_tmp = insert_env(str_tmp2, i);
-		free(str_tmp2);
-		if (!str_tmp)
-			return (0);
-		str_tmp2 = str_tmp;
-		i++;
-	}
-	return (str_tmp2);
+	return ( ft_strdup(str));
 }
 
 t_cmd *get_cmd(char *str, t_cmd *cmd_p)
@@ -110,14 +72,14 @@ t_cmd *get_cmd(char *str, t_cmd *cmd_p)
 	return (cmd_p);
 }
 
-char *insert_envs(char *str)
+char *insert_envs(char **str)
 {
 	int		i;
 	int		is_sqoute;
 	char	*str_tmp;
 
 	i = 0;
-	str_tmp = ft_strdup(str);
+	str_tmp = ft_strdup(*str);
 	is_sqoute = 0;
 	while (str_tmp[i])
 	{
@@ -125,15 +87,12 @@ char *insert_envs(char *str)
 			is_sqoute = !is_sqoute;
 		if (str_tmp[i] == '$' && !is_sqoute)
 		{
-			str = insert_env(str_tmp, i);
-			free(str_tmp);
-			str_tmp = str;
-			if(str[i] != '$')
-				i--;
+			insert_env(&str_tmp, i);
 		}
 		i++;
 	}
-	return (str_tmp);
+	*str = str_tmp;
+	return (*str);
 }
 
 static int	skip_regular(const char *str, int *i, int *c)
@@ -228,10 +187,10 @@ t_cmd 	*parse_input(char *str)
 	if (!str)
 		return (0);
 	cmd_count = count_commands(str);
-	str = insert_envs(str);
-	org_str = str;
 	if (cmd_count < 0)
 		return (0);
+	insert_envs(&str);
+	org_str = str;
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
 	if (!cmdv)
 		return (0);

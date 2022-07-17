@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:35:51 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/14 14:14:02 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:09:50 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_cmd			*parse_input(char *str);
 int				count_commands(const char *str);
 int				count_argv(const char *str);
 char			*get_next_cmd(const char *str);
-char			*insert_env(char *str, int i);
+char			*insert_env(char **str, int i);
+char			*insert_envs(char **str);
 char			**get_argv(char *str);
 
 // Utils
