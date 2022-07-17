@@ -43,27 +43,32 @@ static char *get_path(char *cmd)
 	{
 		path = create_path(paths[i], cmd);
 		if (!access(path, X_OK))
+		{
+			destroy_argv(paths);
 			return (path);
+		}
 		free(path);
 		i++;
 	}
+	destroy_argv(paths);
 	return (0);
 }
 
-static void exec_child(int in_fd, int out_fd, char **argv, char **envp)
+static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 {
 	char *path;
 	if (in_fd < 0 || out_fd < 0)
 		exit(1);
-	dup2(in_fd, STDIN_FILENO);
-	dup2(out_fd, STDOUT_FILENO);
-	if (argv && argv[0])
+	if (cmd->argv && cmd->argv[0])
 	{
-		path = get_path(argv[0]);
-		//TODO add envp
-		execve(path, argv, envp);
+		path = get_path(cmd->argv[0]);
+		if (!path)
+			exit(1);
+		dup2(in_fd, STDIN_FILENO);
+		dup2(out_fd, STDOUT_FILENO);
+		execve(path, cmd->argv, envp);
+		free(path);
 	}
-	free(path);
 	exit(1);
 }
 
@@ -107,7 +112,7 @@ int exec(t_cmd *cmdv, char **envp)
 			if (cmdv[i].out_type == io_file_append)
 				fd[1] = open(cmdv[i].out_file, O_CREAT | O_APPEND);
 			// execute program
-			exec_child(fd[0], fd[1], cmdv[i].argv, envp);
+			exec_child(fd[0], fd[1], cmdv + i, envp);
 		}
 		// PARENT
 		else

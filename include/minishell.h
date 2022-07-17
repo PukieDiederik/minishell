@@ -72,6 +72,7 @@ int				exec(t_cmd *cmdv, char **envp);
 
 // Utils
 void			destroy_argv(char **argv);
+void			destroy_cmd(t_cmd *cmdv);
 void			destroy_cmdv(t_cmd *cmd);
 void			print_cmdv(t_cmd *cmdv);
 
