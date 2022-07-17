@@ -24,21 +24,36 @@ static int	max(int a, int b)
 	return (b);
 }
 
-// /.hd_
-static char	*get_path(char *stop_str)
+static char *create_path(int i)
 {
 	char	*str;
-	char	*str_home;
+	char	*str_num;
 
-	str_home = getenv("HOME");
-	if (!str_home)
+	str_num = ft_itoa(i);
+	if (!str_num)
 		return (0);
-	str = ft_calloc(ft_strlen(str_home) + 11, sizeof(char));
+	str = ft_calloc(9 + sizeof(str_num), sizeof(char));
 	if (!str)
 		return (0);
-	ft_memcpy(str, str_home, ft_strlen(str_home));
-	ft_memcpy(str + ft_strlen(str_home), "/.hd_", 5);
-	ft_strlcpy(str + ft_strlen(str_home) + 5, stop_str, 6);
+	ft_memcpy(str, "/tmp/hd_", 8);
+	ft_memcpy(str + 8, str_num, ft_strlen(str_num));
+	free(str_num);
+	return (str);
+}
+
+// /tmp/.hd_num
+static char	*get_path()
+{
+	char	*str;
+	int i;
+
+	i = 0;
+	str = create_path(i);
+	while (str && !access(str, F_OK))
+	{
+		free(str);
+		str = create_path(i++);
+	}
 	return (str);
 }
 
@@ -50,10 +65,10 @@ char	*here_doc(char *stop_str)
 	char	*str;
 	char	*path;
 
-	path = get_path(stop_str);
+	path = get_path();
 	if (!path)
 		return (0);
-	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0666);
+	fd = open(path, O_CREAT | O_RDWR, 0666);
 	if (fd < 0)
 		return (0);
 	str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);

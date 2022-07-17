@@ -140,7 +140,9 @@ int configure_io(char *str, t_cmd *cmdv)
 	while (cmdv[j].argv)
 	{
 		cmdv[j].in_type = io_none;
+		cmdv[j].in_file = 0;
 		cmdv[j++].out_type = io_none;
+		cmdv[j].out_file = 0;
 	}
 
 	j = 0;
@@ -151,6 +153,8 @@ int configure_io(char *str, t_cmd *cmdv)
 		if (str[i] == '<')
 		{
 			cmdv[j].in_type = io_file;
+			if (cmdv[j].in_file != 0)
+				free(cmdv[j].in_file);
 			i++;
 			if (str[i] == '<')
 			{
