@@ -135,6 +135,15 @@ int configure_io(char *str, t_cmd *cmdv)
 
 	j = 0;
 	i = 0;
+
+	//set default io for cmdv
+	while (cmdv[j].argv)
+	{
+		cmdv[j].in_type = io_none;
+		cmdv[j++].out_type = io_none;
+	}
+
+	j = 0;
 	while (str[i])
 	{
 		while (str[i] == ' ')

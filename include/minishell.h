@@ -67,6 +67,9 @@ char			*insert_env(char **str, int i);
 char			*insert_envs(char **str);
 char			**get_argv(char *str);
 
+// Executing
+int				exec(t_cmd *cmdv, char **envp);
+
 // Utils
 void			destroy_argv(char **argv);
 void			destroy_cmdv(t_cmd *cmd);

@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 14:53:09 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/04 13:50:09 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/15 16:24:56 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ void	print_cmdv(t_cmd *cmdv)
 	while (cmdv[++i].argv)
 	{
 		printf("command [%d]:\n", i);
+		printf(" - in_type:  %d\n", cmdv[i].in_type);
+		printf(" - out_type: %d\n", cmdv[i].out_type);
+		if (cmdv[i].in_type == io_file)
+			printf(" - in_file: %s\n", cmdv[i].in_file);
+		if (cmdv[i].out_type == io_file || cmdv[i].out_type == io_file_append)
+			printf(" - out_file: %s\n", cmdv[i].in_file);
 		j = -1;
 		while (cmdv[i].argv[++j])
 		{
