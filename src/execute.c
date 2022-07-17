@@ -57,6 +57,8 @@ static char *get_path(char *cmd)
 static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 {
 	char *path;
+
+	printf("outfd: %d\n", out_fd);
 	if (in_fd < 0 || out_fd < 0)
 		exit(1);
 	if (cmd->argv && cmd->argv[0])
@@ -64,8 +66,16 @@ static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 		path = get_path(cmd->argv[0]);
 		if (!path)
 			exit(1);
-		dup2(in_fd, STDIN_FILENO);
-		dup2(out_fd, STDOUT_FILENO);
+		if (in_fd != STDIN_FILENO)
+		{
+			dup2(in_fd, STDIN_FILENO);
+			close(in_fd);
+		}
+		if (out_fd != STDOUT_FILENO)
+		{
+			dup2(out_fd, STDOUT_FILENO);
+			close(out_fd);
+		}
 		execve(path, cmd->argv, envp);
 		free(path);
 	}
@@ -108,9 +118,9 @@ int exec(t_cmd *cmdv, char **envp)
 				fd[0] = open(cmdv[i].in_file, O_RDONLY);
 			// if output_type == file/file_append, open and set fd_out
 			if (cmdv[i].out_type == io_file)
-				fd[1] = open(cmdv[i].out_file, O_CREAT);
+				fd[1] = open(cmdv[i].out_file, O_CREAT | O_WRONLY, 0666);
 			if (cmdv[i].out_type == io_file_append)
-				fd[1] = open(cmdv[i].out_file, O_CREAT | O_APPEND);
+				fd[1] = open(cmdv[i].out_file, O_CREAT | O_WRONLY | O_APPEND, 0666);
 			// execute program
 			exec_child(fd[0], fd[1], cmdv + i, envp);
 		}

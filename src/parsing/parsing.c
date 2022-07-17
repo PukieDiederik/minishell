@@ -180,6 +180,23 @@ int configure_io(char *str, t_cmd *cmdv)
 					cmdv[j].in_file = get_regular_str(str + i);
 			}
 		}
+		if (str[i] == '>')
+		{
+			i++;
+			if (str[i] == '>')
+			{
+				cmdv[j].out_type = io_file_append;
+				i++;
+			}
+			else
+				cmdv[j].out_type = io_file;
+			while(str[i] == ' ')
+				i++;
+			if (str[i] == '\'' || str[i] == '"')
+				cmdv[j].out_file = get_qouted_str(str + i);
+			else
+				cmdv[j].out_file = get_regular_str(str + i);
+		}
 		if (str[i] == '\'' || str[i] == '"')
 			skip_qouted(str, &i);
 		else

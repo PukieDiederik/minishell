@@ -35,7 +35,7 @@ void	print_cmdv(t_cmd *cmdv)
 		if (cmdv[i].in_type == io_file)
 			printf(" - in_file: %s\n", cmdv[i].in_file);
 		if (cmdv[i].out_type == io_file || cmdv[i].out_type == io_file_append)
-			printf(" - out_file: %s\n", cmdv[i].in_file);
+			printf(" - out_file: %s\n", cmdv[i].out_file);
 		j = -1;
 		while (cmdv[i].argv[++j])
 		{
