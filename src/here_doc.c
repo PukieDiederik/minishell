@@ -6,7 +6,7 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 12:52:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/15 17:46:40 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:01:18 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ char	*here_doc(char *stop_str)
 	fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd < 0)
 		return (0);
-	str = readline(C_GREEN"hd"C_CYAN">");
+	str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
 	{
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
-		str = readline(C_GREEN"hd"C_CYAN">");
+		str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);
 	}
 	close(fd);
 	free(str);

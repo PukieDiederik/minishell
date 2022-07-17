@@ -6,11 +6,13 @@
 /*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:30:58 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/14 12:12:17 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:04:17 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//unsigned int is_special_char(char c);
 
 static int	skip_qouted(const char *str, int *i)
 {
@@ -72,6 +74,8 @@ int	count_commands(const char *str)
 		if (str[i] == ' ')
 			while (str[i] == ' ')
 				i++;
+		if ((str[i] == '<' || str[i] == '>') && skip_redirect((char *)str, &i))
+			return (-1);
 		else if (str[i] == '"' || str[i] == '\'')
 		{
 			has_args = 1;
