@@ -57,6 +57,23 @@ static char	*get_path()
 	return (str);
 }
 
+static char	*ins_envs(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] && str[i] != '$')
+			i++;
+		if (!str[i])
+			return (str);
+		insert_env(&str, i);
+		i++;
+	}
+	return (str);
+}
+
 // Reads heredoc from input, puts it in a file and returns the path to the file
 // It takes stop_str, the str prompt needs to match to close the heredoc
 char	*here_doc(char *stop_str)
@@ -75,6 +92,7 @@ char	*here_doc(char *stop_str)
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
 	{
+		str = ins_envs(str);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);

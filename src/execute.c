@@ -58,7 +58,7 @@ static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 {
 	char *path;
 
-	printf("outfd: %d\n", out_fd);
+//	printf("outfd: %d\n", out_fd);
 	if (in_fd < 0 || out_fd < 0)
 		exit(1);
 	if (cmd->argv && cmd->argv[0])
