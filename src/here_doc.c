@@ -89,14 +89,15 @@ char	*here_doc(char *stop_str)
 	if (fd < 0)
 		return (0);
 	str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);
+	str = ins_envs(str);
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
 	{
-		str = ins_envs(str);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
 		str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);
+		str = ins_envs(str);
 	}
 	close(fd);
 	free(str);
