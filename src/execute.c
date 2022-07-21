@@ -18,6 +18,13 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+int *get_last_exit_p(void)
+{
+	static int last_exit = 0;
+
+	return (&last_exit);
+}
+
 static char	*create_path(char *prefix, char *suffix)
 {
 	char *str;
@@ -65,7 +72,7 @@ static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 	{
 		path = get_path(cmd->argv[0]);
 		if (!path)
-			exit(1);
+			exit(127);
 		if (in_fd != STDIN_FILENO)
 		{
 			dup2(in_fd, STDIN_FILENO);
@@ -79,7 +86,7 @@ static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 		execve(path, cmd->argv, envp);
 		free(path);
 	}
-	exit(1);
+	exit(10);
 }
 
 int exec(t_cmd *cmdv, char **envp)
@@ -130,7 +137,7 @@ int exec(t_cmd *cmdv, char **envp)
 			// close p[1]
 			if (cmdv[i].out_type == io_pipe)
 				close(fd[1]);
-			wait(0);
+			wait(get_last_exit_p());
 		}
 		i++;
 	}

@@ -13,6 +13,7 @@
 #include "libft.h"
 #include <stdlib.h>
 #include "minishell.h"
+#include <sys/wait.h>
 
 static char	*get_env_str(char *str)
 {
@@ -48,10 +49,8 @@ char	*insert_env(char **str, int i)
 		free(env_str);
 		return (*str);
 	}
-
-	//TODO update itoa with last exit code
 	if (env_str[0] == '?')
-		env = ft_itoa(0);
+		env = ft_itoa(WEXITSTATUS(*get_last_exit_p()));
 	else
 		env = getenv(env_str);
 	if (!env)
