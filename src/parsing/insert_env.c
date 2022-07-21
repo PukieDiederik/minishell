@@ -20,8 +20,11 @@ static char	*get_env_str(char *str)
 	char	*str_tmp;
 
 	i = 1;
-	while (!is_special_char(str[i]))
+	if (str[i] == '?')
 		i++;
+	else
+		while (!is_special_char(str[i]))
+			i++;
 	str_tmp = ft_calloc(i, sizeof(char));
 	if (!str_tmp)
 		return (0);
@@ -45,7 +48,12 @@ char	*insert_env(char **str, int i)
 		free(env_str);
 		return (*str);
 	}
-	env = getenv(env_str);
+
+	//TODO update itoa with last exit code
+	if (env_str[0] == '?')
+		env = ft_itoa(0);
+	else
+		env = getenv(env_str);
 	if (!env)
 	{
 		str_tmp = ft_calloc((ft_strlen(*str)
@@ -70,6 +78,8 @@ char	*insert_env(char **str, int i)
 	ft_memcpy(str_tmp + i + ft_strlen(env),
 		*str + i + (ft_strlen(env_str) + 1),
 		ft_strlen(*str + i + (ft_strlen(env_str) + 1)));
+	if (env_str[0] == '?')
+		free(env);
 	free(*str);
 	*str = str_tmp;
 	free(env_str);
