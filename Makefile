@@ -9,7 +9,7 @@ FNAMES 		=	minishell.c \
 				parsing/next_cmd.c \
 				parsing/insert_env.c \
 				\
-				parsing/print_argvv.c \
+				parsing/print_cmdv.c \
 				parsing/destroy_argvv.c \
 				\
 				prompt.c \

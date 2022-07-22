@@ -13,11 +13,21 @@
 #include <stdio.h>
 #include "minishell.h"
 
+static void	print_argv(char **argv)
+{
+	int	j;
+
+	j = -1;
+	while (argv[++j])
+	{
+		printf(" - argv [%d]: %s\n", j, argv[j]);
+	}
+}
+
 // This is a util/debug function to print argvv
 void	print_cmdv(t_cmd *cmdv)
 {
 	int	i;
-	int	j;
 
 	i = -1;
 	if (!cmdv)
@@ -36,10 +46,6 @@ void	print_cmdv(t_cmd *cmdv)
 			printf(" - in_file: %s\n", cmdv[i].in_file);
 		if (cmdv[i].out_type == io_file || cmdv[i].out_type == io_file_append)
 			printf(" - out_file: %s\n", cmdv[i].out_file);
-		j = -1;
-		while (cmdv[i].argv[++j])
-		{
-			printf(" - argv [%d]: %s\n", j, cmdv[i].argv[j]);
-		}
+		print_argv(cmdv[i].argv);
 	}
 }
