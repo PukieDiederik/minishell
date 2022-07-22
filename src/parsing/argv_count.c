@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-unsigned int is_special_char(char c);
+unsigned int	is_special_char(char c);
 
 static int	skip_qouted(const char *str, int *i)
 {
@@ -39,7 +37,7 @@ static int	skip_regular(const char *str, int *i, int *c)
 	return (0);
 }
 
-int skip_redirect(char *str, int *i)
+int	skip_redirect(char *str, int *i)
 {
 	int	dummy;
 
