@@ -24,12 +24,13 @@ static int	max(int a, int b)
 	return (b);
 }
 
-static char *create_path(int i)
+static char	*create_path(void)
 {
-	char	*str;
-	char	*str_num;
+	static int	i = -1;
+	char		*str;
+	char		*str_num;
 
-	str_num = ft_itoa(i);
+	str_num = ft_itoa(++i);
 	if (!str_num)
 		return (0);
 	str = ft_calloc(9 + sizeof(str_num), sizeof(char));
@@ -42,17 +43,15 @@ static char *create_path(int i)
 }
 
 // /tmp/.hd_num
-static char	*get_path()
+static char	*get_path(void)
 {
 	char	*str;
-	int i;
 
-	i = 0;
-	str = create_path(i);
+	str = create_path();
 	while (str && !access(str, F_OK))
 	{
 		free(str);
-		str = create_path(i++);
+		str = create_path();
 	}
 	return (str);
 }
@@ -61,6 +60,8 @@ static char	*ins_envs(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 	{
@@ -88,16 +89,14 @@ char	*here_doc(char *stop_str)
 	fd = open(path, O_CREAT | O_RDWR, 0666);
 	if (fd < 0)
 		return (0);
-	str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);
-	str = ins_envs(str);
+	str = ins_envs(readline(C_GREEN"hd"C_CYAN"> "C_RESET));
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
 	{
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
-		str = readline(C_GREEN"hd"C_CYAN"> "C_RESET);
-		str = ins_envs(str);
+		str = ins_envs(readline(C_GREEN"hd"C_CYAN"> "C_RESET));
 	}
 	close(fd);
 	free(str);

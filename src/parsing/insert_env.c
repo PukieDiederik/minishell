@@ -13,7 +13,6 @@
 #include "libft.h"
 #include <stdlib.h>
 #include "minishell.h"
-#include <sys/wait.h>
 
 static char	*get_env_str(char *str)
 {
@@ -32,8 +31,6 @@ static char	*get_env_str(char *str)
 	ft_memcpy(str_tmp, str + 1, i - 1);
 	return (str_tmp);
 }
-
-#include <stdio.h>
 
 char	*insert_env(char **str, int i)
 {
