@@ -92,7 +92,7 @@ static void exec_child(int in_fd, int out_fd, t_cmd *cmd, char **envp)
 int exec(t_cmd *cmdv, char **envp)
 {
 	int		i;
-	int		id;
+	pid_t	id;
 	int		p[2];
 	int		fd[2];
 
@@ -107,7 +107,7 @@ int exec(t_cmd *cmdv, char **envp)
 		if (cmdv[i].in_type == io_pipe)
 			fd[0] = p[0];
 		//else if input_type != pipe and the last output_type is pipe, close p[0]
-		else if (i > 0 && cmdv[i - 1].out_type == io_pipe)
+		else if (i > 0 && cmdv[i - 1].out_type == io_pipe && cmdv[i].in_type != io_pipe)
 			close(p[0]);
 		//if output_type == pipe, create a new pipe, use p[1] as fd_out
 		if (cmdv[i].out_type == io_pipe)
@@ -134,10 +134,13 @@ int exec(t_cmd *cmdv, char **envp)
 		// PARENT
 		else
 		{
+			if (cmdv[i].in_type == io_pipe)
+				close(fd[0]);
 			// close p[1]
 			if (cmdv[i].out_type == io_pipe)
 				close(fd[1]);
-			wait(get_last_exit_p());
+			if (cmdv[i + 1].argv == 0)
+				waitpid(id, get_last_exit_p(), 0);
 		}
 		i++;
 	}

@@ -197,6 +197,14 @@ int configure_io(char *str, t_cmd *cmdv)
 			else
 				cmdv[j].out_file = get_regular_str(str + i);
 		}
+		if (str[i] == '|')
+		{
+			if (cmdv[j].out_type == io_none)
+				cmdv[j].out_type = io_pipe;
+			cmdv[j + 1].in_type = io_pipe;
+			j++;
+			i++;
+		}
 		if (str[i] == '\'' || str[i] == '"')
 			skip_qouted(str, &i);
 		else
