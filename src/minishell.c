@@ -1,27 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/22 20:57:10 by drobert-          #+#    #+#             */
+/*   Updated: 2022/07/22 20:57:12 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "minishell.h"
 #include "libft.h"
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	int i = -1;
-	char *str = 0;
-	t_cmd *cmdv = 0;
+	char	*str;
+	t_cmd	*cmdv;
 
-	printf("argc    : %d\n", argc);
-	while (++i < argc)
-		printf("argv [%d]: %s\n", i, argv[i]);
-
-	while(1) {
+	str = 0;
+	if (argc != 1)
+		printf("%s: minishell does not use any arguments\n", argv[0]);
+	while (1)
+	{
 		free(str);
 		str = prompt_user();
-		if (!ft_strncmp(str, "exit", 4)) {
+		if (!ft_strncmp(str, "exit", 4))
+		{
 			free(str);
-			return 0;
+			return (0);
 		}
 		cmdv = parse_input(str);
-//		print_cmdv(cmdv);
 		exec(cmdv, envp);
 		destroy_cmdv(cmdv);
 	}
