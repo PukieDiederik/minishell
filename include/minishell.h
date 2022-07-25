@@ -68,6 +68,7 @@ char			*insert_envs(char **str);
 char			**get_argv(char *str);
 
 // Executing
+char			*get_path(char *cmd);
 int				exec(t_cmd *cmdv, char **envp);
 
 // Utils

@@ -15,3 +15,10 @@ unsigned int	is_special_char(char c)
 	return (c == ' ' || c == '<' || c == '>' || c == '"' || c == '\''
 		|| c == '|' || c == '\0');
 }
+
+int	*get_last_exit_p(void)
+{
+	static int	last_exit = 0;
+
+	return (&last_exit);
+}
