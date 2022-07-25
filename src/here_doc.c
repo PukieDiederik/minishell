@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: drobert- <drobert-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 12:52:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/17 12:01:18 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/25 13:51:00 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	max(int a, int b)
 	return (b);
 }
 
-static char *create_path(int i)
+static char	*create_path(int i)
 {
 	char	*str;
 	char	*str_num;
@@ -41,11 +41,10 @@ static char *create_path(int i)
 	return (str);
 }
 
-// /tmp/.hd_num
-static char	*get_path()
+static char	*get_path(void)
 {
 	char	*str;
-	int i;
+	int		i;
 
 	i = 0;
 	str = create_path(i);
