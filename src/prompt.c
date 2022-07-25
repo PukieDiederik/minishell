@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/25 13:49:12 by drobert-          #+#    #+#             */
+/*   Updated: 2022/07/25 13:49:47 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -19,7 +31,7 @@ static int	is_empty(char *str)
 char	*prompt_user(void)
 {
 	char	*str;
-	char 	*str_trim;
+	char	*str_trim;
 
 	str = 0;
 	while (is_empty(str))
