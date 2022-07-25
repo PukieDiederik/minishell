@@ -87,6 +87,6 @@ char			*process_regular(char *str);
 int				skip_redirect(char *str, int *i);
 char			*process_qouted_single(char *str);
 char			*process_qouted_double(char *str);
-int		*get_last_exit_p(void);
+int				*get_last_exit_p(void);
 
 #endif
