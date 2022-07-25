@@ -33,11 +33,47 @@ static char	*get_env_str(char *str)
 	return (str_tmp);
 }
 
-#include <stdio.h>
+static char	*no_env(char *env_str, char **str, int i)
+{
+	char	*str_tmp;
+
+	str_tmp = ft_calloc((ft_strlen(*str)
+				- ft_strlen(env_str)) + 1, sizeof(char));
+	if (!str_tmp)
+		return (0);
+	ft_memcpy(str_tmp, *str, i);
+	ft_memcpy(str_tmp + i,
+		*str + i + ft_strlen(env_str) + 1,
+		ft_strlen(*str + i + ft_strlen(env_str)) - 1);
+	free(env_str);
+	free(*str);
+	*str = str_tmp;
+	return (*str);
+}
+
+static char	*has_env(char *env_str, char **str, char *env, int i)
+{
+	char	*str_tmp;
+
+	str_tmp = ft_calloc((ft_strlen(*str) - ft_strlen(env_str))
+			+ ft_strlen(env) + 1, sizeof(char));
+	if (!str_tmp)
+		return (0);
+	ft_memcpy(str_tmp, *str, i);
+	ft_memcpy(str_tmp + i, env, ft_strlen(env));
+	ft_memcpy(str_tmp + i + ft_strlen(env),
+		*str + i + (ft_strlen(env_str) + 1),
+		ft_strlen(*str + i + (ft_strlen(env_str) + 1)));
+	if (env_str[0] == '?')
+		free(env);
+	free(*str);
+	free(env_str);
+	*str = str_tmp;
+	return (*str);
+}
 
 char	*insert_env(char **str, int i)
 {
-	char	*str_tmp;
 	char	*env_str;
 	char	*env;
 
@@ -54,33 +90,6 @@ char	*insert_env(char **str, int i)
 	else
 		env = getenv(env_str);
 	if (!env)
-	{
-		str_tmp = ft_calloc((ft_strlen(*str)
-				- ft_strlen(env_str)) + 1, sizeof(char));
-		if (!str_tmp)
-			return (0);
-		ft_memcpy(str_tmp, *str, i);
-		ft_memcpy(str_tmp + i,
-				*str + i + ft_strlen(env_str) + 1,
-				ft_strlen(*str + i + ft_strlen(env_str)) - 1);
-		free(env_str);
-		free(*str);
-		*str = str_tmp;
-		return(*str);
-	}
-	str_tmp = ft_calloc((ft_strlen(*str) - ft_strlen(env_str))
-			+ ft_strlen(env) + 1, sizeof(char));
-	if (!str_tmp)
-		return (0);
-	ft_memcpy(str_tmp, *str, i);
-	ft_memcpy(str_tmp + i, env, ft_strlen(env));
-	ft_memcpy(str_tmp + i + ft_strlen(env),
-		*str + i + (ft_strlen(env_str) + 1),
-		ft_strlen(*str + i + (ft_strlen(env_str) + 1)));
-	if (env_str[0] == '?')
-		free(env);
-	free(*str);
-	*str = str_tmp;
-	free(env_str);
-	return (*str);
+		return (no_env(env_str, str, i));
+	return (has_env(env_str, str, env, i));
 }
