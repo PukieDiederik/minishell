@@ -6,11 +6,11 @@
 /*   By: galpers <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 10:12:39 by galpers           #+#    #+#             */
-/*   Updated: 2022/07/21 10:16:33 by galpers          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:20:12 by galpers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include  "../../include/minishell.h"
 
 static int	print_error(int error, const char *arg)
 {
