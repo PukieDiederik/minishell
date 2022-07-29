@@ -73,11 +73,13 @@ static void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 	else if (i > 0 && cmdv[i - 1].out_type == io_pipe
 		&& cmdv[i].in_type != io_pipe)
 		close(p[0]);
+	pipe(p);
+	if(cmdv[i + 1].in_type != io_pipe)
+		close(p[0]);
+	if (cmdv[i].out_type != io_pipe)
+		close(p[1]);
 	if (cmdv[i].out_type == io_pipe)
-	{
-		pipe(p);
 		fd[1] = p[1];
-	}
 }
 
 int	exec(t_cmd *cmdv, char **envp)
