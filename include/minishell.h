@@ -26,6 +26,8 @@
 # define C_WHITE "\033[0;38m"
 # define C_RESET "\033[0m"
 
+# define SET_EXIT_STATUS(x) ((x) << 8)
+
 // Structures
 /* e_io_type - What kind of io a command uses
  *
