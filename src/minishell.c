@@ -33,6 +33,8 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		}
 		cmdv = parse_input(str);
+		if (!cmdv)
+			continue ;
 		exec(cmdv, envp);
 		destroy_cmdv(cmdv);
 	}
