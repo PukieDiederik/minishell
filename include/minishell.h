@@ -68,6 +68,7 @@ char			*insert_envs(char **str);
 char			**get_argv(char *str);
 
 // Executing
+char			*get_path(char *cmd);
 int				exec(t_cmd *cmdv, char **envp);
 
 // Utils
@@ -87,6 +88,6 @@ char			*process_regular(char *str);
 int				skip_redirect(char *str, int *i);
 char			*process_qouted_single(char *str);
 char			*process_qouted_double(char *str);
-int		*get_last_exit_p(void);
+int				*get_last_exit_p(void);
 
 #endif

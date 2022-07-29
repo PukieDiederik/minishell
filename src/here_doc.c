@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: drobert- <drobert-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 12:52:30 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/17 12:01:18 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:04:06 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ static char	*create_path(void)
 	return (str);
 }
 
-// /tmp/.hd_num
-static char	*get_path(void)
+static char	*get_unique_path(void)
 {
 	char	*str;
 
@@ -83,7 +82,7 @@ char	*here_doc(char *stop_str)
 	char	*str;
 	char	*path;
 
-	path = get_path();
+	path = get_unique_path();
 	if (!path)
 		return (0);
 	fd = open(path, O_CREAT | O_RDWR, 0666);

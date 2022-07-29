@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_argv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: drobert- <drobert-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:07:07 by drobert-          #+#    #+#             */
-/*   Updated: 2022/07/14 14:38:38 by drobert-         ###   ########.fr       */
+/*   Updated: 2022/07/25 13:56:02 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,32 @@ static int	check_single(char *str, char **argv, unsigned int *i)
 	return (1);
 }
 
-unsigned int is_special_char(char c)
-{
-	return (c == ' ' || c == '<' || c == '>' || c == '"' || c == '\''
-			|| c == '|' || c == '\0');
-}
-
 static int	check_regular(char *str, char **argv, unsigned int *i)
 {
-//	char	*str_tmp;
-
 	if (str[*i] == '|')
 		return (1);
 	*argv = get_regular_str(str + *i);
 	*i += ft_strlen(*argv);
+	return (0);
+}
+
+static int	do_checks(char *str, char **argv, unsigned int *i, int *j)
+{
+	while (str[*i] == ' ')
+		(*i)++;
+	if (!str[*i])
+		return (1);
+	if (check_double(str, argv + *j, i)
+		|| check_single(str, argv + *j, i))
+		(*j)++;
+	else if (str[*i] == '>' || str[*i] == '<')
+		skip_redirect(str, (int *)i);
+	else
+	{
+		if (check_regular(str, argv + *j, i))
+			return (1);
+		(*j)++;
+	}
 	return (0);
 }
 
@@ -70,21 +82,8 @@ char	**get_argv(char *str)
 		return (0);
 	while (str[i] && str[i] != '|')
 	{
-		while (str[i] == ' ')
-			i++;
-		if (!str[i])
+		if (do_checks(str, argv, &i, &j))
 			break ;
-		if (check_double(str, argv + j, &i)
-			|| check_single(str, argv + j, &i))
-			j++;
-		else if (str[i] == '>' || str[i] == '<')
-			skip_redirect(str, (int *)&i);
-		else
-		{
-			if (check_regular(str, argv + j, &i))
-				break ;
-			j++;
-		}
 	}
 	return (argv);
 }
