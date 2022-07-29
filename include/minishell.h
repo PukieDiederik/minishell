@@ -81,6 +81,11 @@ void			print_cmdv(t_cmd *cmdv);
 char			*prompt_user(void);
 char			*here_doc(char *stop_str);
 
+// Errors
+void			print_error(char *prefix, char *error);
+void			print_error_exit(char *prefix, char *error, int exit_code);
+
+
 unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);

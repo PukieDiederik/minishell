@@ -17,7 +17,8 @@ FNAMES 		=	minishell.c \
 				\
 				execute.c \
 				utils.c \
-				get_program_path.c
+				get_program_path.c \
+				errors.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
@@ -39,12 +40,8 @@ LIBS		= -L libft -lft -lreadline
 NAME		= minishell
 RM			= rm -rf
 MAKE		= make -s
-# Echo (Different on Linux and Mac)
-ifeq ($(shell uname),Linux)
-	ECHO	= echo -e
-else
-	ECHO	= echo
-endif
+
+ECHO		= echo
 
 
 # Colors

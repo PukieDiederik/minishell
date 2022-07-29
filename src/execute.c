@@ -48,12 +48,12 @@ static void	exec_child(int fd[2], t_cmd *cmd, char **envp)
 	{
 		path = get_path(cmd->argv[0]);
 		if (!path)
-			exit(127);
+			print_error_exit(cmd->argv[0], "Could Not find command", 126);
 		set_child_fds(fd, cmd);
 		execve(path, cmd->argv, envp);
 		free(path);
 	}
-	exit(127);
+	print_error_exit("INT_ERR", "Something went wrong with executing", 127);
 }
 
 static void	parent(t_cmd *cmd, int fd[2], pid_t id)
