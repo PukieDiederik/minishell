@@ -51,12 +51,6 @@ static int	skip_regular(const char *str, int *i, int *has_args, int *c)
 		(*i)++;
 		*has_args = 0;
 	}
-	if (str[*i] == '<' || str[*i] == '>')
-	{
-		(*i)++;
-		if (str[*i] == '<' || str[*i] == '>')
-			(*i)++;
-	}
 	return (0);
 }
 
@@ -74,8 +68,12 @@ int	count_commands(const char *str)
 		if (str[i] == ' ')
 			while (str[i] == ' ')
 				i++;
-		if ((str[i] == '<' || str[i] == '>') && skip_redirect((char *)str, &i))
-			return (-1);
+		if ((str[i] == '<' || str[i] == '>'))
+		{
+			has_args = 1;
+			if (skip_redirect((char *)str, &i))
+				return (-1);
+		}
 		else if (str[i] == '"' || str[i] == '\'')
 		{
 			has_args = 1;
