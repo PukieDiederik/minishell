@@ -91,10 +91,7 @@ void			print_error_exit(char *prefix, char *error, int exit_code);
 unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
-char			*process_regular(char *str);
 int				skip_redirect(char *str, int *i);
-char			*process_qouted_single(char *str);
-char			*process_qouted_double(char *str);
 int				*get_last_exit_p(void);
 
 #endif

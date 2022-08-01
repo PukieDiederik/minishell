@@ -24,10 +24,12 @@ char	*get_qouted_str(char *str)
 	if (!str || (*str != '\'' && *str != '"'))
 		return (0);
 	s = (int)(ft_strchr(str + 1, *str) - str);
-	sub_str = malloc(sizeof(char) * s);
+	sub_str = ft_calloc(s, sizeof(char));
 	if (!sub_str)
+	{
+		print_error("INT_ERR", "Malloc error");
 		return (0);
-	*(sub_str + s - 1) = 0;
+	}
 	ft_memcpy(sub_str, str + 1, s - 1);
 	return (sub_str);
 }
@@ -42,26 +44,12 @@ char	*get_regular_str(char *str)
 		l++;
 	sub_str = ft_calloc(l + 1, sizeof(char));
 	if (!sub_str)
+	{
+		print_error("INT_ERR", "Malloc error");
 		return (0);
+	}
 	ft_memcpy(sub_str, str, l);
 	return (sub_str);
-}
-
-//should process the string
-char	*process_qouted_double(char *str)
-{
-	return (ft_strdup(str));
-}
-
-//should process the string
-char	*process_qouted_single(char *str)
-{
-	return (ft_strdup(str));
-}
-
-char	*process_regular(char *str)
-{
-	return ( ft_strdup(str));
 }
 
 t_cmd *get_cmd(char *str, t_cmd *cmd_p)
@@ -88,6 +76,10 @@ char *insert_envs(char **str)
 		if (str_tmp[i] == '$' && !is_sqoute)
 		{
 			insert_env(&str_tmp, i);
+			if (!str_tmp){
+				print_error("INT_ERR", "Inserting envs");
+				return (0);
+			}
 		}
 		i++;
 	}
@@ -230,7 +222,7 @@ t_cmd 	*parse_input(char *str)
 	insert_envs(&str);
 	org_str = str;
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
-	if (!cmdv)
+	if (!cmdv || !str)
 		return (0);
 	configure_io(str, cmdv);
 	while (++i < cmd_count)

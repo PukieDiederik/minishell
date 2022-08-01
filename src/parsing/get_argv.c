@@ -16,14 +16,10 @@
 
 static int	check_double(char *str, char **argv, unsigned int *i)
 {
-	char	*str_tmp;
-
 	if (str[*i] != '"')
 		return (0);
-	str_tmp = get_qouted_str(str + *i);
-	*argv = process_qouted_double(str_tmp);
-	*i += ft_strlen(str_tmp) + 2;
-	free(str_tmp);
+	*argv = get_qouted_str(str + *i);
+	*i += ft_strlen(*argv) + 2;
 	return (1);
 }
 
@@ -79,7 +75,10 @@ char	**get_argv(char *str)
 		return (0);
 	argv = ft_calloc(argv_count + 1, sizeof(char *));
 	if (!argv)
+	{
+		print_error("INT_ERR", "Malloc error");
 		return (0);
+	}
 	while (str[i] && str[i] != '|')
 	{
 		if (do_checks(str, argv, &i, &j))
