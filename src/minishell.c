@@ -27,14 +27,17 @@ int	main(int argc, char **argv, char **envp)
 	{
 		free(str);
 		str = prompt_user();
-		if (!ft_strncmp(str, "exit", 4))
+		if (str && !ft_strncmp(str, "exit", 4))
 		{
 			free(str);
 			return (0);
 		}
 		cmdv = parse_input(str);
 		if (!cmdv)
+		{
+			*get_last_exit_p() = SET_EXIT_STATUS(130);
 			continue ;
+		}
 		exec(cmdv, envp);
 		destroy_cmdv(cmdv);
 	}
