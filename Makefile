@@ -41,7 +41,7 @@ NAME		= minishell
 RM			= rm -rf
 MAKE		= make -s
 
-ECHO		= echo
+ECHO		= echo -e
 
 
 # Colors

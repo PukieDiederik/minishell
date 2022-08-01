@@ -11,10 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <fcntl.h>
 #include <sys/wait.h>
 
@@ -27,7 +25,7 @@ static void set_child_fds(int fd[2], t_cmd *cmd)
 	else if (cmd->out_type == io_file_append)
 		fd[1] = open(cmd->out_file, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (fd[0] < 0 || fd[1] < 0)
-		exit(126);
+		print_error_exit("INT_ERR", "Could not open file(s)", 126);
 	if (fd[0] != STDIN_FILENO)
 	{
 		dup2(fd[0], STDIN_FILENO);
@@ -40,7 +38,7 @@ static void set_child_fds(int fd[2], t_cmd *cmd)
 	}
 }
 
-static void	exec_child(int fd[2], t_cmd *cmd, char **envp)
+static void	exec_child(int fd[2], t_cmd *cmd, char **envp, t_cmd *cmdv)
 {
 	char	*path;
 
@@ -53,6 +51,7 @@ static void	exec_child(int fd[2], t_cmd *cmd, char **envp)
 		execve(path, cmd->argv, envp);
 		free(path);
 	}
+	destroy_cmdv(cmdv);
 	print_error_exit("INT_ERR", "Something went wrong with executing", 127);
 }
 
@@ -97,7 +96,7 @@ int	exec(t_cmd *cmdv, char **envp)
 		set_fds(cmdv, p, fd, i);
 		id = fork();
 		if (id == 0)
-			exec_child(fd, cmdv + i, envp);
+			exec_child(fd, cmdv + i, envp, cmdv);
 		parent(cmdv + i, fd, id);
 		i++;
 	}
