@@ -12,12 +12,6 @@ int is_builtin(char *str)
 			|| ft_strncmp(str, "env", 4) == 0);
 }
 
-static int b_echo(t_cmd *cmd, char *str)
-{
-	printf("cmd: cmdv[0] = %p, str = %s\n", cmd->argv[0], str);
-	return (0);
-}
-
 static void dup_stdio(int *orig_fds)
 {
 	orig_fds[0] = dup(STDIN_FILENO);
@@ -40,10 +34,11 @@ int launch_builtin(int *fd, t_cmd *cmdv, int i, char *str)
 	int status;
 	int orig_fds[2];
 
+	write(1, str, 0);
 	dup_stdio(orig_fds);
 	set_child_fds(fd, cmdv + i);
 	if (ft_strncmp(cmdv[i].argv[0], "echo", 5) == 0)
-		status = b_echo(cmdv + i, str);
+		status = b_echo(cmdv[i].argv);
 //	if (ft_strncmp(cmdv[i].argv[0], "cd", 3) == 0)
 //		status = b_cd(cmdv[i]);
 //	if (ft_strncmp(cmdv[i].argv[0], "pwd", 4) == 0)
