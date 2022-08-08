@@ -18,7 +18,8 @@ FNAMES 		=	minishell.c \
 				execute.c \
 				utils.c \
 				get_program_path.c \
-				errors.c
+				errors.c \
+				builtins.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 

@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
-static void set_child_fds(int fd[2], t_cmd *cmd)
+void set_child_fds(int fd[2], t_cmd *cmd)
 {
 	if (cmd->in_type == io_file)
 		fd[0] = open(cmd->in_file, O_RDONLY);
@@ -96,10 +96,17 @@ int	exec(t_cmd *cmdv, char **envp)
 		fd[0] = STDIN_FILENO;
 		fd[1] = STDOUT_FILENO;
 		set_fds(cmdv, p, fd, i);
-		id = fork();
-		if (id == 0)
-			exec_child(fd, cmdv + i, envp, cmdv);
-		parent(cmdv + i, fd, id);
+		if (is_builtin(cmdv[i].argv[0]))
+		{
+			launch_builtin(fd, cmdv, i, "test");
+		}
+		else
+		{
+			id = fork();
+			if (id == 0)
+				exec_child(fd, cmdv + i, envp, cmdv);
+			parent(cmdv + i, fd, id);
+		}
 		i++;
 	}
 	return (0);
