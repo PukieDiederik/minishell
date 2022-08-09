@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!cmdv)
 		{
 			*get_last_exit_p() = SET_EXIT_STATUS(130);
+			free(str);
 			continue ;
 		}
 		exec(cmdv, envp);
