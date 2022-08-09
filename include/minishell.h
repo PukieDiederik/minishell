@@ -100,7 +100,7 @@ int				skip_redirect(char *str, int *i);
 int				*get_last_exit_p(void);
 
 // Free
-int				b_echo(char **args);
+int				b_echo(t_cmd *cmd);
 //int				ft_pwd(void);
 //int				ft_env(t_env *env);
 //int				ft_export(char **args, t_env *env, t_env *secret);
