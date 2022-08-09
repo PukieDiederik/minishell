@@ -29,12 +29,11 @@ static void reset_stdio(int *orig_fds)
 }
 
 // returns exit status
-int launch_builtin(int *fd, t_cmd *cmdv, int i, char *str)
+int launch_builtin(int *fd, t_cmd *cmdv, int i)
 {
 	int status;
 	int orig_fds[2];
 
-	write(1, str, 0);
 	dup_stdio(orig_fds);
 	set_child_fds(fd, cmdv + i);
 	if (ft_strncmp(cmdv[i].argv[0], "echo", 5) == 0)

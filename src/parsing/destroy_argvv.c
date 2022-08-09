@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include "minishell.h"
+#include <stdio.h>
 
 // Destroys an argv array
 void	destroy_argv(char **argv)

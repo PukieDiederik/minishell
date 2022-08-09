@@ -98,7 +98,7 @@ int	exec(t_cmd *cmdv, char **envp)
 		set_fds(cmdv, p, fd, i);
 		if (is_builtin(cmdv[i].argv[0]))
 		{
-			launch_builtin(fd, cmdv, i, "test");
+			launch_builtin(fd, cmdv, i);
 		}
 		else
 		{

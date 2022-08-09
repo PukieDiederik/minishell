@@ -47,12 +47,14 @@ typedef enum e_io_type
 /* s_cmd - structure which holds information for each command
  *
  * argv			- Holds the argument vector for a command
+ * str			- Takes the raw string of the command
  * in/out_type	- Hold the type of input/output
  * in/out_file	- Holds a path to the input/output file if in/out_type is file
  */
 typedef struct s_cmd
 {
 	char		**argv;
+	char		*str;
 	t_iotype	in_type;
 	t_iotype	out_type;
 	char		*in_file;
@@ -61,7 +63,7 @@ typedef struct s_cmd
 
 // Functions
 // Parsing
-t_cmd			*parse_input(char *str);
+t_cmd			*parse_input(char **orig_str);
 int				count_commands(const char *str);
 int				count_argv(const char *str);
 char			*get_next_cmd(const char *str);
@@ -72,7 +74,7 @@ char			**get_argv(char *str);
 // Executing
 char			*get_path(char *cmd);
 int				exec(t_cmd *cmdv, char **envp);
-int				launch_builtin(int *fd, t_cmd *cmdv, int i, char *str);
+int				launch_builtin(int *fd, t_cmd *cmdv, int i);
 int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);
 

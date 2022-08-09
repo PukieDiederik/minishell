@@ -131,10 +131,12 @@ int configure_io(char *str, t_cmd *cmdv)
 	//set default io for cmdv
 	while (cmdv[j].argv)
 	{
+		printf("%d\b", j);
 		cmdv[j].in_type = io_none;
 		cmdv[j].in_file = 0;
-		cmdv[j++].out_type = io_none;
+		cmdv[j].out_type = io_none;
 		cmdv[j].out_file = 0;
+		j++;
 	}
 
 	j = 0;
@@ -206,32 +208,34 @@ int configure_io(char *str, t_cmd *cmdv)
 }
 
 //returns an array of argv pointers
-t_cmd 	*parse_input(char *str)
+t_cmd 	*parse_input(char **orig_str)
 {
 	t_cmd	*cmdv;
 	int		cmd_count;
 	int		i;
-	char	*org_str;
+	char	*str;
 
 	i = -1;
-	if (!str)
+	if (!*orig_str)
 		return (0);
-	cmd_count = count_commands(str);
+	cmd_count = count_commands(*orig_str);
 	if (cmd_count < 0)
 		return (0);
+	str = *orig_str;
 	insert_envs(&str);
-	org_str = str;
+	free(*orig_str);
+	*orig_str = str;
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
 	if (!cmdv || !str)
 		return (0);
-	configure_io(str, cmdv);
 	while (++i < cmd_count)
 	{
 		if (!get_cmd(str, cmdv + i))
 			return (0);
+		cmdv[i].str = str;
 		str = get_next_cmd(str);
 		str++;
 	}
-	free(org_str);
+	configure_io(*orig_str, cmdv);
 	return (cmdv);
 }
