@@ -46,8 +46,10 @@ int launch_builtin(int *fd, t_cmd *cmdv, int i)
 //		status = b_echo(cmdv[i], str);
 //	if (ft_strncmp(cmdv[i].argv[0], "unset", 6) == 0)
 //		status = b_echo(cmdv[i], str);
-//	if (ft_strncmp(cmdv[i].argv[0], "env", 4) == 0)
-//		status = b_echo(cmdv[i], str);
+	if (ft_strncmp(cmdv[i].argv[0], "env", 4) == 0)
+	{
+		status = b_env(cmdv + i);
+	}
 	reset_stdio(orig_fds);
 	*get_last_exit_p() = SET_EXIT_STATUS(status);
 	return (status);

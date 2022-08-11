@@ -83,6 +83,7 @@ void			destroy_argv(char **argv);
 void			destroy_cmd(t_cmd *cmdv);
 void			destroy_cmdv(t_cmd *cmd);
 void			print_cmdv(t_cmd *cmdv);
+unsigned int	get_argv_size(char **argv);
 
 // Prompt
 char			*prompt_user(void);
@@ -99,14 +100,11 @@ char			*get_regular_str(char *str);
 int				skip_redirect(char *str, int *i);
 int				*get_last_exit_p(void);
 
-// Free
+// Buildins
 int				b_echo(t_cmd *cmd);
 //int				ft_pwd(void);
-//int				ft_env(t_env *env);
+int				b_env(t_cmd *cmd);
 //int				ft_export(char **args, t_env *env, t_env *secret);
-//int				env_add(const char *value, t_env *env);
-//char			*get_env_name(char *dest, const char *src);
-//int				is_in_env(t_env *env, char *args);
 
 // Free
 //void			free_env(t_env *env);

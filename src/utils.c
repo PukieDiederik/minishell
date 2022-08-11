@@ -10,6 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+unsigned int get_argv_size(char **argv)
+{
+	int	c;
+
+	if (!argv)
+		return (0);
+	c = 0;
+	while (argv[c])
+		c++;
+	return (c);
+}
+
 unsigned int	is_special_char(char c)
 {
 	return (c == ' ' || c == '<' || c == '>' || c == '"' || c == '\''
