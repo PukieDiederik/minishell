@@ -14,51 +14,110 @@
 #include "libft.h"
 #include "minishell.h"
 
-static int	check_double(char *str, char **argv, unsigned int *i)
+static int	skip_qouted(const char *str, int *i)
 {
-	if (str[*i] != '"')
-		return (0);
-	*argv = get_qouted_str(str + *i);
-	*i += ft_strlen(*argv) + 2;
-	return (1);
-}
+	char	c;
 
-static int	check_single(char *str, char **argv, unsigned int *i)
-{
-	if (str[*i] != '\'')
-		return (0);
-	*argv = get_qouted_str(str + *i);
-	*i += ft_strlen(*argv) + 2;
-	return (1);
-}
-
-static int	check_regular(char *str, char **argv, unsigned int *i)
-{
-	if (str[*i] == '|')
-		return (1);
-	*argv = get_regular_str(str + *i);
-	*i += ft_strlen(*argv);
-	return (0);
-}
-
-static int	do_checks(char *str, char **argv, unsigned int *i, int *j)
-{
-	while (str[*i] == ' ')
+	c = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != c)
 		(*i)++;
 	if (!str[*i])
 		return (1);
-	if (check_double(str, argv + *j, i)
-		|| check_single(str, argv + *j, i))
-		(*j)++;
-	else if (str[*i] == '>' || str[*i] == '<')
-		skip_redirect(str, (int *)i);
-	else
+	(*i)++;
+	return (0);
+}
+
+static void	skip_regular(const char *str, int *i)
+{
+	while (!is_special_char(str[*i]) && str[*i] != '\0')
+		(*i)++;
+}
+
+static int get_arg_length(char *str)
+{
+	int i = 0;
+	int j = 0;
+
+
+	while(str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i])
 	{
-		if (check_regular(str, argv + *j, i))
-			return (1);
-		(*j)++;
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			skip_qouted(str, &i);
+			j += 2;
+		}
+		else
+			skip_regular(str, &i);
+	}
+	return (i - j);
+}
+
+static void get_regular(char *dest, char *src, int *i)
+{
+	while (!is_special_char(*src) && *src != '\0')
+		dest[(*i)++] = *src++;
+}
+
+static void get_qouted(char *dest, char *src, int *i)
+{
+	char qoute = *src++;
+	while (*src != qoute)
+		dest[(*i)++] = *src++;
+}
+
+static char *get_arg(char *str)
+{
+	int		i;
+	int		j;
+	int		size;
+	char	*arg;
+
+	size = get_arg_length(str);
+	arg = ft_calloc(size + 1, sizeof(char));
+
+	i = 0;
+	j = 0;
+	while (i < size)
+	{
+		if (*str == '\'' || *str == '"')
+		{
+			get_qouted(arg, str + j, &i);
+			skip_qouted(str, &j);
+		}
+		else
+		{
+			get_regular(arg, str + j, &i);
+			skip_regular(str, &j);
+		}
+	}
+	return (arg);
+}
+
+static int skip_arg(const char *str, int *i)
+{
+	while (str[*i] != ' ' && str[*i] != '|' && str[*i])
+	{
+		if (str[*i] == '\'' || str[*i] == '"')
+		{
+			if (skip_qouted(str, i))
+				return (1);
+		}
+		else
+			skip_regular(str, i);
 	}
 	return (0);
+}
+
+static void skip_non_arg(char *str, int *i)
+{
+	while (str[*i] == ' ' || str[*i] == '<' || str[*i] == '>')
+	{
+		if (str[*i] == '<' || str[*i] == '>')
+			skip_redirect(str, i);
+		else
+			(*i)++;
+	}
 }
 
 char	**get_argv(char *str)
@@ -71,18 +130,21 @@ char	**get_argv(char *str)
 	i = 0;
 	j = 0;
 	argv_count = count_argv(str);
-	if (argv_count < 0)
+	if (argv_count < 0) {
 		return (0);
+	}
 	argv = ft_calloc(argv_count + 1, sizeof(char *));
 	if (!argv)
 	{
 		print_error("INT_ERR", "Malloc error");
 		return (0);
 	}
-	while (str[i] && str[i] != '|')
+	skip_non_arg(str, (int *)&i);
+	while (j < argv_count)
 	{
-		if (do_checks(str, argv, &i, &j))
-			break ;
+		argv[j++] = get_arg(str + i);
+		skip_arg(str, (int *)&i);
+		skip_non_arg(str, (int *)&i);
 	}
 	return (argv);
 }

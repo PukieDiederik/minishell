@@ -35,9 +35,9 @@ void	print_cmdv(t_cmd *cmdv)
 		printf("[print_cmdv] cmdv is null\n");
 		return ;
 	}
-	if (!cmdv[0].argv)
-		printf("[print_cmdv] cmdv is empty\n");
-	while (cmdv[++i].argv)
+	if (cmdv[0].argv && !cmdv[0].argv[0])
+		printf("[print_cmdv] argv is empty\n");
+	while (cmdv[++i].argv && cmdv[i].argv[0])
 	{
 		printf("command [%d]:\n", i);
 		printf(" - in_type:  %d\n", cmdv[i].in_type);

@@ -93,19 +93,19 @@ int	exec(t_cmd *cmdv, char **envp)
 	i = 0;
 	while (cmdv[i].argv)
 	{
-		fd[0] = STDIN_FILENO;
-		fd[1] = STDOUT_FILENO;
-		set_fds(cmdv, p, fd, i);
-		if (is_builtin(cmdv[i].argv[0]))
+		if (cmdv[i].argv[0])
 		{
-			launch_builtin(fd, cmdv, i);
-		}
-		else
-		{
-			id = fork();
-			if (id == 0)
-				exec_child(fd, cmdv + i, envp, cmdv);
-			parent(cmdv + i, fd, id);
+			fd[0] = STDIN_FILENO;
+			fd[1] = STDOUT_FILENO;
+			set_fds(cmdv, p, fd, i);
+			if (is_builtin(cmdv[i].argv[0])) {
+				launch_builtin(fd, cmdv, i);
+			} else {
+				id = fork();
+				if (id == 0)
+					exec_child(fd, cmdv + i, envp, cmdv);
+				parent(cmdv + i, fd, id);
+			}
 		}
 		i++;
 	}
