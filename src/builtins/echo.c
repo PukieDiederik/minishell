@@ -12,22 +12,19 @@
 
 #include "libft.h"
 #include "minishell.h"
-#include <unistd.h>
 #include <stdio.h>
 
 int	b_echo(t_cmd *cmd)
 {
 	int		i;
-	int		n;
+	int		b;
 
 	i = 0;
-	n = 0;
+	b = 0;
 	if(cmd->argv[1] && ft_strncmp(cmd->argv[1], "-n", 3) == 0)
 	{
-		if (cmd->argv[i + 1])
-			printf(" ");
 		i++;
-		n = 1;
+		b = 1;
 	}
 	while (cmd->argv[++i])
 	{
@@ -35,7 +32,9 @@ int	b_echo(t_cmd *cmd)
 		if (cmd->argv[i + 1])
 			printf(" ");
 	}
-	if (n == 0)
+	if (b == 0)
+	{
 		printf("\n");
+	}
 	return (0);
 }

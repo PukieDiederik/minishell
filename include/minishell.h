@@ -54,7 +54,6 @@ typedef enum e_io_type
 typedef struct s_cmd
 {
 	char		**argv;
-	char		*str;
 	t_iotype	in_type;
 	t_iotype	out_type;
 	char		*in_file;

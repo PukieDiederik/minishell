@@ -131,7 +131,6 @@ int configure_io(char *str, t_cmd *cmdv)
 	//set default io for cmdv
 	while (cmdv[j].argv)
 	{
-		printf("%d\b", j);
 		cmdv[j].in_type = io_none;
 		cmdv[j].in_file = 0;
 		cmdv[j].out_type = io_none;
@@ -232,7 +231,6 @@ t_cmd 	*parse_input(char **orig_str)
 	{
 		if (!get_cmd(str, cmdv + i))
 			return (0);
-		cmdv[i].str = str;
 		str = get_next_cmd(str);
 		str++;
 	}
