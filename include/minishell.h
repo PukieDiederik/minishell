@@ -99,15 +99,13 @@ char			*get_regular_str(char *str);
 int				skip_redirect(char *str, int *i);
 int				*get_last_exit_p(void);
 
-// Buildins
+// Builtins
 int				b_echo(t_cmd *cmd);
-//int				ft_pwd(void);
 int				b_env(t_cmd *cmd);
-//int				ft_export(char **args, t_env *env, t_env *secret);
+// Env utils
+int	add_env(char *env);
+int	remove_env(char *env);
 
-// Free
-//void			free_env(t_env *env);
-//void			free_tab(char **tab);
 
 // Env stuff
 //char			*env_to_str(t_env *lst);
