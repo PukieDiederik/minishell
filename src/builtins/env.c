@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-extern char **environ;
+extern char **l_environ;
 
 int	b_env(t_cmd *cmdv)
 {
@@ -26,9 +26,9 @@ int	b_env(t_cmd *cmdv)
 		return (1);
 	}
 	i = 0;
-	while (environ[i])
+	while (l_environ[i])
 	{
-		printf("%s\n", environ[i]);
+		printf("%s\n", l_environ[i]);
 		i++;
 	}
 	return (0);

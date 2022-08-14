@@ -24,8 +24,8 @@ FNAMES 		=	minishell.c \
 				\
 				builtins/echo.c \
 				builtins/env.c \
-#				builtins/cd.c \
 				builtins/export.c \
+#				builtins/cd.c \
 				builtins/pwd.c \
 				builtins/unset.c \
 				builtins/get_env_value.c

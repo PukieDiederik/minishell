@@ -102,9 +102,12 @@ int				*get_last_exit_p(void);
 // Builtins
 int				b_echo(t_cmd *cmd);
 int				b_env(t_cmd *cmd);
+int				b_export(t_cmd *cmd);
+
 // Env utils
 int	add_env(char *env);
 int	remove_env(char *env);
+int validate_env(char *env);
 
 
 // Env stuff
