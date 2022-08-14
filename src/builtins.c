@@ -44,8 +44,8 @@ int launch_builtin(int *fd, t_cmd *cmdv, int i)
 //		status = b_echo(cmdv[i], str);
 	else if (ft_strncmp(cmdv[i].argv[0], "export", 7) == 0)
 		status = b_export(cmdv + i);
-//	if (ft_strncmp(cmdv[i].argv[0], "unset", 6) == 0)
-//		status = b_echo(cmdv[i], str);
+	if (ft_strncmp(cmdv[i].argv[0], "unset", 6) == 0)
+		status = b_unset(cmdv + i);
 	if (ft_strncmp(cmdv[i].argv[0], "env", 4) == 0)
 		status = b_env(cmdv + i);
 	reset_stdio(orig_fds);

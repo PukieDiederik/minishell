@@ -10,55 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
+#include "libft.h"
 
-static size_t	env_size(char *env)
+extern char **l_environ;
+
+int				b_unset(t_cmd *cmd)
 {
-	size_t		i;
+	unsigned int	i;
 
+	if (get_argv_size(cmd->argv) == 1)
+		print_error("unset", "Not enough arguments");
 	i = 0;
-	while (env[i] && env[i] != '=')
-		i++;
-	return (i);
-}
-
-static void		free_node(t_mini *mini, t_env *env)
-{
-	if (mini->env == env && env->next == NULL)
+	while (cmd->argv[++i])
 	{
-		ft_memdel(mini->env->value);
-		mini->env->value = NULL;
-		mini->env->next = NULL;
-		return ;
-	}
-	ft_memdel(env->value);
-	ft_memdel(env);
-}
-
-int				ft_unset(char **a, t_mini *mini)
-{
-	t_env	*env;
-	t_env	*tmp;
-
-	env = mini->env;
-	if (!(a[1]))
-		return (0);
-	if (ft_strncmp(a[1], env->value, env_size(env->value)) == 0)
-	{
-		mini->env = (env->next) ? env->next : mini->env;
-		free_node(mini, env);
-		return (0);
-	}
-	while (env && env->next)
-	{
-		if (ft_strncmp(a[1], env->next->value, env_size(env->next->value)) == 0)
+		if (validate_env(cmd->argv[i]) && !ft_strchr(cmd->argv[i], '='))
 		{
-			tmp = env->next->next;
-			free_node(mini, env->next);
-			env->next = tmp;
-			return (0);
+			if (remove_env(cmd->argv[i]))
+				print_error("INT_ERR", "Malloc error");
 		}
-		env = env->next;
+		else
+			print_error("unset", "Invalid env name");
 	}
+
 	return (0);
 }

@@ -36,10 +36,7 @@ static int malloc_env()
 		}
 		i++;
 	}
-	printf("%p\n", new_env);
 	l_environ = new_env;
-	printf("%p\n", l_environ);
-
 	return (0);
 }
 

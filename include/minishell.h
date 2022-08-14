@@ -103,6 +103,7 @@ int				*get_last_exit_p(void);
 int				b_echo(t_cmd *cmd);
 int				b_env(t_cmd *cmd);
 int				b_export(t_cmd *cmd);
+int				b_unset(t_cmd *cmd);
 
 // Env utils
 int	add_env(char *env);

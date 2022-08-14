@@ -18,8 +18,10 @@ static char **get_env(char *env)
 	unsigned int	s_env;
 
 	i = -1;
-	s_env = ft_strchr(env, '=') - env;
-	printf("%d\n", s_env);
+	if (ft_strchr(env, '='))
+		s_env = ft_strchr(env, '=') - env;
+	else
+		s_env = ft_strlen(env);
 	while (l_environ[++i])
 		if (!ft_strncmp(l_environ[i], env, s_env) && l_environ[i][s_env] == '=')
 			return (l_environ + i);
@@ -74,6 +76,8 @@ int remove_env(char *env)
 	unsigned int	j;
 	unsigned int	env_s;
 
+	if (!get_env(env))
+		return (0);
 	new_env = ft_calloc(get_argv_size(l_environ), sizeof(char*));
 	if (!new_env)
 		return (1);
@@ -88,6 +92,7 @@ int remove_env(char *env)
 			new_env[j++] = l_environ[i];
 		i++;
 	}
+	free(l_environ);
 	l_environ = new_env;
 	return (0);
 }
