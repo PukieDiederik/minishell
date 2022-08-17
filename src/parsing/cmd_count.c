@@ -67,6 +67,26 @@ static int	skip_regular(const char *str, int *i, int *has_args, int *c)
 	return (0);
 }
 
+int is_redirect_valid (const char *str)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (str[i] == '<')
+	{
+		if (str[++i] == '<')
+			i++;
+	}
+	else if (str[i] == '>')
+	{
+		if (str[++i] == '>')
+			i++;
+	}
+	while(str[i] == ' ')
+		i++;
+	return (str[i] == '\0' || str[i] == '<' || str[i] == '>' || str[i] == '|');
+}
+
 int	count_commands(const char *str)
 {
 	int	i;
@@ -84,6 +104,11 @@ int	count_commands(const char *str)
 		if ((str[i] == '<' || str[i] == '>'))
 		{
 			has_args = 1;
+			if (is_redirect_valid(str + i))
+			{
+				print_error("Parsing", "Redirect is empty");
+				return (-1);
+			}
 			if (skip_redirect((char *)str, &i))
 				return (-1);
 		}
