@@ -73,8 +73,6 @@ static void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 		&& cmdv[i].in_type != io_pipe)
 		close(p[0]);
 	pipe(p);
-	if(cmdv[i + 1].in_type != io_pipe)
-		close(p[0]);
 	if (cmdv[i].out_type != io_pipe)
 		close(p[1]);
 	if (cmdv[i].out_type == io_pipe)
@@ -93,11 +91,11 @@ int	exec(t_cmd *cmdv, char **envp)
 	i = 0;
 	while (cmdv[i].argv)
 	{
+		fd[0] = STDIN_FILENO;
+		fd[1] = STDOUT_FILENO;
+		set_fds(cmdv, p, fd, i);
 		if (cmdv[i].argv[0])
 		{
-			fd[0] = STDIN_FILENO;
-			fd[1] = STDOUT_FILENO;
-			set_fds(cmdv, p, fd, i);
 			if (is_builtin(cmdv[i].argv[0])) {
 				launch_builtin(fd, cmdv, i);
 			} else {
