@@ -42,8 +42,8 @@ int launch_builtin(int *fd, t_cmd *cmdv, int i)
 		status = b_echo(cmdv + i);
 	if (ft_strncmp(cmdv[i].argv[0], "cd", 3) == 0)
 		status = b_cd(cmdv + i);
-//	if (ft_strncmp(cmdv[i].argv[0], "pwd", 4) == 0)
-//		status = b_echo(cmdv[i], str);
+	if (ft_strncmp(cmdv[i].argv[0], "pwd", 4) == 0)
+		status = b_pwd(cmdv + i);
 	else if (ft_strncmp(cmdv[i].argv[0], "export", 7) == 0)
 		status = b_export(cmdv + i);
 	if (ft_strncmp(cmdv[i].argv[0], "unset", 6) == 0)

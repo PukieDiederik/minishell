@@ -105,6 +105,7 @@ int				b_env(t_cmd *cmd);
 int				b_export(t_cmd *cmd);
 int				b_unset(t_cmd *cmd);
 int				b_cd(t_cmd *cmd);
+int				b_pwd(t_cmd *cmd);
 
 // Env utils
 int	add_env(char *env);

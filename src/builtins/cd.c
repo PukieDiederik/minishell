@@ -14,8 +14,6 @@
 #include "libft.h"
 #include <unistd.h>
 
-extern char **l_environ;
-
 static int change_dir(char *path)
 {
 	char cwd[1024];

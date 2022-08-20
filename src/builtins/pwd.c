@@ -10,17 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
+#include <stdio.h>
 
-int		ft_pwd(void)
+extern char *l_environ;
+
+int		b_pwd(t_cmd *cmd)
 {
-	char	cwd[BUFF_SIZE];
+	char	*pwd;
 
-	if (getcwd(cwd, BUFF_SIZE))
+	if (get_argv_size(cmd->argv) != 1)
+		print_error("pwd", "Does not take any options/arguments");
+	pwd = get_env("PWD");
+	if (pwd)
 	{
-		ft_putendl_fd(cwd, 1);
+		printf("%s\n", pwd);
 		return (0);
 	}
-	else
-		return (1);
+	print_error("pwd", "Could not find $PWD");
+	return (1);
 }
