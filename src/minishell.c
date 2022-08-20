@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		str = prompt_user();
-		if (str && !ft_strncmp(str, "exit", 4))
+		if (str && !ft_strncmp(str, "exit", 5))
 		{
 			destroy_argv(l_environ);
 			free(str);

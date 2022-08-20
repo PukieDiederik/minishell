@@ -13,6 +13,8 @@
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
+#include <stdio.h>
+#include <sys/stat.h>
 
 static char	*create_path(char *prefix, char *suffix)
 {
@@ -30,22 +32,36 @@ char	*get_path(char *cmd)
 	char	**paths;
 	char	*path;
 	int		i;
+	struct stat path_stat;
 
 	i = 0;
-	paths = ft_split(getenv("PATH"), ':');
-	if (!access(cmd, X_OK))
+	paths = ft_split(get_env("PATH"), ':');
+	if (ft_strchr(cmd, '/') && !access(cmd, X_OK))
+	{
+		stat(cmd, &path_stat);
+		if (S_ISDIR(path_stat.st_mode))
+		{
+			print_error(cmd, "Command is a directory");
+			return (0);
+		}
 		return (ft_strdup(cmd));
+	}
 	while (paths[i])
 	{
 		path = create_path(paths[i], cmd);
 		if (!access(path, X_OK))
 		{
-			destroy_argv(paths);
-			return (path);
+			stat(path, &path_stat);
+			if (!S_ISDIR(path_stat.st_mode))
+			{
+				destroy_argv(paths);
+				return (path);
+			}
 		}
 		free(path);
 		i++;
 	}
 	destroy_argv(paths);
+	print_error(cmd, "Could not find command");
 	return (0);
 }
