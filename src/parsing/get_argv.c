@@ -80,7 +80,7 @@ static char *get_arg(char *str)
 	j = 0;
 	while (i < size)
 	{
-		if (*str == '\'' || *str == '"')
+		if (str[j] == '\'' || str[j] == '"')
 		{
 			get_qouted(arg, str + j, &i);
 			skip_qouted(str, &j);
