@@ -42,17 +42,24 @@ static void	exec_child(int fd[2], t_cmd *cmd, char **envp, t_cmd *cmdv)
 {
 	char	*path;
 
+	set_child_fds(fd, cmd);
 	if (cmd->argv && cmd->argv[0])
 	{
 		path = get_path(cmd->argv[0]);
 		if (!path)
 			print_error_exit(cmd->argv[0], "Could Not find command", 126);
-		set_child_fds(fd, cmd);
 		execve(path, cmd->argv, envp);
 		free(path);
+		print_error("INT_ERR", "Something went wrong with executing");
+		destroy_cmdv(cmdv);
+		exit(127);
 	}
+	if (fd[0] != STDIN_FILENO)
+		close(fd[0]);
+	if (fd[0] != STDOUT_FILENO)
+		close(fd[1]);
 	destroy_cmdv(cmdv);
-	print_error_exit("INT_ERR", "Something went wrong with executing", 127);
+	exit(0);
 }
 
 static void	parent(t_cmd *cmd, int fd[2], pid_t id)
@@ -94,16 +101,15 @@ int	exec(t_cmd *cmdv, char **envp)
 		fd[0] = STDIN_FILENO;
 		fd[1] = STDOUT_FILENO;
 		set_fds(cmdv, p, fd, i);
-		if (cmdv[i].argv[0])
+		if (is_builtin(cmdv[i].argv[0])) {
+			launch_builtin(fd, cmdv, i);
+		}
+		else
 		{
-			if (is_builtin(cmdv[i].argv[0])) {
-				launch_builtin(fd, cmdv, i);
-			} else {
-				id = fork();
-				if (id == 0)
-					exec_child(fd, cmdv + i, envp, cmdv);
-				parent(cmdv + i, fd, id);
-			}
+			id = fork();
+			if (id == 0)
+				exec_child(fd, cmdv + i, envp, cmdv);
+			parent(cmdv + i, fd, id);
 		}
 		i++;
 	}

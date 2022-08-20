@@ -4,6 +4,8 @@
 
 int is_builtin(char *str)
 {
+	if (!str)
+		return (0);
 	return (ft_strncmp(str, "echo", 5) == 0
 			|| ft_strncmp(str, "cd", 3) == 0
 			|| ft_strncmp(str, "pwd", 4) == 0
