@@ -40,8 +40,8 @@ int launch_builtin(int *fd, t_cmd *cmdv, int i)
 	set_child_fds(fd, cmdv + i);
 	if (ft_strncmp(cmdv[i].argv[0], "echo", 5) == 0)
 		status = b_echo(cmdv + i);
-//	if (ft_strncmp(cmdv[i].argv[0], "cd", 3) == 0)
-//		status = b_cd(cmdv[i]);
+	if (ft_strncmp(cmdv[i].argv[0], "cd", 3) == 0)
+		status = b_cd(cmdv + i);
 //	if (ft_strncmp(cmdv[i].argv[0], "pwd", 4) == 0)
 //		status = b_echo(cmdv[i], str);
 	else if (ft_strncmp(cmdv[i].argv[0], "export", 7) == 0)

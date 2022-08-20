@@ -12,7 +12,7 @@ int validate_env(char *env)
 	return (*env == '=' || *env == '\0');
 }
 
-static char **get_env(char *env)
+static char **get_env_p(char *env)
 {
 	unsigned int	i;
 	unsigned int	s_env;
@@ -25,6 +25,22 @@ static char **get_env(char *env)
 	while (l_environ[++i])
 		if (!ft_strncmp(l_environ[i], env, s_env) && l_environ[i][s_env] == '=')
 			return (l_environ + i);
+	return (0);
+}
+
+char *get_env(char *env)
+{
+	unsigned int	i;
+	unsigned int	s_env;
+
+	i = -1;
+	if (ft_strchr(env, '='))
+		s_env = ft_strchr(env, '=') - env;
+	else
+		s_env = ft_strlen(env);
+	while (l_environ[++i])
+		if (!ft_strncmp(l_environ[i], env, s_env) && l_environ[i][s_env] == '=')
+			return (ft_strchr(l_environ[i], '=') + 1);
 	return (0);
 }
 
@@ -46,7 +62,7 @@ int	add_env(char *env)
 		free(env);
 		return (1);
 	}
-	old_env = get_env(env);
+	old_env = get_env_p(env);
 	if (old_env)
 	{
 		free(*old_env);
@@ -76,7 +92,7 @@ int remove_env(char *env)
 	unsigned int	j;
 	unsigned int	env_s;
 
-	if (!get_env(env))
+	if (!get_env_p(env))
 		return (0);
 	new_env = ft_calloc(get_argv_size(l_environ), sizeof(char*));
 	if (!new_env)
