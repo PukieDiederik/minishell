@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
+#include <stdio.h>
 
 static int change_dir(char *path)
 {
@@ -61,6 +62,7 @@ static int old_path(void)
 		if (!getcwd(cwd_new, 1024))
 			print_error("cd", "Could not update cwd");
 		else {
+			printf("%s\n", cwd_new);
 			old_env = ft_calloc(ft_strlen(cwd) + 8, sizeof(char));
 			new_env = ft_calloc(ft_strlen(cwd_new) + 5, sizeof(char));
 			ft_memcpy(old_env, "OLDPWD=", 7);
@@ -74,7 +76,8 @@ static int old_path(void)
 			return (0);
 		}
 	}
-	print_error("cd", "Could not change dir");
+	else
+		print_error("cd", "Could not change dir");
 	return (1);
 }
 
