@@ -17,40 +17,46 @@ extern char	**g_environ;
 
 char	**get_env_p(char *env);
 
+static int	update_env(char **env_p, char *env)
+{
+	free(*env_p);
+	*env_p = env;
+	return (0);
+}
+
+static void	add_new_env(char **new_env, char *env)
+{
+	int	i;
+
+	i = -1;
+	while (g_environ[++i])
+		new_env[i] = g_environ[i];
+	new_env[i] = env;
+	free(g_environ);
+	g_environ = new_env;
+}
+
 int	add_env(char *env)
 {
 	char	**old_env;
 	char	**new_env;
-	int		i;
 
-	if (!ft_strchr(env, '='))
-		return (0);
 	if (!validate_env(env))
 		return (2);
-	new_env = ft_calloc(get_argv_size(g_environ) + 2, sizeof(char *));
+	if (!ft_strchr(env, '='))
+		return (0);
 	env = ft_strdup(env);
-	if (!env || !new_env || !validate_env(env))
+	if (!env)
+		return (1);
+	old_env = get_env_p(env);
+	if (old_env)
+		return (update_env(old_env, env));
+	new_env = ft_calloc(get_argv_size(g_environ) + 2, sizeof(char *));
+	if (!new_env)
 	{
-		free(new_env);
 		free(env);
 		return (1);
 	}
-	old_env = get_env_p(env);
-	if (old_env)
-	{
-		free(*old_env);
-		*old_env = env;
-		free(new_env);
-		return (0);
-	}
-	i = 0;
-	while (g_environ[i])
-	{
-		new_env[i] = g_environ[i];
-		i++;
-	}
-	new_env[i] = env;
-	free(g_environ);
-	g_environ = new_env;
+	add_new_env(new_env, env);
 	return (0);
 }
