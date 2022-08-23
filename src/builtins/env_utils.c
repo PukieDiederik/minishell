@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-extern char **l_environ;
+extern char **g_environ;
 #include <stdio.h>
 
 int validate_env(char *env)
@@ -22,9 +22,9 @@ static char **get_env_p(char *env)
 		s_env = ft_strchr(env, '=') - env;
 	else
 		s_env = ft_strlen(env);
-	while (l_environ[++i])
-		if (!ft_strncmp(l_environ[i], env, s_env) && l_environ[i][s_env] == '=')
-			return (l_environ + i);
+	while (g_environ[++i])
+		if (!ft_strncmp(g_environ[i], env, s_env) && g_environ[i][s_env] == '=')
+			return (g_environ + i);
 	return (0);
 }
 
@@ -38,9 +38,9 @@ char *get_env(char *env)
 		s_env = ft_strchr(env, '=') - env;
 	else
 		s_env = ft_strlen(env);
-	while (l_environ[++i])
-		if (!ft_strncmp(l_environ[i], env, s_env) && l_environ[i][s_env] == '=')
-			return (ft_strchr(l_environ[i], '=') + 1);
+	while (g_environ[++i])
+		if (!ft_strncmp(g_environ[i], env, s_env) && g_environ[i][s_env] == '=')
+			return (ft_strchr(g_environ[i], '=') + 1);
 	return (0);
 }
 
@@ -54,7 +54,7 @@ int	add_env(char *env)
 		return (0);
 	if (!validate_env(env))
 		return (2);
-	new_env = ft_calloc(get_argv_size(l_environ) + 2, sizeof(char *));
+	new_env = ft_calloc(get_argv_size(g_environ) + 2, sizeof(char *));
 	env = ft_strdup(env);
 	if (!env || !new_env || !validate_env(env))
 	{
@@ -73,14 +73,14 @@ int	add_env(char *env)
 	else
 	{
 		i = 0;
-		while (l_environ[i])
+		while (g_environ[i])
 		{
-			new_env[i] = l_environ[i];
+			new_env[i] = g_environ[i];
 			i++;
 		}
 		new_env[i] = env;
-		free(l_environ);
-		l_environ = new_env;
+		free(g_environ);
+		g_environ = new_env;
 		return (0);
 	}
 }
@@ -94,21 +94,21 @@ int remove_env(char *env)
 
 	if (!get_env_p(env))
 		return (0);
-	new_env = ft_calloc(get_argv_size(l_environ), sizeof(char*));
+	new_env = ft_calloc(get_argv_size(g_environ), sizeof(char*));
 	if (!new_env)
 		return (1);
 	env_s = ft_strlen(env);
 	i = 0;
 	j = 0;
-	while (l_environ[i])
+	while (g_environ[i])
 	{
-		if (!ft_strncmp(l_environ[i], env, env_s) && l_environ[i][env_s] == '=')
-			free(l_environ[i]);
+		if (!ft_strncmp(g_environ[i], env, env_s) && g_environ[i][env_s] == '=')
+			free(g_environ[i]);
 		else
-			new_env[j++] = l_environ[i];
+			new_env[j++] = g_environ[i];
 		i++;
 	}
-	free(l_environ);
-	l_environ = new_env;
+	free(g_environ);
+	g_environ = new_env;
 	return (0);
 }

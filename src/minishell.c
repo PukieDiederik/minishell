@@ -15,20 +15,20 @@
 #include "minishell.h"
 #include "libft.h"
 
-char **l_environ;
+char **g_environ;
 
 static int malloc_env()
 {
 	char			**new_env;
 	unsigned int	i;
 
-	new_env = ft_calloc(get_argv_size(l_environ) + 1, sizeof(char *));
+	new_env = ft_calloc(get_argv_size(g_environ) + 1, sizeof(char *));
 	if (!new_env)
 		return (1);
 	i = 0;
-	while (l_environ[i])
+	while (g_environ[i])
 	{
-		new_env[i] = ft_strdup(l_environ[i]);
+		new_env[i] = ft_strdup(g_environ[i]);
 		if (!new_env[i])
 		{
 			destroy_argv(new_env);
@@ -36,7 +36,7 @@ static int malloc_env()
 		}
 		i++;
 	}
-	l_environ = new_env;
+	g_environ = new_env;
 	return (0);
 }
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	str = 0;
 	if (argc != 1)
 		printf("%s: minishell does not use any arguments\n", argv[0]);
-	l_environ = envp;
+	g_environ = envp;
 	if (malloc_env())
 		print_error_exit("INT_ERR", "Malloc error", 125);
 	while (1)
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		str = prompt_user();
 		if (str && !ft_strncmp(str, "exit", 5))
 		{
-			destroy_argv(l_environ);
+			destroy_argv(g_environ);
 			free(str);
 			return (0);
 		}

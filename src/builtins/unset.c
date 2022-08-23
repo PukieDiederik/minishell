@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-extern char **l_environ;
+extern char **g_environ;
 
 int				b_unset(t_cmd *cmd)
 {

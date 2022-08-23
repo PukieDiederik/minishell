@@ -11,14 +11,13 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
 #include <stdio.h>
 
-extern char **l_environ;
+extern char	**g_environ;
 
 int	b_env(t_cmd *cmdv)
 {
-	int		i;
+	int	i;
 
 	if (get_argv_size(cmdv->argv) > 1)
 	{
@@ -26,9 +25,9 @@ int	b_env(t_cmd *cmdv)
 		return (1);
 	}
 	i = 0;
-	while (l_environ[i])
+	while (g_environ[i])
 	{
-		printf("%s\n", l_environ[i]);
+		printf("%s\n", g_environ[i]);
 		i++;
 	}
 	return (0);

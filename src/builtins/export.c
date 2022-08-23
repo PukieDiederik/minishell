@@ -13,7 +13,7 @@
 #include  "minishell.h"
 #include <stdio.h>
 
-extern char **l_environ;
+extern char **g_environ;
 
 int			b_export(t_cmd *cmd)
 {
@@ -22,9 +22,9 @@ int			b_export(t_cmd *cmd)
 	i = 0;
 	if (get_argv_size(cmd->argv) == 1)
 	{
-		while (l_environ[i])
+		while (g_environ[i])
 		{
-			printf("%s\n", l_environ[i]);
+			printf("%s\n", g_environ[i]);
 			i++;
 		}
 		return (0);

@@ -14,7 +14,7 @@ requirements. These requirements are:
     * `>>` should redirect output in append mode.
 * Implement pipes (`|`). The output of each command in the pipeline is connected to the input of the next command
   via a pipe.
-* Handle l_environ variables (`$[NAME]`) which should expand to their values.
+* Handle g_environ variables (`$[NAME]`) which should expand to their values.
 * Handle $? which should expand to the exit status of the most recently executed foreground pipeline.
 * Handle `ctrl+C`, `ctrl+D` and `ctrl+\` which should behave like in bash.
     * In interactive mode:
