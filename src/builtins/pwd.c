@@ -13,9 +13,9 @@
 #include "minishell.h"
 #include <stdio.h>
 
-extern char *g_environ;
+extern char	*g_environ;
 
-int		b_pwd(t_cmd *cmd)
+int	b_pwd(t_cmd *cmd)
 {
 	char	*pwd;
 
