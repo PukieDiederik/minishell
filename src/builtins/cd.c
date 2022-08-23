@@ -53,10 +53,7 @@ static int	change_dir(char *path)
 		if (!getcwd(cwd_new, 1024))
 			print_error("cd", "Could not update cwd");
 		else
-		{
-			update_envs(cwd, cwd_new);
-			return (0);
-		}
+			return (update_envs(cwd, cwd_new));
 	}
 	print_error("cd", "Could not change dir");
 	return (1);
@@ -78,12 +75,10 @@ static int	old_path(void)
 		else
 		{
 			printf("%s\n", cwd_new);
-			update_envs(cwd, cwd_new);
-			return (0);
+			return (update_envs(cwd, cwd_new));
 		}
 	}
-	else
-		print_error("cd", "Could not change dir");
+	print_error("cd", "Could not change dir");
 	return (1);
 }
 
@@ -102,6 +97,5 @@ int	b_cd(t_cmd *cmd)
 	}
 	if (!ft_strncmp(cmd->argv[1], "-", 2))
 		return (old_path());
-	else
-		return (change_dir(cmd->argv[1]));
+	return (change_dir(cmd->argv[1]));
 }
