@@ -13,9 +13,9 @@
 #include "minishell.h"
 #include "libft.h"
 
-extern char **g_environ;
+extern char	**g_environ;
 
-int				b_unset(t_cmd *cmd)
+int	b_unset(t_cmd *cmd)
 {
 	unsigned int	i;
 
@@ -32,6 +32,5 @@ int				b_unset(t_cmd *cmd)
 		else
 			print_error("unset", "Invalid env name");
 	}
-
 	return (0);
 }
