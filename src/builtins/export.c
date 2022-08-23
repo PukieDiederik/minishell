@@ -15,6 +15,12 @@
 
 extern char	**g_environ;
 
+/* b_export - BUILTIN export
+ *
+ * Adds enviroment variables
+ * if it does not have any arguments, print every env variable
+ * else go through each argument and try to add it
+ */
 int	b_export(t_cmd *cmd)
 {
 	unsigned int	i;

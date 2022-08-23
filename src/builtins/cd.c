@@ -87,6 +87,12 @@ static int	old_path(void)
 	return (1);
 }
 
+/* b_cd - BUILTIN change directory
+ *
+ * if it does not get 1 argument, exit
+ * else if the only char is '-' switch to previous directory
+ * else switch to the directory given.
+ */
 int	b_cd(t_cmd *cmd)
 {
 	if (get_argv_size(cmd->argv) != 2)

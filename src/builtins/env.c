@@ -15,6 +15,12 @@
 
 extern char	**g_environ;
 
+/* b_env - BUILTIN env
+ *
+ * Lists all enviroment variables in g_environ
+ * If it has arguments, exit
+ * else go through each environ variable and print it
+ */
 int	b_env(t_cmd *cmdv)
 {
 	int	i;
@@ -26,9 +32,6 @@ int	b_env(t_cmd *cmdv)
 	}
 	i = 0;
 	while (g_environ[i])
-	{
-		printf("%s\n", g_environ[i]);
-		i++;
-	}
+		printf("%s\n", g_environ[i++]);
 	return (0);
 }

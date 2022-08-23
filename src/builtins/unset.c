@@ -15,12 +15,21 @@
 
 extern char	**g_environ;
 
+/* b_unset - BUILTIN unset
+ *
+ * Removes env variable
+ * if it does not have any args, print error
+ * run through each arg, try to remove each env
+ */
 int	b_unset(t_cmd *cmd)
 {
 	unsigned int	i;
 
 	if (get_argv_size(cmd->argv) == 1)
+	{
 		print_error("unset", "Not enough arguments");
+		return (1);
+	}
 	i = 0;
 	while (cmd->argv[++i])
 	{

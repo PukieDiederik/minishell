@@ -14,6 +14,13 @@
 #include "minishell.h"
 #include <stdio.h>
 
+/* b_echo - BUILTIN echo
+ *
+ * Takes in 0-n arguments
+ * if first argument is "-n" do not add a newline after printing
+ * else go through each arg and print it
+ * if its not the last element, print a space between each arg
+ */
 int	b_echo(t_cmd *cmd)
 {
 	int		i;
