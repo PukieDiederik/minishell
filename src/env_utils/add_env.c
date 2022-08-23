@@ -36,6 +36,14 @@ static void	add_new_env(char **new_env, char *env)
 	g_environ = new_env;
 }
 
+/* add_env - add env to g_environ
+ *
+ * Adds enviroment variable to g_environ
+ * check if env string is valid
+ * if it does not assign, just skip
+ * if we have already have env var with the same name, update
+ * else dup env list over and add the new env variable at the end
+ */
 int	add_env(char *env)
 {
 	char	**old_env;

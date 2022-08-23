@@ -18,24 +18,30 @@ extern char	**g_environ;
 
 char	**get_env_p(char *env);
 
+/* remove_env - Remove enviroment variable from the list
+ *
+ * Removes an env variable based on a string
+ * if the env variable does not exist, return
+ * dupe env array but skip if it is the env pointer
+ */
 int	remove_env(char *env)
 {
 	char			**new_env;
 	unsigned int	i;
 	unsigned int	j;
-	unsigned int	env_s;
+	char			**skip_env;
 
-	if (!get_env_p(env))
+	skip_env = get_env_p(env);
+	if (!skip_env)
 		return (0);
 	new_env = ft_calloc(get_argv_size(g_environ), sizeof(char *));
 	if (!new_env)
 		return (1);
-	env_s = ft_strlen(env);
 	i = 0;
 	j = 0;
 	while (g_environ[i])
 	{
-		if (!ft_strncmp(g_environ[i], env, env_s) && g_environ[i][env_s] == '=')
+		if (g_environ + i == skip_env)
 			free(g_environ[i]);
 		else
 			new_env[j++] = g_environ[i];

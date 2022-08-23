@@ -14,6 +14,10 @@
 
 extern char	**g_environ;
 
+/* validate_env - validate enviroment string
+ *
+ * Validates enviroment string both with '=' and without
+ */
 int	validate_env(char *env)
 {
 	while ((*env >= 'A' && *env <= 'Z') || (*env >= 'a' && *env <= 'z')
@@ -22,6 +26,13 @@ int	validate_env(char *env)
 	return (*env == '=' || *env == '\0');
 }
 
+/* get_env_p - get enviroment pointer
+ *
+ * Gets pointer to start of env variable based on a string
+ * if there is a '=' in the string and if so only check the first part
+ * else just use the string length
+ * loop through each environ variable and try to find the correct string
+ */
 char	**get_env_p(char *env)
 {
 	unsigned int	i;

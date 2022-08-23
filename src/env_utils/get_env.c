@@ -14,6 +14,12 @@
 
 extern char	**g_environ;
 
+/* get_env - Get enviroment variable
+ *
+ * Gets the enviroment variable based on a string
+ * if it has '=' in string only use the first part for comparison
+ * loop through each env var and check if the first part is the same
+ */
 char	*get_env(char *env)
 {
 	unsigned int	i;
