@@ -21,7 +21,7 @@ int	b_echo(t_cmd *cmd)
 
 	i = 0;
 	b = 0;
-	if(cmd->argv[1] && ft_strncmp(cmd->argv[1], "-n", 3) == 0)
+	if (cmd->argv[1] && ft_strncmp(cmd->argv[1], "-n", 3) == 0)
 	{
 		i++;
 		b = 1;
