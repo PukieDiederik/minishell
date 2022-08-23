@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 		cmdv = parse_input(&str);
 		if (!cmdv)
 		{
-			*get_last_exit_p() = SET_EXIT_STATUS(130);
+			*get_last_exit_p() = 130 * EXIT_MULT;
 			free(str);
 			continue ;
 		}

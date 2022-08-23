@@ -26,7 +26,7 @@
 # define C_WHITE "\033[0;38m"
 # define C_RESET "\033[0m"
 
-# define SET_EXIT_STATUS(x) ((x) << 8)
+# define EXIT_MULT 256
 
 // Structures
 /* e_io_type - What kind of io a command uses
@@ -47,7 +47,6 @@ typedef enum e_io_type
 /* s_cmd - structure which holds information for each command
  *
  * argv			- Holds the argument vector for a command
- * str			- Takes the raw string of the command
  * in/out_type	- Hold the type of input/output
  * in/out_file	- Holds a path to the input/output file if in/out_type is file
  */
@@ -92,7 +91,6 @@ char			*here_doc(char *stop_str);
 void			print_error(char *prefix, char *error);
 void			print_error_exit(char *prefix, char *error, int exit_code);
 
-
 unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
@@ -108,28 +106,9 @@ int				b_cd(t_cmd *cmd);
 int				b_pwd(t_cmd *cmd);
 
 // Env utils
-int	add_env(char *env);
-int	remove_env(char *env);
-int validate_env(char *env);
-char *get_env(char *env);
-
-
-// Env stuff
-//char			*env_to_str(t_env *lst);
-//int				env_init(t_mini *mini, char **env_array);
-//int				secret_env_init(t_mini *mini, char **env_array);
-//char			*get_env_value(char *arg, t_env *env);
-//char			*env_value(char *env);
-//int				env_value_len(const char *env);
-//int				is_env_char(int c);
-//int				is_valid_env(const char *env);
-//void			print_sorted_env(t_env *env);
-//size_t			size_env(t_env *lst);
-
-
-// Signal stuff
-//void			sig_int(int code);
-//void			sig_quit(int code);
-//void			sig_init(void);
+int				validate_env(char *env);
+int				add_env(char *env);
+int				remove_env(char *env);
+char			*get_env(char *env);
 
 #endif
