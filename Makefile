@@ -20,7 +20,6 @@ FNAMES 		=	minishell.c \
 				get_program_path.c \
 				errors.c \
 				builtins.c \
-				builtins/env_utils.c \
 				\
 				builtins/echo.c \
 				builtins/env.c \
@@ -28,6 +27,11 @@ FNAMES 		=	minishell.c \
 				builtins/unset.c \
 				builtins/cd.c \
 				builtins/pwd.c \
+				\
+				env_utils/env_utils.c \
+				env_utils/remove_env.c \
+				env_utils/add_env.c \
+				env_utils/get_env.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
