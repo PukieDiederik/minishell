@@ -87,7 +87,7 @@ char	*insert_env(char **str, int i)
 	if (env_str[0] == '?')
 		env = ft_itoa(WEXITSTATUS(*get_last_exit_p()));
 	else
-		env = getenv(env_str);
+		env = get_env(env_str);
 	if (!env)
 		return (no_env(env_str, str, i));
 	return (has_env(env_str, str, env, i));
