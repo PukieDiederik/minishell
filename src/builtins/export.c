@@ -13,9 +13,9 @@
 #include  "minishell.h"
 #include <stdio.h>
 
-extern char **g_environ;
+extern char	**g_environ;
 
-int			b_export(t_cmd *cmd)
+int	b_export(t_cmd *cmd)
 {
 	unsigned int	i;
 
@@ -23,27 +23,21 @@ int			b_export(t_cmd *cmd)
 	if (get_argv_size(cmd->argv) == 1)
 	{
 		while (g_environ[i])
-		{
-			printf("%s\n", g_environ[i]);
-			i++;
-		}
+			printf("%s\n", g_environ[i++]);
 		return (0);
 	}
-	else
+	while (cmd->argv[++i])
 	{
-		while (cmd->argv[++i])
+		if (validate_env(cmd->argv[i]))
 		{
-			if (validate_env(cmd->argv[i]))
+			if (add_env(cmd->argv[i]))
 			{
-				if (add_env(cmd->argv[i]))
-				{
-					print_error("INT_ERR", "Malloc error");
-					return (1);
-				}
+				print_error("INT_ERR", "Malloc error");
+				return (1);
 			}
-			else
-				print_error("Export", "Invalid env");
 		}
+		else
+			print_error("Export", "Invalid env");
 	}
 	return (0);
 }
