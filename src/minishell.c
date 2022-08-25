@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	str = 0;
 	if (argc != 1)
 		printf("%s: minishell does not use any arguments\n", argv[0]);
+	handle_global_signals();
 	g_environ = envp;
 	if (malloc_env())
 		print_error_exit("INT_ERR", "Malloc error", 125);
