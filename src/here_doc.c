@@ -16,13 +16,7 @@
 #include <fcntl.h>
 #include "libft.h"
 #include <minishell.h>
-
-static int	max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
+#include <sys/wait.h>
 
 static char	*create_path(void)
 {
@@ -76,18 +70,14 @@ static char	*ins_envs(char *str)
 
 // Reads heredoc from input, puts it in a file and returns the path to the file
 // It takes stop_str, the str prompt needs to match to close the heredoc
-char	*here_doc(char *stop_str)
+static char	*here_doc(char *stop_str, char *path)
 {
 	int		fd;
 	char	*str;
-	char	*path;
 
-	path = get_unique_path();
-	if (!path)
-		return (0);
 	fd = open(path, O_CREAT | O_RDWR, 0666);
 	if (fd < 0)
-		return (0);
+		exit(1);
 	str = ins_envs(readline(C_GREEN"hd"C_CYAN"> "C_RESET));
 	while (str && ft_strncmp(str, stop_str,
 			max(ft_strlen(str), ft_strlen(stop_str))))
@@ -99,5 +89,32 @@ char	*here_doc(char *stop_str)
 	}
 	close(fd);
 	free(str);
+	free(path);
+	exit(0);
+}
+
+char	*launch_hd(char *stop_str)
+{
+	char	*path;
+	pid_t	id;
+	int		status;
+
+	path = get_unique_path();
+	if (!path)
+		return (0);
+	id = fork();
+	if (id < 0)
+		return (0);
+	if (id == 0)
+	{
+		//Do signal stuff here
+		here_doc(stop_str, path);
+	}
+	waitpid(id, &status, 0);
+	if (WEXITSTATUS(status))
+	{
+		free(path);
+		return (0);
+	}
 	return (path);
 }
