@@ -160,7 +160,7 @@ int configure_io(char *str, t_cmd *cmdv)
 					tmp_str = get_regular_str(str + i);
 				if (!tmp_str)
 					return (0);
-				cmdv[j].in_file = here_doc(tmp_str);
+				cmdv[j].in_file = launch_hd(tmp_str);
 				free(tmp_str);
 			}
 			else

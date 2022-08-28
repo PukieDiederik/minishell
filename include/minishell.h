@@ -77,6 +77,7 @@ int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);
 
 // Utils
+int				max(int a, int b);
 void			destroy_argv(char **argv);
 void			destroy_cmd(t_cmd *cmdv);
 void			destroy_cmdv(t_cmd *cmd);
@@ -85,7 +86,7 @@ unsigned int	get_argv_size(char **argv);
 
 // Prompt
 char			*prompt_user(void);
-char			*here_doc(char *stop_str);
+char			*launch_hd(char *stop_str);
 
 // Errors
 void			print_error(char *prefix, char *error);

@@ -36,3 +36,10 @@ int	*get_last_exit_p(void)
 
 	return (&last_exit);
 }
+
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
