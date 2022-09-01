@@ -39,7 +39,10 @@ char	*prompt_user(void)
 		free(str);
 		str = readline(C_GREEN"$"C_CYAN"> "C_RESET);
 		if (str == 0)
+		{
+			printf("exit\n");
 			exit(0);
+		}
 	}
 	str_trim = ft_strtrim(str, " \t\n");
 	free(str);

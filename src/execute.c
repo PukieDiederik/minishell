@@ -106,13 +106,12 @@ int	exec(t_cmd *cmdv, char **envp)
 		}
 		else
 		{
+			handle_cmd_signals();
 			id = fork();
 			if (id == 0)
-			{
-				handle_cmd_signals();
 				exec_child(fd, cmdv + i, envp, cmdv);
-			}
 			parent(cmdv + i, fd, id);
+			handle_global_signals();
 		}
 		i++;
 	}

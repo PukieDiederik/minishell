@@ -89,7 +89,7 @@ static char	*here_doc(char *stop_str, char *path)
 	}
 	close(fd);
 	free(str);
-	free(path);
+	free(path);		
 	exit(0);
 }
 
@@ -106,8 +106,8 @@ char	*launch_hd(char *stop_str)
 	if (id < 0)
 		return (0);
 	if (id == 0)
-	{
-		//Do signal stuff here
+	{	
+		handle_heredoc_signals();
 		here_doc(stop_str, path);
 	}
 	waitpid(id, &status, 0);

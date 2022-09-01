@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -22,13 +23,20 @@ static void	handle_cmd_signal(int sig)
 	{
 		*get_last_exit_p() = 130 * EXIT_MULT;
 		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
 	}
 	if (sig == SIGQUIT)
 	{
 		*get_last_exit_p() = 131 * EXIT_MULT;
 		printf("minishell: quit process\n");
+	}
+}
+
+static void	handle_heredoc_signal(int sig)
+{
+	if (sig == SIGINT)
+	{
+		*get_last_exit_p() = 130 * EXIT_MULT;
+		exit(130);
 	}
 }
 
@@ -47,13 +55,17 @@ static void	handle_global_signal(int sig)
 void	handle_cmd_signals(void)
 {
 	signal(SIGQUIT, handle_cmd_signal);
-	signal(SIGINT, SIG_IGN);
 	signal(SIGINT, handle_cmd_signal);
+}
+
+void	handle_heredoc_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_heredoc_signal);
 }
 
 void	handle_global_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
 	signal(SIGINT, handle_global_signal);
 }

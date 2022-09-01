@@ -76,6 +76,7 @@ int				launch_builtin(int *fd, t_cmd *cmdv, int i);
 int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);
 void			handle_cmd_signals(void);
+void			handle_heredoc_signals(void);
 void			handle_global_signals(void);
 
 // Utils
