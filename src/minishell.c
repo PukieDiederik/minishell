@@ -55,21 +55,14 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		str = prompt_user();
-		if (str && !ft_strncmp(str, "exit", 5))
-		{
-			destroy_argv(g_environ);
-			free(str);
-			return (0);
-		}
 		cmdv = parse_input(&str);
+		free(str);
 		if (!cmdv)
 		{
 			*get_last_exit_p() = 130 * EXIT_MULT;
-			free(str);
 			continue ;
 		}
 		exec(cmdv, envp);
 		destroy_cmdv(cmdv);
-		free(str);
 	}
 }

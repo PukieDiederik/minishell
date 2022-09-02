@@ -11,6 +11,7 @@ int is_builtin(char *str)
 			|| ft_strncmp(str, "pwd", 4) == 0
 			|| ft_strncmp(str, "export", 7) == 0
 			|| ft_strncmp(str, "unset", 6) == 0
+			|| ft_strncmp(str, "exit", 5) == 0
 			|| ft_strncmp(str, "env", 4) == 0);
 }
 
@@ -38,17 +39,20 @@ int launch_builtin(int *fd, t_cmd *cmdv, int i)
 
 	dup_stdio(orig_fds);
 	set_child_fds(fd, cmdv + i);
+	status = 1;
 	if (ft_strncmp(cmdv[i].argv[0], "echo", 5) == 0)
 		status = b_echo(cmdv + i);
-	if (ft_strncmp(cmdv[i].argv[0], "cd", 3) == 0)
+	else if (ft_strncmp(cmdv[i].argv[0], "cd", 3) == 0)
 		status = b_cd(cmdv + i);
-	if (ft_strncmp(cmdv[i].argv[0], "pwd", 4) == 0)
+	else if (ft_strncmp(cmdv[i].argv[0], "pwd", 4) == 0)
 		status = b_pwd(cmdv + i);
 	else if (ft_strncmp(cmdv[i].argv[0], "export", 7) == 0)
 		status = b_export(cmdv + i);
-	if (ft_strncmp(cmdv[i].argv[0], "unset", 6) == 0)
+	else if (ft_strncmp(cmdv[i].argv[0], "unset", 6) == 0)
 		status = b_unset(cmdv + i);
-	if (ft_strncmp(cmdv[i].argv[0], "env", 4) == 0)
+	else if (ft_strncmp(cmdv[i].argv[0], "exit", 4) == 0)
+		status = b_exit(cmdv, i);
+	else if (ft_strncmp(cmdv[i].argv[0], "env", 4) == 0)
 		status = b_env(cmdv + i);
 	reset_stdio(orig_fds);
 	*get_last_exit_p() = status * EXIT_MULT;

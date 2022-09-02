@@ -108,6 +108,7 @@ int				b_export(t_cmd *cmd);
 int				b_unset(t_cmd *cmd);
 int				b_cd(t_cmd *cmd);
 int				b_pwd(t_cmd *cmd);
+int				b_exit(t_cmd *cmdv, int i);
 
 // Env utils
 int				validate_env(char *env);

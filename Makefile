@@ -27,6 +27,7 @@ FNAMES 		=	minishell.c \
 				builtins/unset.c \
 				builtins/cd.c \
 				builtins/pwd.c \
+				builtins/exit.c \
 				\
 				env_utils/env_utils.c \
 				env_utils/remove_env.c \
@@ -46,7 +47,7 @@ LIBFT		= libft/libft.a
 ## Compilation
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=leak
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include
 LIBS		= -L libft -lft -lreadline
 ## Other
