@@ -159,9 +159,11 @@ int configure_io(char *str, t_cmd *cmdv)
 				else
 					tmp_str = get_regular_str(str + i);
 				if (!tmp_str)
-					return (0);
+					return (1);
 				cmdv[j].in_file = launch_hd(tmp_str);
 				free(tmp_str);
+				if (!cmdv[j].in_file)
+					return (1);
 			}
 			else
 			{
@@ -189,6 +191,8 @@ int configure_io(char *str, t_cmd *cmdv)
 				cmdv[j].out_file = get_qouted_str(str + i);
 			else
 				cmdv[j].out_file = get_regular_str(str + i);
+			if (!cmdv[j].out_file)
+				return (1);
 		}
 		if (str[i] == '|')
 		{
@@ -203,7 +207,7 @@ int configure_io(char *str, t_cmd *cmdv)
 		else
 			skip_regular(str, &i, &j);
 	}
-	return (1);
+	return (0);
 }
 
 //returns an array of argv pointers
@@ -227,6 +231,12 @@ t_cmd 	*parse_input(char **orig_str)
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
 	if (!cmdv || !str)
 		return (0);
+	if (configure_io(*orig_str, cmdv))
+	{
+		free(str);
+		free(cmdv);
+		return (0);
+	}
 	while (++i < cmd_count)
 	{
 		if (!get_cmd(str, cmdv + i))
@@ -234,6 +244,6 @@ t_cmd 	*parse_input(char **orig_str)
 		str = get_next_cmd(str);
 		str++;
 	}
-	configure_io(*orig_str, cmdv);
+
 	return (cmdv);
 }

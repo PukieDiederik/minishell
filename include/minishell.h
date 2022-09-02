@@ -116,4 +116,8 @@ int				add_env(char *env);
 int				remove_env(char *env);
 char			*get_env(char *env);
 
+// Signals
+void			disable_signals(void);
+void			sig_hd(int sig);
+
 #endif

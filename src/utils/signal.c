@@ -17,6 +17,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+void disable_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
 static void	handle_cmd_signal(int sig)
 {
 	if (sig == SIGINT)

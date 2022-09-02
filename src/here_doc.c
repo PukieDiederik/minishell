@@ -105,12 +105,15 @@ char	*launch_hd(char *stop_str)
 	id = fork();
 	if (id < 0)
 		return (0);
+	disable_signals();
 	if (id == 0)
-	{	
-		handle_heredoc_signals();
+	{
+		signal(SIGINT, sig_hd);
 		here_doc(stop_str, path);
+		handle_heredoc_signals();
 	}
 	waitpid(id, &status, 0);
+	handle_global_signals();
 	if (WEXITSTATUS(status))
 	{
 		free(path);
