@@ -233,7 +233,6 @@ t_cmd 	*parse_input(char **orig_str)
 		return (0);
 	if (configure_io(*orig_str, cmdv))
 	{
-		free(str);
 		free(cmdv);
 		return (0);
 	}
