@@ -71,7 +71,7 @@ char			**get_argv(char *str);
 
 // Executing
 char			*get_path(char *cmd);
-int				exec(t_cmd *cmdv, char **envp);
+int				exec(t_cmd *cmdv);
 int				launch_builtin(int *fd, t_cmd *cmdv, int i);
 int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);

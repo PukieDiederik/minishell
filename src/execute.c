@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+
+extern char **g_environ;
 
 void set_child_fds(int fd[2], t_cmd *cmd)
 {
@@ -38,7 +41,7 @@ void set_child_fds(int fd[2], t_cmd *cmd)
 	}
 }
 
-static void	exec_child(int fd[2], t_cmd *cmd, char **envp, t_cmd *cmdv)
+static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 {
 	char	*path;
 
@@ -48,7 +51,7 @@ static void	exec_child(int fd[2], t_cmd *cmd, char **envp, t_cmd *cmdv)
 		path = get_path(cmd->argv[0]);
 		if (!path)
 			exit(126);
-		execve(path, cmd->argv, envp);
+		execve(path, cmd->argv, g_environ);
 		free(path);
 		print_error("INT_ERR", "Something went wrong with executing");
 		destroy_cmdv(cmdv);
@@ -86,15 +89,29 @@ static void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 		fd[1] = p[1];
 }
 
-int	exec(t_cmd *cmdv, char **envp)
+static int get_cmd_size(t_cmd *cmdv)
+{
+	int i;
+
+	i = 0;
+	if (!cmdv)
+		return (0);
+	while (cmdv[i].argv)
+		i++;
+	return (i);
+}
+
+int	exec(t_cmd *cmdv)
 {
 	int		i;
 	pid_t	id;
 	int		p[2];
 	int		fd[2];
+	int		*ids;
 
 	if (!cmdv)
 		return (0);
+	ids = ft_calloc(get_cmd_size(cmdv), sizeof(int));
 	i = 0;
 	while (cmdv[i].argv)
 	{
@@ -103,17 +120,27 @@ int	exec(t_cmd *cmdv, char **envp)
 		set_fds(cmdv, p, fd, i);
 		if (is_builtin(cmdv[i].argv[0])) {
 			launch_builtin(fd, cmdv, i);
+			ids[i] = -1;
 		}
 		else
 		{
 			handle_cmd_signals();
 			id = fork();
 			if (id == 0)
-				exec_child(fd, cmdv + i, envp, cmdv);
+				exec_child(fd, cmdv + i, cmdv);
+			ids[i] = id;
 			parent(cmdv + i, fd, id);
 			handle_global_signals();
 		}
 		i++;
 	}
+	if (ids[--i] >= 0)
+		waitpid(ids[i], get_last_exit_p(), 0);
+	while (i-- > 0)
+	{
+		if (ids[i] >= 0)
+			waitpid(ids[i], 0, 0);
+	}
+	free(ids);
 	return (0);
 }
