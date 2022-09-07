@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
 
 void disable_signals(void)
 {
@@ -23,18 +24,16 @@ void disable_signals(void)
 	signal(SIGINT, SIG_IGN);
 }
 
-static void	handle_cmd_signal(int sig)
+void default_signals()
 {
-	if (sig == SIGINT)
-	{
-		*get_last_exit_p() = 130 * EXIT_MULT;
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+}
+
+static void handle_cmd_signal(int sig)
+{
+	if (sig == SIGINT || sig == SIGQUIT)
 		printf("\n");
-	}
-	if (sig == SIGQUIT)
-	{
-		*get_last_exit_p() = 131 * EXIT_MULT;
-		printf("minishell: quit process\n");
-	}
 }
 
 static void	handle_heredoc_signal(int sig)

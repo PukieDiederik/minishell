@@ -99,6 +99,7 @@ int	exec(t_cmd *cmdv)
 		return (0);
 	ids = ft_calloc(get_cmd_size(cmdv), sizeof(int));
 	i = 0;
+	handle_cmd_signals();
 	while (cmdv[i].argv)
 	{
 		fd[0] = STDIN_FILENO;
@@ -110,16 +111,15 @@ int	exec(t_cmd *cmdv)
 		}
 		else
 		{
-			handle_cmd_signals();
 			id = fork();
 			if (id == 0)
 			{
+				default_signals();
 				if (cmdv[i + 1].in_type == io_pipe)
 					close(p[0]);
 				exec_child(fd, cmdv + i, cmdv);
 			}
 			ids[i] = id;
-			handle_global_signals();
 		}
 		if (fd[0] != STDIN_FILENO)
 			close(fd[0]);
@@ -133,5 +133,6 @@ int	exec(t_cmd *cmdv)
 		if (ids[i] >= 0)
 			waitpid(ids[i], 0, 0);
 	free(ids);
+	handle_global_signals();
 	return (0);
 }

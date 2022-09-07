@@ -118,6 +118,7 @@ char			*get_env(char *env);
 
 // Signals
 void			disable_signals(void);
+void			default_signals();
 void			sig_hd(int sig);
 
 #endif
