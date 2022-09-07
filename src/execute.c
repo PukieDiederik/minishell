@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "libft.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -53,40 +54,25 @@ static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 			exit(126);
 		execve(path, cmd->argv, g_environ);
 		free(path);
-		print_error("INT_ERR", "Something went wrong with executing");
+		print_error("INT_ERR", "Something went wrong with executing\n");
 		destroy_cmdv(cmdv);
 		exit(127);
 	}
-	if (fd[0] != STDIN_FILENO)
-		close(fd[0]);
-	if (fd[0] != STDOUT_FILENO)
-		close(fd[1]);
 	destroy_cmdv(cmdv);
 	exit(0);
-}
-
-static void	parent(t_cmd *cmd, int fd[2], pid_t id)
-{
-	if (cmd->in_type == io_pipe)
-		close(fd[0]);
-	if (cmd->out_type == io_pipe)
-		close(fd[1]);
-	if ((cmd + 1)->argv == 0)
-		waitpid(id, get_last_exit_p(), 0);
 }
 
 static void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 {
 	if (cmdv[i].in_type == io_pipe)
 		fd[0] = p[0];
-	else if (i > 0 && cmdv[i - 1].out_type == io_pipe
-		&& cmdv[i].in_type != io_pipe)
-		close(p[0]);
 	pipe(p);
 	if (cmdv[i].out_type != io_pipe)
 		close(p[1]);
-	if (cmdv[i].out_type == io_pipe)
+	else
 		fd[1] = p[1];
+	if (cmdv[i + 1].in_type != io_pipe)
+		close(p[0]);
 }
 
 static int get_cmd_size(t_cmd *cmdv)
@@ -127,20 +113,25 @@ int	exec(t_cmd *cmdv)
 			handle_cmd_signals();
 			id = fork();
 			if (id == 0)
+			{
+				if (cmdv[i + 1].in_type == io_pipe)
+					close(p[0]);
 				exec_child(fd, cmdv + i, cmdv);
+			}
 			ids[i] = id;
-			parent(cmdv + i, fd, id);
 			handle_global_signals();
 		}
+		if (fd[0] != STDIN_FILENO)
+			close(fd[0]);
+		if (fd[1] != STDOUT_FILENO)
+			close(fd[1]);
 		i++;
 	}
 	if (ids[--i] >= 0)
 		waitpid(ids[i], get_last_exit_p(), 0);
 	while (i-- > 0)
-	{
 		if (ids[i] >= 0)
 			waitpid(ids[i], 0, 0);
-	}
 	free(ids);
 	return (0);
 }
