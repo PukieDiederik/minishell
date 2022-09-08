@@ -71,10 +71,11 @@ char			**get_argv(char *str);
 
 // Executing
 char			*get_path(char *cmd);
-int				exec(t_cmd *cmdv);
+void			exec(t_cmd *cmdv);
 int				launch_builtin(int *fd, t_cmd *cmdv, int i);
 int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);
+void			set_fds(t_cmd *cmdv, int p[2], int fd[2], int i);
 
 // Utils
 int				max(int a, int b);
@@ -83,6 +84,7 @@ void			destroy_cmd(t_cmd *cmdv);
 void			destroy_cmdv(t_cmd *cmd);
 void			print_cmdv(t_cmd *cmdv);
 unsigned int	get_argv_size(char **argv);
+int	get_cmd_size(t_cmd *cmdv);
 
 // Prompt
 char			*prompt_user(void);

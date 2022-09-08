@@ -12,35 +12,11 @@
 
 #include "minishell.h"
 #include "libft.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <sys/wait.h>
 
-extern char **g_environ;
-
-void set_child_fds(int fd[2], t_cmd *cmd)
-{
-	if (cmd->in_type == io_file)
-		fd[0] = open(cmd->in_file, O_RDONLY);
-	if (cmd->out_type == io_file)
-		fd[1] = open(cmd->out_file, O_CREAT | O_WRONLY, 0666);
-	else if (cmd->out_type == io_file_append)
-		fd[1] = open(cmd->out_file, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	if (fd[0] < 0 || fd[1] < 0)
-		print_error_exit("INT_ERR", "Could not open file(s)", 126);
-	if (fd[0] != STDIN_FILENO)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-	}
-}
+extern char	**g_environ;
 
 static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 {
@@ -62,71 +38,55 @@ static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 	exit(0);
 }
 
-static void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
+static void	launch_cmd(int p[2], int fd[2], t_cmd *cmdv, int *id)
 {
-	if (cmdv[i].in_type == io_pipe)
-		fd[0] = p[0];
-	pipe(p);
-	if (cmdv[i].out_type != io_pipe)
-		close(p[1]);
-	else
-		fd[1] = p[1];
-	if (cmdv[i + 1].in_type != io_pipe)
-		close(p[0]);
-}
-
-static int get_cmd_size(t_cmd *cmdv)
-{
-	int i;
-
-	i = 0;
-	if (!cmdv)
-		return (0);
-	while (cmdv[i].argv)
-		i++;
-	return (i);
-}
-
-int	exec(t_cmd *cmdv)
-{
-	int		i;
-	pid_t	id;
-	int		p[2];
-	int		fd[2];
-	int		*ids;
-
-	if (!cmdv)
-		return (0);
-	ids = ft_calloc(get_cmd_size(cmdv), sizeof(int));
-	i = 0;
-	handle_cmd_signals();
-	while (cmdv[i].argv)
+	*id = fork();
+	if (*id == 0)
 	{
-		fd[0] = STDIN_FILENO;
-		fd[1] = STDOUT_FILENO;
+		default_signals();
+		if ((cmdv + 1)->in_type == io_pipe)
+			close(p[0]);
+		exec_child(fd, cmdv, cmdv);
+	}
+}
+
+static void	exec_cmds(t_cmd *cmdv, int *p, int *fd, int *ids)
+{
+	int	i;
+
+	i = -1;
+	while (cmdv[++i].argv)
+	{
 		set_fds(cmdv, p, fd, i);
-		if (is_builtin(cmdv[i].argv[0])) {
+		if (is_builtin(cmdv[i].argv[0]))
+		{
 			launch_builtin(fd, cmdv, i);
 			ids[i] = -1;
 		}
 		else
 		{
-			id = fork();
-			if (id == 0)
-			{
-				default_signals();
-				if (cmdv[i + 1].in_type == io_pipe)
-					close(p[0]);
-				exec_child(fd, cmdv + i, cmdv);
-			}
-			ids[i] = id;
+			launch_cmd(p, fd, cmdv + i, ids + i);
 		}
 		if (fd[0] != STDIN_FILENO)
 			close(fd[0]);
 		if (fd[1] != STDOUT_FILENO)
 			close(fd[1]);
-		i++;
 	}
+}
+
+void	exec(t_cmd *cmdv)
+{
+	int		i;
+	int		p[2];
+	int		fd[2];
+	int		*ids;
+
+	if (!cmdv)
+		return ;
+	ids = ft_calloc(get_cmd_size(cmdv), sizeof(int));
+	i = get_cmd_size(cmdv);
+	handle_cmd_signals();
+	exec_cmds(cmdv, p, fd, ids);
 	if (ids[--i] >= 0)
 		waitpid(ids[i], get_last_exit_p(), 0);
 	while (i-- > 0)
@@ -134,5 +94,4 @@ int	exec(t_cmd *cmdv)
 			waitpid(ids[i], 0, 0);
 	free(ids);
 	handle_global_signals();
-	return (0);
 }

@@ -43,3 +43,15 @@ int	max(int a, int b)
 		return (a);
 	return (b);
 }
+
+int	get_cmd_size(t_cmd *cmdv)
+{
+	int	i;
+
+	i = 0;
+	if (!cmdv)
+		return (0);
+	while (cmdv[i].argv)
+		i++;
+	return (i);
+}

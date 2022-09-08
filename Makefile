@@ -16,6 +16,7 @@ FNAMES 		=	minishell.c \
 				here_doc.c \
 				\
 				execute.c \
+				fds.c \
 				utils.c \
 				get_program_path.c \
 				errors.c \
