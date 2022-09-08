@@ -108,7 +108,6 @@ char	*launch_hd(char *stop_str)
 	disable_signals();
 	if (id == 0)
 	{
-//		handle_heredoc_signals();
 		signal(SIGINT, sig_hd);
 		here_doc(stop_str, path);
 	}
