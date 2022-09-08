@@ -75,9 +75,6 @@ int				exec(t_cmd *cmdv);
 int				launch_builtin(int *fd, t_cmd *cmdv, int i);
 int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);
-void			handle_cmd_signals(void);
-void			handle_heredoc_signals(void);
-void			handle_global_signals(void);
 
 // Utils
 int				max(int a, int b);
@@ -118,7 +115,10 @@ char			*get_env(char *env);
 
 // Signals
 void			disable_signals(void);
-void			default_signals();
+void			default_signals(void);
+void			handle_cmd_signals(void);
+void			handle_global_signals(void);
 void			sig_hd(int sig);
+
 
 #endif

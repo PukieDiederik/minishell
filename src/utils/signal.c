@@ -3,46 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: galpers <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/21 10:00:51 by galpers           #+#    #+#             */
-/*   Updated: 2022/07/21 10:01:42 by galpers          ###   ########.fr       */
+/*   Created: 2022/09/08 02:09:34 by drobert-          #+#    #+#             */
+/*   Updated: 2022/09/08 02:09:36 by drobert-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
 
-void disable_signals(void)
+void	disable_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
 }
 
-void default_signals()
+void	default_signals(void)
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
-}
-
-static void handle_cmd_signal(int sig)
-{
-	if (sig == SIGINT || sig == SIGQUIT)
-		printf("\n");
-}
-
-static void	handle_heredoc_signal(int sig)
-{
-	if (sig == SIGINT)
-	{
-		*get_last_exit_p() = 130 * EXIT_MULT;
-		exit(130);
-	}
 }
 
 static void	handle_global_signal(int sig)
@@ -55,18 +37,6 @@ static void	handle_global_signal(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
-
-void	handle_cmd_signals(void)
-{
-	signal(SIGQUIT, handle_cmd_signal);
-	signal(SIGINT, handle_cmd_signal);
-}
-
-void	handle_heredoc_signals(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_heredoc_signal);
 }
 
 void	handle_global_signals(void)
