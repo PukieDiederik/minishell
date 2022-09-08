@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-unsigned int get_argv_size(char **argv)
+unsigned int	get_argv_size(char **argv)
 {
 	int	c;
 
