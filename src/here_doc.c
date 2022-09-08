@@ -89,7 +89,7 @@ static char	*here_doc(char *stop_str, char *path)
 	}
 	close(fd);
 	free(str);
-	free(path);		
+	free(path);
 	exit(0);
 }
 
