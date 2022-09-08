@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-void print_error(char *prefix, char *error)
+void	print_error(char *prefix, char *error)
 {
 	if (prefix)
 	{
@@ -22,16 +22,17 @@ void print_error(char *prefix, char *error)
 		write(STDERR_FILENO, ": ", 2);
 	}
 	write(STDERR_FILENO, error, ft_strlen(error));
-	write(STDERR_FILENO,"\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 }
 
-void print_error_exit(char *prefix, char *error, int exit_code) {
+void	print_error_exit(char *prefix, char *error, int exit_code)
+{
 	if (prefix)
 	{
 		write(STDERR_FILENO, prefix, ft_strlen(prefix));
 		write(STDERR_FILENO, ": ", 2);
 	}
 	write(STDERR_FILENO, error, ft_strlen(error));
-	write(STDERR_FILENO,"\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 	exit(exit_code);
 }
