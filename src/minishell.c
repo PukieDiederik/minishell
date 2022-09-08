@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "minishell.h"
 #include "libft.h"
 
-extern char **environ;
-char **g_environ;
+extern char	**environ;
+char		**g_environ;
 
-static int malloc_env()
+static int	malloc_env(void)
 {
 	char			**new_env;
 	unsigned int	i;
@@ -41,7 +40,7 @@ static int malloc_env()
 	return (0);
 }
 
-int	main()
+int	main(void)
 {
 	char	*str;
 	t_cmd	*cmdv;
