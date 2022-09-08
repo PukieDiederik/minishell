@@ -1,27 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/08 02:25:18 by drobert-          #+#    #+#             */
+/*   Updated: 2022/09/08 02:25:20 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
-#include <stdio.h>
 
-int is_builtin(char *str)
+int	is_builtin(char *str)
 {
 	if (!str)
 		return (0);
 	return (ft_strncmp(str, "echo", 5) == 0
-			|| ft_strncmp(str, "cd", 3) == 0
-			|| ft_strncmp(str, "pwd", 4) == 0
-			|| ft_strncmp(str, "export", 7) == 0
-			|| ft_strncmp(str, "unset", 6) == 0
-			|| ft_strncmp(str, "exit", 5) == 0
-			|| ft_strncmp(str, "env", 4) == 0);
+		|| ft_strncmp(str, "cd", 3) == 0
+		|| ft_strncmp(str, "pwd", 4) == 0
+		|| ft_strncmp(str, "export", 7) == 0
+		|| ft_strncmp(str, "unset", 6) == 0
+		|| ft_strncmp(str, "exit", 5) == 0
+		|| ft_strncmp(str, "env", 4) == 0);
 }
 
-static void dup_stdio(int *orig_fds)
+static void	dup_stdio(int *orig_fds)
 {
 	orig_fds[0] = dup(STDIN_FILENO);
 	orig_fds[1] = dup(STDOUT_FILENO);
 }
 
-static void reset_stdio(int *orig_fds)
+static void	reset_stdio(int *orig_fds)
 {
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
@@ -32,10 +43,10 @@ static void reset_stdio(int *orig_fds)
 }
 
 // returns exit status
-int launch_builtin(int *fd, t_cmd *cmdv, int i)
+int	launch_builtin(int *fd, t_cmd *cmdv, int i)
 {
-	int status;
-	int orig_fds[2];
+	int	status;
+	int	orig_fds[2];
 
 	dup_stdio(orig_fds);
 	set_child_fds(fd, cmdv + i);
