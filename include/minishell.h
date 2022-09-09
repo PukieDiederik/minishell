@@ -68,6 +68,7 @@ char			*get_next_cmd(const char *str);
 char			*insert_env(char **str, int i);
 char			*insert_envs(char **str);
 char			**get_argv(char *str);
+int				configure_io(char *str, t_cmd *cmdv);
 
 // Executing
 char			*get_path(char *cmd);
@@ -84,7 +85,7 @@ void			destroy_cmd(t_cmd *cmdv);
 void			destroy_cmdv(t_cmd *cmd);
 void			print_cmdv(t_cmd *cmdv);
 unsigned int	get_argv_size(char **argv);
-int	get_cmd_size(t_cmd *cmdv);
+int				get_cmd_size(t_cmd *cmdv);
 
 // Prompt
 char			*prompt_user(void);
@@ -121,6 +122,5 @@ void			default_signals(void);
 void			handle_cmd_signals(void);
 void			handle_global_signals(void);
 void			sig_hd(int sig);
-
 
 #endif
