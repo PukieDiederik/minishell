@@ -52,7 +52,7 @@ char	*get_regular_str(char *str)
 	return (sub_str);
 }
 
-t_cmd *get_cmd(char *str, t_cmd *cmd_p)
+t_cmd	*get_cmd(char *str, t_cmd *cmd_p)
 {
 	cmd_p->argv = get_argv(str);
 	if (!cmd_p->argv)
@@ -60,51 +60,31 @@ t_cmd *get_cmd(char *str, t_cmd *cmd_p)
 	return (cmd_p);
 }
 
-char *insert_envs(char **str)
+static int	setup(int *cmd_count, char **orig_str, char **str)
 {
-	int		i;
-	int		is_sqoute;
-	char	*str_tmp;
-
-	i = 0;
-	str_tmp = ft_strdup(*str);
-	is_sqoute = 0;
-	while (str_tmp[i])
-	{
-		if (str_tmp[i] == '\'')
-			is_sqoute = !is_sqoute;
-		if (str_tmp[i] == '$' && !is_sqoute)
-		{
-			insert_env(&str_tmp, i);
-			if (!str_tmp){
-				print_error("INT_ERR", "Inserting envs");
-				return (0);
-			}
-		}
-		i++;
-	}
-	*str = str_tmp;
-	return (*str);
+	if (!*orig_str)
+		return (1);
+	*cmd_count = count_commands(*orig_str);
+	if (*cmd_count < 0)
+		return (1);
+	*str = *orig_str;
+	insert_envs(str);
+	free(*orig_str);
+	*orig_str = *str;
+	return (0);
 }
 
 //returns an array of argv pointers
-t_cmd 	*parse_input(char **orig_str)
+t_cmd	*parse_input(char **orig_str)
 {
 	t_cmd	*cmdv;
 	int		cmd_count;
 	int		i;
 	char	*str;
 
+	if (setup(&cmd_count, orig_str, &str))
+		return (0);
 	i = -1;
-	if (!*orig_str)
-		return (0);
-	cmd_count = count_commands(*orig_str);
-	if (cmd_count < 0)
-		return (0);
-	str = *orig_str;
-	insert_envs(&str);
-	free(*orig_str);
-	*orig_str = str;
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
 	if (!cmdv || !str)
 		return (0);

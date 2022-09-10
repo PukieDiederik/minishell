@@ -92,3 +92,31 @@ char	*insert_env(char **str, int i)
 		return (no_env(env_str, str, i));
 	return (has_env(env_str, str, env, i));
 }
+
+char	*insert_envs(char **str)
+{
+	int		i;
+	int		is_sqoute;
+	char	*str_tmp;
+
+	i = 0;
+	str_tmp = ft_strdup(*str);
+	is_sqoute = 0;
+	while (str_tmp[i])
+	{
+		if (str_tmp[i] == '\'')
+			is_sqoute = !is_sqoute;
+		if (str_tmp[i] == '$' && !is_sqoute)
+		{
+			insert_env(&str_tmp, i);
+			if (!str_tmp)
+			{
+				print_error("INT_ERR", "Inserting envs");
+				return (0);
+			}
+		}
+		i++;
+	}
+	*str = str_tmp;
+	return (*str);
+}
