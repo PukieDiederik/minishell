@@ -31,6 +31,12 @@ static void	set_defaults(t_cmd *cmdv)
 	cmdv[--j].out_type = io_none;
 }
 
+static void	skip_spaces(char *str, int *i)
+{
+	while (str[*i] == ' ')
+		(*i)++;
+}
+
 int	configure_io(char *str, t_cmd *cmdv)
 {
 	int		j;
@@ -41,8 +47,7 @@ int	configure_io(char *str, t_cmd *cmdv)
 	j = 0;
 	while (str[i])
 	{
-		while (str[i] == ' ')
-			i++;
+		skip_spaces(str, &i);
 		if (str[i] == '>' || str[i] == '<')
 		{
 			if (handle_redirect(str, cmdv + j, &i))
