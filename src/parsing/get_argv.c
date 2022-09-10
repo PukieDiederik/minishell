@@ -10,23 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "libft.h"
 #include "minishell.h"
-
-static int	skip_qouted(const char *str, int *i)
-{
-	char	c;
-
-	c = str[*i];
-	(*i)++;
-	while (str[*i] && str[*i] != c)
-		(*i)++;
-	if (!str[*i])
-		return (1);
-	(*i)++;
-	return (0);
-}
 
 static int get_arg_length(char *str)
 {

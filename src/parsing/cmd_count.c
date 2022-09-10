@@ -13,23 +13,6 @@
 #include "minishell.h"
 #include "libft.h"
 
-static int	skip_qouted(const char *str, int *i)
-{
-	char	c;
-
-	c = str[*i];
-	(*i)++;
-	while (str[*i] && str[*i] != c)
-		(*i)++;
-	if (!str[*i])
-	{
-		print_error("Parsing", "Unclosed qoute");
-		return (1);
-	}
-	(*i)++;
-	return (0);
-}
-
 static int	get_return_val(int c, int has_args, const char *str)
 {
 	int	i;

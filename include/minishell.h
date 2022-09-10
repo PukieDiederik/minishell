@@ -101,6 +101,7 @@ char			*get_regular_str(char *str);
 int				*get_last_exit_p(void);
 int				skip_redirect(char *str, int *i);
 int				skip_regular(const char *str, int *i);
+int				skip_qouted(const char *str, int *i);
 
 
 // Builtins
