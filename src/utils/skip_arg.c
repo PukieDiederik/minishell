@@ -35,3 +35,47 @@ int	skip_qouted(const char *str, int *i)
 	(*i)++;
 	return (0);
 }
+
+int	skip_arg(const char *str, int *i)
+{
+	if (str[*i] == '\'' || str[*i] == '"')
+	{
+		if (skip_qouted(str, i))
+			return (1);
+	}
+	else
+		skip_regular(str, i);
+	while (str[*i] == ' ')
+		(*i)++;
+	return (0);
+}
+
+int	skip_non_arg(const char *str, int *i)
+{
+	while (str[*i] == ' ' || str[*i] == '<' || str[*i] == '>')
+	{
+		if (str[*i] == '<' || str[*i] == '>')
+		{
+			if (skip_redirect(str, i))
+				return (1);
+		}
+		else
+			(*i)++;
+	}
+	return (0);
+}
+
+int	skip_redirect(const char *str, int *i)
+{
+	if (str[*i] == '<' && str[*i + 1] != '<')
+		*i += 1;
+	else if (str[*i] == '<' && str[*i + 1] == '<')
+		*i += 2;
+	else if (str[*i] == '>' && str[*i + 1] != '>')
+		*i += 1;
+	else if (str[*i] == '>' && str[*i + 1] == '>')
+		*i += 2;
+	while (str[*i] == ' ')
+		(*i)++;
+	return (skip_arg(str, i));
+}

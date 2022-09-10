@@ -99,10 +99,11 @@ unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
 int				*get_last_exit_p(void);
-int				skip_redirect(char *str, int *i);
+int				skip_redirect(const char *str, int *i);
 int				skip_regular(const char *str, int *i);
 int				skip_qouted(const char *str, int *i);
-
+int				skip_arg(const char *str, int *i);
+int				skip_non_arg(const char *str, int *i);
 
 // Builtins
 int				b_echo(t_cmd *cmd);

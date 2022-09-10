@@ -73,32 +73,6 @@ static char *get_arg(char *str)
 	return (arg);
 }
 
-static int skip_arg(const char *str, int *i)
-{
-	while (str[*i] != ' ' && str[*i] != '|' && str[*i])
-	{
-		if (str[*i] == '\'' || str[*i] == '"')
-		{
-			if (skip_qouted(str, i))
-				return (1);
-		}
-		else
-			skip_regular(str, i);
-	}
-	return (0);
-}
-
-static void skip_non_arg(char *str, int *i)
-{
-	while (str[*i] == ' ' || str[*i] == '<' || str[*i] == '>')
-	{
-		if (str[*i] == '<' || str[*i] == '>')
-			skip_redirect(str, i);
-		else
-			(*i)++;
-	}
-}
-
 char	**get_argv(char *str)
 {
 	int				argv_count;
