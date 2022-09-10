@@ -108,11 +108,6 @@ t_cmd 	*parse_input(char **orig_str)
 	cmdv = ft_calloc(cmd_count + 1, sizeof(t_cmd));
 	if (!cmdv || !str)
 		return (0);
-	if (configure_io(*orig_str, cmdv))
-	{
-		free(cmdv);
-		return (0);
-	}
 	while (++i < cmd_count)
 	{
 		if (!get_cmd(str, cmdv + i))
@@ -120,6 +115,10 @@ t_cmd 	*parse_input(char **orig_str)
 		str = get_next_cmd(str);
 		str++;
 	}
-
+	if (configure_io(*orig_str, cmdv))
+	{
+		destroy_cmdv(cmdv);
+		return (0);
+	}
 	return (cmdv);
 }
