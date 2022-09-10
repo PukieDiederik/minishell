@@ -13,13 +13,14 @@
 #include "libft.h"
 #include "minishell.h"
 
-static int get_arg_length(char *str)
+static int	get_arg_length(char *str)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
-
-	while(str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i])
+	i = 0;
+	j = 0;
+	while (str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
 		{
@@ -32,20 +33,22 @@ static int get_arg_length(char *str)
 	return (i - j);
 }
 
-static void get_regular(char *dest, char *src, int *i)
+static void	get_regular(char *dest, char *src, int *i)
 {
 	while (!is_special_char(*src) && *src != '\0')
 		dest[(*i)++] = *src++;
 }
 
-static void get_qouted(char *dest, char *src, int *i)
+static void	get_qouted(char *dest, char *src, int *i)
 {
-	char qoute = *src++;
-	while (*src != qoute)
+	char	c;
+
+	c = *src++;
+	while (*src != c)
 		dest[(*i)++] = *src++;
 }
 
-static char *get_arg(char *str)
+static char	*get_arg(char *str)
 {
 	int		i;
 	int		j;
@@ -54,7 +57,6 @@ static char *get_arg(char *str)
 
 	size = get_arg_length(str);
 	arg = ft_calloc(size + 1, sizeof(char));
-
 	i = 0;
 	j = 0;
 	while (i < size)
@@ -83,9 +85,8 @@ char	**get_argv(char *str)
 	i = 0;
 	j = 0;
 	argv_count = count_argv(str);
-	if (argv_count < 0) {
+	if (argv_count < 0)
 		return (0);
-	}
 	argv = ft_calloc(argv_count + 1, sizeof(char *));
 	if (!argv)
 	{
