@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 unsigned int	is_special_char(char c);
 
 static int	skip_qouted(const char *str, int *i)
@@ -28,13 +26,7 @@ static int	skip_qouted(const char *str, int *i)
 	return (0);
 }
 
-static void	skip_regular(const char *str, int *i)
-{
-	while (!is_special_char(str[*i]))
-		(*i)++;
-}
-
-static int skip_arg(const char *str, int *i)
+static int	skip_arg(const char *str, int *i)
 {
 	while (str[*i] != ' ' && str[*i] != '|' && str[*i])
 	{
@@ -44,7 +36,8 @@ static int skip_arg(const char *str, int *i)
 				return (1);
 		}
 		else
-			skip_regular(str, i);
+			while (!is_special_char(str[*i]))
+				(*i)++;
 	}
 	return (0);
 }
@@ -64,7 +57,7 @@ int	skip_redirect(const char *str, int *i)
 	return (skip_arg(str, i));
 }
 
-static void skip_non_arg(const char *str, int *i)
+static void	skip_non_arg(const char *str, int *i)
 {
 	while (str[*i] == ' ' || str[*i] == '<' || str[*i] == '>')
 	{
@@ -74,6 +67,7 @@ static void skip_non_arg(const char *str, int *i)
 			(*i)++;
 	}
 }
+
 // If you want the 2nd command's argument give the pointer to the start of it
 int	count_argv(const char *str)
 {
@@ -85,7 +79,8 @@ int	count_argv(const char *str)
 	skip_non_arg(str, &i);
 	while (str[i] && str[i] != '|')
 	{
-		if (skip_arg(str, &i)) {
+		if (skip_arg(str, &i))
+		{
 			return (-1);
 		}
 		skip_non_arg(str, &i);
