@@ -28,12 +28,6 @@ static int	skip_qouted(const char *str, int *i)
 	return (0);
 }
 
-static void	skip_regular(const char *str, int *i)
-{
-	while (!is_special_char(str[*i]) && str[*i] != '\0')
-		(*i)++;
-}
-
 static int get_arg_length(char *str)
 {
 	int i = 0;

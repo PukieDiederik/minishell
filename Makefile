@@ -39,6 +39,7 @@ FNAMES 		=	minishell.c \
 				utils/signal.c \
 				utils/sig_hd.c \
 				utils/sig_cmd.c \
+				utils/skip_arg.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 

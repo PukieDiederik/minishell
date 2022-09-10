@@ -14,24 +14,6 @@
 
 int	handle_redirect(char *str, t_cmd *cmd, int *i);
 
-static int	skip_regular(const char *str, int *i, int *c)
-{
-	while (str[*i] && !is_special_char(str[*i]))
-		(*i)++;
-	if (str[*i] == '|')
-	{
-		(*c)++;
-		(*i)++;
-	}
-	if (str[*i] == '<' || str[*i] == '>')
-	{
-		(*i)++;
-		if (str[*i] == '<' || str[*i] == '>')
-			(*i)++;
-	}
-	return (0);
-}
-
 static int	skip_qouted(const char *str, int *i)
 {
 	char	c;
@@ -76,12 +58,19 @@ int	configure_io(char *str, t_cmd *cmdv)
 		while (str[i] == ' ')
 			i++;
 		if (str[i] == '>' || str[i] == '<')
+		{
 			if (handle_redirect(str, cmdv + j, &i))
 				return (1);
-		if (str[i] == '\'' || str[i] == '"')
+		}
+		else if (str[i] == '\'' || str[i] == '"')
 			skip_qouted(str, &i);
+		else if (str[i] == '|')
+		{
+			j++;
+			i++;
+		}
 		else
-			skip_regular(str, &i, &j);
+			skip_regular(str, &i);
 	}
 	return (0);
 }

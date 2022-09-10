@@ -98,8 +98,10 @@ void			print_error_exit(char *prefix, char *error, int exit_code);
 unsigned int	is_special_char(char c);
 char			*get_qouted_str(char *str);
 char			*get_regular_str(char *str);
-int				skip_redirect(char *str, int *i);
 int				*get_last_exit_p(void);
+int				skip_redirect(char *str, int *i);
+int				skip_regular(const char *str, int *i);
+
 
 // Builtins
 int				b_echo(t_cmd *cmd);

@@ -47,26 +47,6 @@ static int	get_return_val(int c, int has_args, const char *str)
 	return (c);
 }
 
-static int	skip_regular(const char *str, int *i, int *has_args, int *c)
-{
-	if (str[*i] != '|')
-		*has_args = 1;
-	while (str[*i] && !is_special_char(str[*i]))
-		(*i)++;
-	if (str[*i] == '|')
-	{
-		if (!*has_args)
-		{
-			print_error("Parsing", "Empty pipe");
-			return (1);
-		}
-		(*c)++;
-		(*i)++;
-		*has_args = 0;
-	}
-	return (0);
-}
-
 int is_redirect_valid (const char *str)
 {
 	unsigned int	i;
@@ -118,8 +98,22 @@ int	count_commands(const char *str)
 			if (skip_qouted(str, &i))
 				return (-1);
 		}
-		else if (skip_regular(str, &i, &has_args, &c))
-			return (-1);
+		else if (str[i] == '|')
+		{
+			if (!has_args)
+			{
+				print_error("parsing", "empty pipe");
+				return (-1);
+			}
+			has_args = 0;
+			c++;
+			i++;
+		}
+		else
+		{
+			skip_regular(str, &i);
+			has_args = 1;
+		}
 	}
 	return (get_return_val(c, has_args, str));
 }
