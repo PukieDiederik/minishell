@@ -40,13 +40,16 @@ static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 
 static void	launch_cmd(int p[2], int fd[2], t_cmd *cmdv, int *id)
 {
+	int	i;
+
+	i = *id;
 	*id = fork();
 	if (*id == 0)
 	{
 		default_signals();
-		if ((cmdv + 1)->in_type == io_pipe)
+		if ((cmdv + i + 1)->in_type == io_pipe)
 			close(p[0]);
-		exec_child(fd, cmdv, cmdv);
+		exec_child(fd, cmdv + i, cmdv);
 	}
 }
 
@@ -65,7 +68,8 @@ static void	exec_cmds(t_cmd *cmdv, int *p, int *fd, int *ids)
 		}
 		else
 		{
-			launch_cmd(p, fd, cmdv + i, ids + i);
+			ids[i] = i;
+			launch_cmd(p, fd, cmdv, ids + i);
 		}
 		if (fd[0] != STDIN_FILENO)
 			close(fd[0]);
