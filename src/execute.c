@@ -27,7 +27,10 @@ static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 	{
 		path = get_path(cmd->argv[0]);
 		if (!path)
+		{
+			print_error(cmd->argv[0], "Could not find command");
 			exit(126);
+		}
 		execve(path, cmd->argv, g_environ);
 		free(path);
 		print_error("INT_ERR", "Something went wrong with executing\n");

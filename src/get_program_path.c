@@ -92,6 +92,5 @@ char	*get_path(char *cmd)
 	else if (ret_path)
 		return (ret_path);
 	destroy_argv(paths);
-	print_error(cmd, "Could not find command");
 	return (0);
 }
