@@ -49,6 +49,6 @@ void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 		close(p[1]);
 	else
 		fd[1] = p[1];
-    if (!cmdv[i + 1].argv)
-        close(p[0]);
+	if (!cmdv[i + 1].argv)
+		close(p[0]);
 }
