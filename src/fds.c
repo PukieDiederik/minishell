@@ -42,11 +42,13 @@ void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 	fd[1] = STDOUT_FILENO;
 	if (cmdv[i].in_type == io_pipe)
 		fd[0] = p[0];
-	else
+	else if (i > 0)
 		close(p[0]);
 	pipe(p);
 	if (cmdv[i].out_type != io_pipe)
 		close(p[1]);
 	else
 		fd[1] = p[1];
+    if (!cmdv[i + 1].argv)
+        close(p[0]);
 }
