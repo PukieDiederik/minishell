@@ -56,14 +56,15 @@ static void	launch_cmd(int p[2], int fd[2], t_cmd *cmdv, int *id)
 	}
 }
 
-static void	exec_cmds(t_cmd *cmdv, int *p, int *fd, int *ids)
+static int	exec_cmds(t_cmd *cmdv, int *p, int *fd, int *ids)
 {
 	int	i;
 
 	i = -1;
 	while (cmdv[++i].argv)
 	{
-		set_fds(cmdv, p, fd, i);
+		if (set_fds(cmdv, p, fd, i))
+			return (1);
 		if (is_builtin(cmdv[i].argv[0]))
 		{
 			launch_builtin(fd, cmdv, i);
@@ -79,6 +80,7 @@ static void	exec_cmds(t_cmd *cmdv, int *p, int *fd, int *ids)
 		if (fd[1] != STDOUT_FILENO)
 			close(fd[1]);
 	}
+	return (0);
 }
 
 void	exec(t_cmd *cmdv)
@@ -93,7 +95,11 @@ void	exec(t_cmd *cmdv)
 	ids = ft_calloc(get_cmd_size(cmdv), sizeof(int));
 	i = get_cmd_size(cmdv);
 	handle_cmd_signals();
-	exec_cmds(cmdv, p, fd, ids);
+	if (exec_cmds(cmdv, p, fd, ids))
+	{
+		*get_last_exit_p() = 121 * EXIT_MULT;
+		return ;
+	}
 	if (ids[--i] >= 0)
 		waitpid(ids[i], get_last_exit_p(), 0);
 	while (i-- > 0)

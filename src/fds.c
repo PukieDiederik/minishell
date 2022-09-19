@@ -26,17 +26,19 @@ void	set_child_fds(int fd[2], t_cmd *cmd)
 		print_error_exit("INT_ERR", "Could not open file(s)", 126);
 	if (fd[0] != STDIN_FILENO)
 	{
-		dup2(fd[0], STDIN_FILENO);
+		if (dup2(fd[0], STDIN_FILENO) < 0)
+			print_error_exit("INT_ERR", "could not dup", 123);
 		close(fd[0]);
 	}
 	if (fd[1] != STDOUT_FILENO)
 	{
-		dup2(fd[1], STDOUT_FILENO);
+		if (dup2(fd[1], STDOUT_FILENO) < 0)
+			print_error_exit("INT_ERR", "could not dup", 123);
 		close(fd[1]);
 	}
 }
 
-void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
+int	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 {
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
@@ -44,11 +46,16 @@ void	set_fds(t_cmd *cmdv, int p[2], int fd[2], int i)
 		fd[0] = p[0];
 	else if (i > 0)
 		close(p[0]);
-	pipe(p);
+	if (pipe(p))
+	{
+		print_error("INT_ERR", "Pipe Error");
+		return (1);
+	}
 	if (cmdv[i].out_type != io_pipe)
 		close(p[1]);
 	else
 		fd[1] = p[1];
 	if (!cmdv[i + 1].argv)
 		close(p[0]);
+	return (0);
 }

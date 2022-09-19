@@ -76,7 +76,7 @@ void			exec(t_cmd *cmdv);
 int				launch_builtin(int *fd, t_cmd *cmdv, int i);
 int				is_builtin(char *str);
 void			set_child_fds(int fd[2], t_cmd *cmd);
-void			set_fds(t_cmd *cmdv, int p[2], int fd[2], int i);
+int				set_fds(t_cmd *cmdv, int p[2], int fd[2], int i);
 
 // Utils
 int				max(int a, int b);

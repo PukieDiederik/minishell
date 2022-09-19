@@ -22,8 +22,6 @@ int	b_exit(t_cmd *cmdv, int i)
 		print_error("exit", "Too many arguments");
 		return (2);
 	}
-	if (i != 0)
-		return (0);
 	destroy_cmdv(cmdv);
 	destroy_argv(g_environ);
 	exit(0);
