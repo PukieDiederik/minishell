@@ -1,14 +1,49 @@
 ## File stuff
 
-FNAMES 		=	minishell.c
-
-HNAMES		=	minishell.h
+FNAMES 		=	minishell.c \
+				\
+				parsing/parsing.c \
+				parsing/get_argv.c \
+				parsing/cmd_count.c \
+				parsing/argv_count.c \
+				parsing/next_cmd.c \
+				parsing/insert_env.c \
+				parsing/configure_io.c \
+				parsing/configure_io_handle.c \
+				\
+				parsing/print_cmdv.c \
+				parsing/destroy_argvv.c \
+				\
+				prompt.c \
+				here_doc.c \
+				\
+				execute.c \
+				fds.c \
+				utils.c \
+				get_program_path.c \
+				errors.c \
+				builtins.c \
+				\
+				builtins/echo.c \
+				builtins/env.c \
+				builtins/export.c \
+				builtins/unset.c \
+				builtins/cd.c \
+				builtins/pwd.c \
+				builtins/exit.c \
+				\
+				env_utils/env_utils.c \
+				env_utils/remove_env.c \
+				env_utils/add_env.c \
+				env_utils/get_env.c \
+				utils/signal.c \
+				utils/sig_hd.c \
+				utils/sig_cmd.c \
+				utils/skip_arg.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))
-
-HEADERS		=	$(addprefix $(INCLUDE_DIR)/,$(HNAMES))
 
 INCLUDE_DIR	= include
 SRCS_DIR	= src
@@ -19,19 +54,15 @@ LIBFT		= libft/libft.a
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-INCLUDES	= -I $(INCLUDE_DIR) -I libft
-LIBS		= -L libft -lft
+INCLUDES	= -I $(INCLUDE_DIR) -I libft/include
+LIBS		= -L libft -lft -lreadline
 ## Other
 
 NAME		= minishell
 RM			= rm -rf
 MAKE		= make -s
-# Echo (Different on Linux and Mac)
-ifeq ($(shell uname),Linux)
-	ECHO	= echo -e
-else
-	ECHO	= echo
-endif
+
+ECHO		= echo -e
 
 
 # Colors
@@ -50,11 +81,11 @@ RESET			= \033[0m
 ## Targets
 all: $(NAME)
 
-$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c $(HEADERS)
+$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
 	@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
 
-$(OBJS_DIR)/%.o : $(SRCS_DIR)/*/%.c $(HEADERS)
+$(OBJS_DIR)/%.o : $(SRCS_DIR)/*/%.c
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
 	@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
 
@@ -62,7 +93,7 @@ $(OBJS_DIR):
 	@test -d $(OBJS_DIR) || (mkdir $(OBJS_DIR) && $(ECHO) "$(BLUE)Directory '$(CYAN)$(OBJS_DIR)/$(BLUE)' doesn't exist. Creating '$(CYAN)$(OBJS_DIR)/$(BLUE)'$(RESET)")
 
 $(LIBFT):
-	@$(MAKE) -C libft bonus
+	@$(MAKE) -C libft
 
 # regular targets
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
@@ -83,11 +114,11 @@ fclean: clean
 re: fclean all
 
 vars:
-	@echo "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
-	@echo "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
-	@echo "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
-	@echo "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
-	@echo "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
-	@echo "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
+	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
+	@$(ECHO) "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
+	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
+	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
+	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
+	@$(ECHO) "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
 
 .PHONY: all clean fclean re
