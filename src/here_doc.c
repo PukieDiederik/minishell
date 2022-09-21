@@ -78,14 +78,17 @@ static char	*here_doc(char *stop_str, char *path)
 	fd = open(path, O_CREAT | O_RDWR, 0666);
 	if (fd < 0)
 		exit(1);
-	str = ins_envs(readline(C_GREEN"hd"C_CYAN"> "C_RESET));
-	while (str && ft_strncmp(str, stop_str,
-			max(ft_strlen(str), ft_strlen(stop_str))))
+	while (1)
 	{
+		str = ins_envs(readline(C_GREEN"hd"C_CYAN"> "C_RESET));
+		if (!str)
+			printf("\n");
+		if (!str || !ft_strncmp(str, stop_str,
+				max(ft_strlen(str), ft_strlen(stop_str))))
+			exit(0);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
-		str = ins_envs(readline(C_GREEN"hd"C_CYAN"> "C_RESET));
 	}
 	close(fd);
 	free(str);
