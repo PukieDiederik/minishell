@@ -70,7 +70,7 @@ int	b_exit(t_cmd *cmdv, int i)
 		exit_code = 0;
 	else
 		exit_code = get_exit_code(cmdv[i].argv[1]);
-	printf("exit");
+	printf("exit\n");
 	destroy_cmdv(cmdv);
 	destroy_argv(g_environ);
 	exit(exit_code);
