@@ -29,13 +29,13 @@ static void	exec_child(int fd[2], t_cmd *cmd, t_cmd *cmdv)
 		if (!path)
 		{
 			print_error(cmd->argv[0], "Could not find command");
-			exit(126);
+			exit(127);
 		}
 		execve(path, cmd->argv, g_environ);
 		free(path);
 		print_error("INT_ERR", "Something went wrong with executing\n");
 		destroy_cmdv(cmdv);
-		exit(127);
+		exit(126);
 	}
 	destroy_cmdv(cmdv);
 	exit(0);
