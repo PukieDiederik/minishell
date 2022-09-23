@@ -90,9 +90,11 @@ static int	old_path(void)
  */
 int	b_cd(t_cmd *cmd)
 {
-	if (get_argv_size(cmd->argv) != 2)
+	if (get_argv_size(cmd->argv) == 1)
+		return(change_dir(get_env("HOME")));
+	else if (get_argv_size(cmd->argv) > 2)
 	{
-		print_error("cd", "Not correct amount of args");
+		print_error("cd", "Too many arguments");
 		return (1);
 	}
 	if (!ft_strncmp(cmd->argv[1], "-", 2))
