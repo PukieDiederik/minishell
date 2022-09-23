@@ -51,8 +51,6 @@ int	add_env(char *env)
 
 	if (!validate_env(env))
 		return (2);
-	if (!ft_strchr(env, '='))
-		return (0);
 	env = ft_strdup(env);
 	if (!env)
 		return (1);
