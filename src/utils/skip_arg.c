@@ -39,9 +39,10 @@ int	skip_qouted(const char *str, int *i)
 
 int	skip_arg(const char *str, int *i)
 {
-	while(str[*i] == ' ')
+	while (str[*i] == ' ')
 		(*i)++;
-	while (str[*i] != ' ' && str[*i] != '<' && str[*i] != '>' && str[*i] != '\t' && str[*i])
+	while (str[*i] != ' ' && str[*i] != '<' && str[*i] != '>'
+		&& str[*i] != '\t' && str[*i])
 	{
 		if (str[*i] == '\'' || str[*i] == '"')
 		{

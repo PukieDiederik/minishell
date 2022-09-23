@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-static int partition(char **arr, int low, int high)
+static int	partition(char **arr, int low, int high)
 {
-	int i;
-	int j;
-	char *pivot;
-	char *tmp;
+	int		i;
+	int		j;
+	char	*pivot;
+	char	*tmp;
 
 	pivot = arr[high];
 	i = low - 1;
@@ -39,9 +39,9 @@ static int partition(char **arr, int low, int high)
 	return (i + 1);
 }
 
-void quick_sort(char **arr, int low, int high)
+void	quick_sort(char **arr, int low, int high)
 {
-	int pi;
+	int	pi;
 
 	if (low < high)
 	{

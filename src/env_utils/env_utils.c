@@ -21,7 +21,7 @@ extern char	**g_environ;
 int	validate_env(char *env)
 {
 	if (!((*env >= 'A' && *env <= 'Z') || (*env >= 'a' && *env <= 'z')
-		|| *env == '_'))
+			|| *env == '_'))
 		return (0);
 	env++;
 	while (ft_isalnum(*env) || *env == '_')

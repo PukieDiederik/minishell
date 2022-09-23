@@ -91,7 +91,7 @@ static int	old_path(void)
 int	b_cd(t_cmd *cmd)
 {
 	if (get_argv_size(cmd->argv) == 1)
-		return(change_dir(get_env("HOME")));
+		return (change_dir(get_env("HOME")));
 	else if (get_argv_size(cmd->argv) > 2)
 	{
 		print_error("cd", "Too many arguments");
