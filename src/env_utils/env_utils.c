@@ -47,7 +47,8 @@ char	**get_env_p(char *env)
 	else
 		s_env = ft_strlen(env);
 	while (g_environ[++i])
-		if (!ft_strncmp(g_environ[i], env, s_env) && g_environ[i][s_env] == '=')
+		if (!ft_strncmp(g_environ[i], env, s_env)
+			&& (g_environ[i][s_env] == '=' || g_environ[i][s_env] == '\0'))
 			return (g_environ + i);
 	return (0);
 }
