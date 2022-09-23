@@ -16,33 +16,24 @@
 
 extern char	**g_environ;
 
-static char *get_env_name(char *env)
+static char	*get_env_name(char *env)
 {
-	char *eq_p;
-	char *ret;
+	char	*eq_p;
+	char	*ret;
 
 	eq_p = ft_strchr(env, '=');
 	if (!eq_p)
 		return (ft_strdup(env));
 	ret = ft_calloc(eq_p - env + 1, sizeof(char));
 	ft_memcpy(ret, env, eq_p - env);
-	return ret;
+	return (ret);
 }
 
-static int print_env()
+static int	print(char **sorted)
 {
-	char **sorted;
-	char *name;
-	int i;
+	int		i;
+	char	*name;
 
-	sorted = ft_calloc(get_argv_size(g_environ) + 1, sizeof(char *));
-	if (!sorted)
-	{
-		print_error("INT_ERR", "Malloc Error");
-		return (1);
-	}
-	ft_memcpy(sorted, g_environ, get_argv_size(g_environ) * sizeof(char *));
-	quick_sort(sorted, 0, get_argv_size(sorted) - 1);
 	i = 0;
 	while (sorted[i])
 	{
@@ -60,9 +51,25 @@ static int print_env()
 		free(name);
 		i++;
 	}
-	free(sorted);
 	return (0);
 }
+
+static int	print_env(void)
+{
+	char	**sorted;
+
+	sorted = ft_calloc(get_argv_size(g_environ) + 1, sizeof(char *));
+	if (!sorted)
+	{
+		print_error("INT_ERR", "Malloc Error");
+		return (1);
+	}
+	ft_memcpy(sorted, g_environ, get_argv_size(g_environ) * sizeof(char *));
+	quick_sort(sorted, 0, get_argv_size(sorted) - 1);
+	free(sorted);
+	return (print(sorted));
+}
+
 /* b_export - BUILTIN export
  *
  * Adds enviroment variables
