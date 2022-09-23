@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 static int	handle_file_in(char *str, t_cmd *cmd)
 {
@@ -73,6 +75,7 @@ static int	handle_file_out(char *str, t_cmd *cmd)
 		return (1);
 	else
 		cmd->out_file = get_regular_str(str);
+	close(open(cmd->out_file, O_RDWR | O_CREAT | O_TRUNC, 0666));
 	return (cmd->out_file == 0);
 }
 
@@ -92,6 +95,7 @@ static int	handle_file_out_append(char *str, t_cmd *cmd)
 		return (1);
 	else
 		cmd->out_file = get_regular_str(str);
+	close(open(cmd->out_file, O_RDWR | O_CREAT | O_APPEND, 0666));
 	return (cmd->out_file == 0);
 }
 
