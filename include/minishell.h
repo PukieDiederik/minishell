@@ -86,6 +86,7 @@ void			destroy_cmdv(t_cmd *cmd);
 void			print_cmdv(t_cmd *cmdv);
 unsigned int	get_argv_size(char **argv);
 int				get_cmd_size(t_cmd *cmdv);
+void			quick_sort(char **arr, int low, int high);
 
 // Prompt
 char			*prompt_user(void);

@@ -23,6 +23,7 @@ FNAMES 		=	minishell.c \
 				get_program_path.c \
 				errors.c \
 				builtins.c \
+				quick_sort.c \
 				\
 				builtins/echo.c \
 				builtins/env.c \

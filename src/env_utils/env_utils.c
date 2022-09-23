@@ -20,8 +20,11 @@ extern char	**g_environ;
  */
 int	validate_env(char *env)
 {
-	while ((*env >= 'A' && *env <= 'Z') || (*env >= 'a' && *env <= 'z')
-		|| *env == '_')
+	if (!((*env >= 'A' && *env <= 'Z') || (*env >= 'a' && *env <= 'z')
+		|| *env == '_'))
+		return (0);
+	env++;
+	while (ft_isalnum(*env) || *env == '_')
 		env++;
 	return (*env == '=' || *env == '\0');
 }
