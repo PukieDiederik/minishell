@@ -20,7 +20,7 @@ static int	get_arg_length(char *str)
 
 	i = 0;
 	j = 0;
-	if (str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i])
+	while (str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
 		{

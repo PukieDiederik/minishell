@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 int	skip_regular(const char *str, int *i)
 {
@@ -38,13 +39,18 @@ int	skip_qouted(const char *str, int *i)
 
 int	skip_arg(const char *str, int *i)
 {
-	if (str[*i] == '\'' || str[*i] == '"')
+	while(str[*i] == ' ')
+		(*i)++;
+	while (str[*i] != ' ' && str[*i] != '<' && str[*i] != '>' && str[*i] != '\t' && str[*i])
 	{
-		if (skip_qouted(str, i))
-			return (1);
+		if (str[*i] == '\'' || str[*i] == '"')
+		{
+			if (skip_qouted(str, i))
+				return (1);
+		}
+		else
+			skip_regular(str, i);
 	}
-	else
-		skip_regular(str, i);
 	while (str[*i] == ' ')
 		(*i)++;
 	return (0);

@@ -50,6 +50,7 @@ static int print_env()
 		if (!name)
 		{
 			print_error("INT_ERR", "Malloc error");
+			free(sorted);
 			return (1);
 		}
 		if (ft_strchr(sorted[i], '='))
