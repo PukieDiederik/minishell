@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 #include <stdio.h>
 
 extern char	**g_environ;
@@ -32,6 +33,10 @@ int	b_env(t_cmd *cmdv)
 	}
 	i = 0;
 	while (g_environ[i])
-		printf("%s\n", g_environ[i++]);
+	{
+		if (ft_strchr(g_environ[i], '='))
+			printf("%s\n", g_environ[i]);
+		i++;
+	}
 	return (0);
 }
