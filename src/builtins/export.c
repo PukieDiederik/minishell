@@ -57,6 +57,7 @@ static int	print(char **sorted)
 static int	print_env(void)
 {
 	char	**sorted;
+	int		ret;
 
 	sorted = ft_calloc(get_argv_size(g_environ) + 1, sizeof(char *));
 	if (!sorted)
@@ -66,8 +67,9 @@ static int	print_env(void)
 	}
 	ft_memcpy(sorted, g_environ, get_argv_size(g_environ) * sizeof(char *));
 	quick_sort(sorted, 0, get_argv_size(sorted) - 1);
+	ret = print(sorted);
 	free(sorted);
-	return (print(sorted));
+	return (ret);
 }
 
 /* b_export - BUILTIN export
