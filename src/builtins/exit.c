@@ -27,10 +27,12 @@ static int	is_numeric(const char *str)
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] != '\0' || ft_strlen(str + !ft_isdigit(*str)) > 19
-		|| (ft_strlen(str + !ft_isdigit(*str)) >= 19
-		&& ((*str == '+' && ft_strncmp("9223372036854775807", str + 1, 20) < 0)
-		|| (*str == '-' && ft_strncmp("9223372036854775808", str + 1, 20) < 0)
-		|| (*str != '+' && ft_strncmp("9223372036854775807", str, 20) < 0))))
+		|| (ft_strlen(str + !ft_isdigit(*str)) >= 19 && ((*str == '+'
+					&& ft_strncmp("9223372036854775807", str + 1, 20) < 0)
+				|| (*str == '-'
+					&& ft_strncmp("9223372036854775808", str + 1, 20) < 0)
+				|| (*str != '+'
+					&& ft_strncmp("9223372036854775807", str, 20) < 0))))
 		return (0);
 	return (1);
 }
