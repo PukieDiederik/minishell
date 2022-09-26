@@ -25,6 +25,8 @@ static char	*get_env_name(char *env)
 	if (!eq_p)
 		return (ft_strdup(env));
 	ret = ft_calloc(eq_p - env + 1, sizeof(char));
+	if (!ret)
+		return (0);
 	ft_memcpy(ret, env, eq_p - env);
 	return (ret);
 }

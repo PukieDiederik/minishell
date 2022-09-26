@@ -21,6 +21,8 @@ static char	*create_path(char *prefix, char *suffix)
 	char	*str;
 
 	str = ft_calloc(ft_strlen(prefix) + ft_strlen(suffix) + 2, sizeof(char));
+	if (!str)
+		return (0);
 	ft_memcpy(str, prefix, ft_strlen(prefix));
 	*(str + ft_strlen(prefix)) = '/';
 	ft_memcpy(str + ft_strlen(prefix) + 1, suffix, ft_strlen(suffix));

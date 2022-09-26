@@ -57,6 +57,8 @@ static char	*get_arg(char *str)
 
 	size = get_arg_length(str);
 	arg = ft_calloc(size + 1, sizeof(char));
+	if (!arg)
+		return (0);
 	i = 0;
 	j = 0;
 	while (i < size)

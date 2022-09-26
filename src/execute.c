@@ -93,6 +93,8 @@ void	exec(t_cmd *cmdv)
 	if (!cmdv)
 		return ;
 	ids = ft_calloc(get_cmd_size(cmdv), sizeof(int));
+	if (!ids)
+		return ;
 	i = get_cmd_size(cmdv);
 	handle_cmd_signals();
 	if (exec_cmds(cmdv, p, fd, ids))
