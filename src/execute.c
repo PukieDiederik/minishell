@@ -47,7 +47,12 @@ static void	launch_cmd(int p[2], int fd[2], t_cmd *cmdv, int *id)
 
 	i = *id;
 	*id = fork();
-	if (*id == 0)
+	if (*id < 0)
+	{
+		print_error("INT_ERR", "Forking error");
+		*get_last_exit_p() = 125 * EXIT_MULT;
+	}
+	else if (*id == 0)
 	{
 		default_signals();
 		if ((cmdv + i + 1)->in_type == io_pipe)
